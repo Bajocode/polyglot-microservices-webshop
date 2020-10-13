@@ -1,0 +1,54 @@
+---
+services: 
+  postgresql-master:
+    image: bitnami/postgresql:12
+    container_name: postgresql-master
+    ports:
+    - 5432:5432
+    volumes:
+    - .data/postgresql_master:/bitnami/postgresql
+    environment:
+    - POSTGRESQL_USERNAME=admin
+    - POSTGRESQL_PASSWORD=admin
+    - POSTGRESQL_DATABASE=store-monolith
+    # - POSTGRESQL_REPLICATION_MODE=master
+    # - POSTGRESQL_REPLICATION_USER=repl
+    # - POSTGRESQL_REPLICATION_PASSWORD=repl
+  # postgresql-slave:
+  #   image: bitnami/postgresql:12
+  #   container_name: postgresql-slave
+  #   ports:
+  #   - 5432
+  #   depends_on:
+  #   - postgresql-master
+  #   environment:
+  #   - POSTGRESQL_REPLICATION_MODE=slave
+  #   - POSTGRESQL_REPLICATION_USER=repl
+  #   - POSTGRESQL_REPLICATION_PASSWORD=repl
+  #   - POSTGRESQL_MASTER_HOST=postgresql-master
+  #   - POSTGRESQL_PASSWORD=admin
+  #   - POSTGRESQL_MASTER_PORT_NUMBER=5432
+
+  redis-master:
+    image: bitnami/redis:latest
+    container_name: redis-master
+    ports:
+    - 6379:6379
+    environment:
+    - REDIS_REPLICATION_MODE=master
+    - REDIS_PASSWORD=admin
+    volumes:
+    - .data/redis:/bitnami
+  # redis-slave:
+  #   image: bitnami/redis:latest
+  #   container_name: redis-slave
+  #   ports:
+  #   - 6379
+  #   depends_on:
+  #   - redis-master
+  #   environment:
+  #   - REDIS_REPLICATION_MODE=slave
+  #   - REDIS_MASTER_HOST=redis-master
+  #   - REDIS_MASTER_PORT_NUMBER=6379
+  #   - REDIS_MASTER_PASSWORD=admin
+  #   - REDIS_PASSWORD=repl

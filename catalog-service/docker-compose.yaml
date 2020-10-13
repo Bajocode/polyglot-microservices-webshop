@@ -1,0 +1,33 @@
+---
+version: "3.8"
+services: 
+  postgresql-master:
+    image: bitnami/postgresql:12
+    container_name: postgresql-master
+    ports:
+    - 5432:5432
+    volumes:
+    - .data/postgresql_master:/bitnami/postgresql
+    environment:
+    - POSTGRESQL_USERNAME=admin
+    - POSTGRESQL_PASSWORD=admin
+    - POSTGRESQL_POSTGRES_PASSWORD=admin
+    - POSTGRESQL_DATABASE=catalog-service
+    # - POSTGRESQL_REPLICATION_MODE=master
+    # - POSTGRESQL_REPLICATION_USER=repl
+    # - POSTGRESQL_REPLICATION_PASSWORD=repl
+  # postgresql-slave:
+  #   image: bitnami/postgresql:12
+  #   container_name: postgresql-slave
+  #   ports:
+  #   - 5432
+  #   depends_on:
+  #   - postgresql-master
+  #   environment:
+  #   - POSTGRESQL_REPLICATION_MODE=slave
+  #   - POSTGRESQL_REPLICATION_USER=repl
+  #   - POSTGRESQL_REPLICATION_PASSWORD=repl
+  #   - POSTGRESQL_MASTER_HOST=postgresql-master
+  #   - POSTGRESQL_PASSWORD=admin
+  #   - POSTGRESQL_MASTER_PORT_NUMBER=5432
+
