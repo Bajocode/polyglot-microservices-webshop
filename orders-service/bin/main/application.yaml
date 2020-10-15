@@ -1,0 +1,29 @@
+---
+server.port: 9002
+server.error.include-message: always
+spring:
+  jpa.hibernate.ddl-auto: create
+  datasource: # https://jdbc.postgresql.org/documentation/80/connect.html
+    url: jdbc:postgresql://0.0.0.0:5432/orders-service
+    username: admin
+    password: admin
+    hikari.initializationFailTimeout: 60000
+logging:
+  level:
+    root: INFO
+    com.fabijanbajo: DEBUG
+    com.hibernate.SQL: DEBUG
+  
+---
+spring.profiles: docker
+server.port: 9002
+spring:
+  datasource: # https://jdbc.postgresql.org/documentation/80/connect.html
+    url: jdbc:postgresql://postgresql-master:5432/orders-service
+    username: admin
+    password: admin
+logging:
+  level:
+    root: INFO
+    com.fabijanbajo: DEBUG
+    com.hibernate.SQL: DEBUG
