@@ -2,10 +2,21 @@
 
 ## Ideas
 * docs
+  * red markers books
+  * diagrams
+    * c4, defined boundaries and infra 
   * all patterns
     * repository
     * data mapper
     * dependency injection
+    * logging
+    * error handling
+    * indexing
+    * storing in s3
+    * base entities with created-at etc, version
+    * non-blocking synchonous api vs asynchronous service
+  * next steps
+    * async event driven create, update, delete 
 
 ## Project
 * ops
@@ -54,6 +65,8 @@
     * entities
     * repositories
   * javadoc / jsdoc / godoc / swiftdoc / pydoc
+  * testing from books: go FS, java, enterpise
+  * health
 * ops
   * docker
   * kubernetes/chart
