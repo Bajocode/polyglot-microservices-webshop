@@ -1,51 +1,50 @@
 ## Services
 
-## Ideas
-* docs
-  * red markers books
-  * diagrams
-    * c4, defined boundaries and infra 
-  * all patterns
-    * repository
-    * data mapper
-    * dependency injection
-    * logging
-    * error handling
-    * indexing
-    * storing in s3
-    * base entities with created-at etc, version
-    * non-blocking synchonous api vs asynchronous service
-  * next steps
-    * async event driven create, update, delete 
+### Service
+* crud 
+* logger
+  * format
+  * logging all requests
+* swagger
+* global exception filters
+* graceful shutdown
+* health
+* config
+* javadoc / jsdoc / godoc / swiftdoc / pydoc
+* docker
+* kubernetes/chart
+* skaffold
+* docker-compose
+* readme
+* .gitignore
+* testing
+  * from books
+  * repositories
+
 
 ## Project
-* ops
-  * docker
-  * kubernetes/chart
-  * skaffold
-  * docker-compose
-* project
-  * readme
-    * https://structurizr.com/share/4241/diagrams#Containers
-    * boundaries: DDD
-  * services/
-  * ios/
-  * react/
+* skaffold
+* docker-compose
+* readme
+  * diagrams https://structurizr.com/share/4241/diagrams#Containers
+  * boundaries
+  * see red marked books
+* microservices/
+* ios/
+* react/
 
-## Services
-### Domains 
+## Services 
 * cart-service
   * go
   * redis
-* order-service
-  * java
+* ordering-service
+  * typescript
   * postgres
 * payment-service
   * swift
   * stripe
-* product-service
-  *  (built in REST, streaming)
-  * `“implementation('org.springframework.cloud:spring-cloud-starter-stream-rabbit')”`
+* catalog-service
+  * java
   * postgres
 * user-service
   * typescript
@@ -54,23 +53,3 @@
   * python 
   * elasticsearch
 
-### Service
-* dev
-  * logger with format
-  * graceful shutdown
-  * config management
-  * patterns
-    * dependency injection 
-  * data
-    * entities
-    * repositories
-  * javadoc / jsdoc / godoc / swiftdoc / pydoc
-  * testing from books: go FS, java, enterpise
-  * health
-* ops
-  * docker
-  * kubernetes/chart
-  * skaffold
-  * docker-compose
-* project
-  * readme

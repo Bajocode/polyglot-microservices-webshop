@@ -1,0 +1,31 @@
+---
+server.port: 9001
+server.error.include-message: always
+spring:
+  r2dbc:
+    url: r2dbc:pool:postgresql://0.0.0.0:5432/catalog-service
+    username: postgres
+    password: admin
+logging:
+  level:
+    root: INFO
+    com.fabijanbajo: DEBUG
+    org.springframework.data.r2dbc: DEBUG
+management:
+  health.probes.enabled: true # /actuator/health/readiness
+  # endpoints.web.base-path: /
+
+---
+spring.profiles: docker
+server.port: ${SERVER_PORT}
+spring:
+  r2dbc:
+    url: r2dbc:pool:postgresql://${POSTGRESQL_MASTER_HOST}:${POSTGRESQL_MASTER_PORT}/${POSTGRESQL_DATABASE}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
+logging:
+  level:
+    root: ${LOGGER_LEVEL}
+management:
+  health.probes.enabled: true # /actuator/health/readiness
+  # endpoints.web.base-path: /

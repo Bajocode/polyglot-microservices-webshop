@@ -14,13 +14,16 @@ type App struct {
 
 func (a *App) Init(config *Config) {
 	a.Repository = NewRepository(NewRedis(config), config.RedisCartTTL)
-	r := mux.NewRouter()
-	r.HandleFunc("/cart/{id}", a.GetCart).Methods("GET")
-	r.HandleFunc("/cart", a.PutCart).Methods("PUT")
-	r.HandleFunc("/cart/{id}", a.DelCart).Methods("DELETE")
-	a.Router = r
+	a.Router = mux.NewRouter()
+	a.bindRoutes()
 }
 
 func (a *App) Run(port string) {
 	log.Fatal(http.ListenAndServe(":"+port, a.Router))
+}
+
+func (a *App) bindRoutes() {
+	a.Router.HandleFunc("/cart/{id}", a.GetCart).Methods("GET")
+	a.Router.HandleFunc("/cart", a.PutCart).Methods("PUT")
+	a.Router.HandleFunc("/cart/{id}", a.DelCart).Methods("DELETE")
 }
