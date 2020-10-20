@@ -8,7 +8,7 @@ image:
   repository: gcr.io/fabijanbajo/webshop-catalog-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: ce75e1a
 
 imagePullSecrets:
 - name: gcr-secret
