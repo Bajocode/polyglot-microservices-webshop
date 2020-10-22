@@ -1,6 +1,6 @@
 ---
 version: "3.8"
-services: 
+services:
   postgresql-master:
     image: bitnami/postgresql:12
     container_name: postgresql-master
