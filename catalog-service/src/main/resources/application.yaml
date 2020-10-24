@@ -11,21 +11,17 @@ logging:
     root: INFO
     com.fabijanbajo: DEBUG
     org.springframework.data.r2dbc: DEBUG
-management:
-  health.probes.enabled: true # /actuator/health/readiness
-  # endpoints.web.base-path: /
 
 ---
 spring.profiles: docker
 server.port: ${SERVER_PORT}
 spring:
   r2dbc:
-    url: r2dbc:pool:postgresql://${POSTGRESQL_MASTER_HOST}:${POSTGRESQL_MASTER_PORT}/${POSTGRESQL_DATABASE}
-    username: ${POSTGRESQL_USERNAME}
-    password: ${POSTGRESQL_PASSWORD}
+    url: r2dbc:pool:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PW}
 logging:
   level:
     root: ${LOGGER_LEVEL}
 management:
-  health.probes.enabled: true # /actuator/health/readiness
-  # endpoints.web.base-path: /
+  health.probes.enabled: true

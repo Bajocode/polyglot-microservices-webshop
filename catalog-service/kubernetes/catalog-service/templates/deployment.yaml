@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "catalog-servcice.fullname" . }}
+  name: {{ include "catalog-service.fullname" . }}
   labels:
-    {{- include "catalog-servcice.labels" . | nindent 4 }}
+    {{- include "catalog-service.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "catalog-servcice.selectorLabels" . | nindent 6 }}
+      {{- include "catalog-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -18,20 +18,21 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "catalog-servcice.selectorLabels" . | nindent 8 }}
+        {{- include "catalog-service.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "catalog-servcice.serviceAccountName" . }}
+      serviceAccountName: {{ include "catalog-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ .Values.image.repository }} # tag by skaffold
+          # image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -58,15 +59,15 @@ spec:
             value: "{{ .Values.server.port }}"
           - name: LOGGER_LEVEL
             value: {{ .Values.server.loggerLevel }}
-          - name: POSTGRESQL_MASTER_HOST
+          - name: POSTGRES_HOST
             value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}"
-          - name: POSTGRESQL_MASTER_PORT
+          - name: POSTGRES_PORT
             value: "{{ .Values.server.postgresql.port }}"
-          - name: POSTGRESQL_USERNAME
+          - name: POSTGRES_USER
             value: {{ .Values.server.postgresql.user }}
-          - name: POSTGRESQL_PASSWORD
+          - name: POSTGRES_PW
             value: {{ .Values.server.postgresql.pw }}
-          - name: POSTGRESQL_DATABASE
+          - name: POSTGRES_DB
             value: {{ .Values.server.postgresql.db }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

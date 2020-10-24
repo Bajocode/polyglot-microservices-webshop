@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "order-service.fullname" . }}
+  name: {{ include "cart-service.fullname" . }}
   labels:
-    {{- include "order-service.labels" . | nindent 4 }}
+    {{- include "cart-service.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "order-service.selectorLabels" . | nindent 6 }}
+      {{- include "cart-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -18,56 +18,61 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "order-service.selectorLabels" . | nindent 8 }}
+        {{- include "cart-service.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "order-service.serviceAccountName" . }}
+      serviceAccountName: {{ include "cart-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ .Values.image.repository }}
+          # image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.server.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              scheme: HTTP
-              path: {{ .Values.server.livenessPath }}
-              port: http
-          readinessProbe:
-            httpGet:
-              scheme: HTTP
-              path: {{ .Values.server.readinessPath }}
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     scheme: HTTP
+          #     path: {{ .Values.server.livenessPath }}
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     scheme: HTTP
+          #     path: {{ .Values.server.readinessPath }}
+          #     port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-          - name: NODE_ENV
-            value: {{ .Values.server.nodeEnv }}
           - name: SERVER_HOST
             value: {{ .Values.server.host }}
           - name: SERVER_PORT
             value: "{{ .Values.server.port }}"
           - name: LOGGER_LEVEL
             value: {{ .Values.server.loggerLevel }}
-          - name: POSTGRES_HOST
-            value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}"
-          - name: POSTGRES_PORT
-            value: "{{ .Values.server.postgresql.port }}"
-          - name: POSTGRES_USER
-            value: {{ .Values.server.postgresql.user }}
-          - name: POSTGRES_PW
-            value: {{ .Values.server.postgresql.pw }}
-          - name: POSTGRES_DB
-            value: {{ .Values.server.postgresql.db }}
+          - name: REDIS_HOST
+            value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
+          - name: REDIS_PORT
+            value: "{{ .Values.server.redis.port }}"
+          - name: REDIS_PW
+            value: {{ .Values.server.redis.pw }}
+          - name: REDIS_CART_TTL
+            value: {{ .Values.server.redis.cartTtl }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

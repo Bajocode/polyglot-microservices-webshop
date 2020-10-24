@@ -1,4 +1,4 @@
-FROM       gcr.io/fabijanbajo/node-base:12.16-alpine AS builder
+FROM       node:12.19.0-alpine AS builder
 USER       node
 WORKDIR    /home/node
 COPY       --chown=node:node package*.json ./
@@ -15,8 +15,8 @@ RUN        npm run build && \
            -mindepth 1 \
            -exec rm -rf {} \;
 
-FROM       gcr.io/fabijanbajo/node-base:12.16-alpine AS target
+FROM       node:12.19.0-alpine AS target
 USER       node
 WORKDIR    /home/node
 COPY       --chown=node:node --from=builder /home/node .
-ENTRYPOINT ["npm", "start:prod"]
+ENTRYPOINT ["npm", "run", "start:prod"]

@@ -1,5 +1,3 @@
-# https://gist.github.com/mpneuried/0594963ad38e68917ef189b4e6a269db
-
 dockerfile = ./Dockerfile
 server = gcr.io
 registry = fabijanbajo
@@ -8,7 +6,7 @@ repository = ${repository_prefix}$(shell basename $(CURDIR))
 commit_hash = $(shell git rev-parse --short HEAD)
 version = latest
 tag = ${server}/${registry}/${repository}:${version}
-run_port = 9001
+run_port = 9003
 
 up: build run
 

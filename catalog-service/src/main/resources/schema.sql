@@ -10,4 +10,3 @@ CREATE TABLE products (
     name varchar(255) UNIQUE NOT NULL,
     price integer NOT NULL
 );
-

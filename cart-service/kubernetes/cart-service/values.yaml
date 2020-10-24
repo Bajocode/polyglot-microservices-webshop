@@ -1,17 +1,16 @@
-# Default values for catalog-servcice.
+# Default values for cart-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: gcr.io/fabijanbajo/webshop-catalog-service
+  repository: gcr.io/fabijanbajo/webshop-cart-service
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ce75e1a
+  tag: ""
 
-imagePullSecrets:
-- name: gcr-secret
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -80,29 +79,29 @@ tolerations: []
 affinity: {}
 
 server:
-  springProfile: docker
   host: "0.0.0.0"
-  port: 9001
-  loggerLevel: INFO
-  postgresql:
-    port: 5432
-    user: postgres
+  port: 9003
+  # loggerLevel: INFO
+  redis:
+    port: 6379
     pw: admin
-    db: catalog-service
-  livenessPath: /actuator/health/liveness
-  readinessPath: /actuator/health/readiness
+    cartTtl: "1h"
+  livenessPath: /
+  readinessPath: /
 
-postgresql:
+redis:
   image:
-    tag: 11.9.0-debian-10-r41
+    tag: 6.0.8-debian-10-r35
     debug: true
+  cluster:
+    enabled: false
+  redisPort: 6379
   serviceAccount:
-    enabled: true
+    create: true
   persistence:
     enabled: false
   resources:
     requests:
       memory: 256Mi
       cpu: 250m
-  postgresqlPassword: admin # TODO
-  postgresqlDatabase: catalog-service
+  password: admin # TODO

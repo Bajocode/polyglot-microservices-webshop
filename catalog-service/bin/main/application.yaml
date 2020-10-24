@@ -21,13 +21,13 @@ server.port: 9001
 spring:
   r2dbc:
     url: r2dbc:pool:postgresql://${POSTGRESQL_MASTER_FQDN}
-    name: ${POSTGRESQL_DATABASE}
+    name: ${POSTGRES_DB}
     username: ${POSTGRESQL_USERNAME}
-    password: ${POSTGRESQL_PASSWORD}
+    password: ${POSTGRES_PW}
 
 logging:
   level:
-    root: INFO
+    root: ${LOGGER_LEVEL}
     com.fabijanbajo: DEBUG
     org.springframework.data.r2dbc: DEBUG
 management:

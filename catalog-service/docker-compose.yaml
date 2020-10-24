@@ -10,12 +10,12 @@ services:
     - 9001:9001
     environment:
     - SPRING_PROFILES_ACTIVE=docker
-    - LOGGIN_LEVEL_ROOT=INFO
-    - POSTGRESQL_MASTER_HOST=postgresql-master
-    - POSTGRESQL_MASTER_PORT=5432 
-    - POSTGRESQL_DATABASE=catalog-service
-    - POSTGRESQL_USERNAME=postgres
-    - POSTGRESQL_PASSWORD=admin
+    - LOGGER_LEVEL=INFO
+    - POSTGRES_HOST=postgresql-master
+    - POSTGRES_PORT=5432 
+    - POSTGRES_DB=catalog-service
+    - POSTGRES_USER=postgres
+    - POSTGRES_PW=admin
     depends_on:
     - postgresql-master
 

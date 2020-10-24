@@ -1,0 +1,18 @@
+---
+apiVersion: skaffold/v2beta8
+kind: Config
+build:
+  artifacts:
+  - image: gcr.io/fabijanbajo/webshop-cart-service
+    context: .
+deploy:
+  helm:
+    releases:
+    - name: cart-service
+      chartPath: kubernetes/cart-service
+      valuesFiles:
+      - kubernetes/cart-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-cart-service
+      version: 0.1.0
+      namespace: default

@@ -1,10 +1,15 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import {TerminusModule} from '@nestjs/terminus';
 import ConfigModule from './config/config.module';
 import ConfigService from './config/config.service';
 import OrderModule from './orders/order.module';
+import HealthController from './health/health.controller';
 
 @Module({
+  controllers: [
+    HealthController,
+  ],
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -21,6 +26,7 @@ import OrderModule from './orders/order.module';
         uuidExtension: 'uuid-ossp',
       }),
     }),
+    TerminusModule,
     OrderModule,
   ],
 })
