@@ -6,9 +6,9 @@ replicaCount: 1
 
 image:
   repository: gcr.io/fabijanbajo/webshop-cart-service
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag:
+  tag: ""
 
 imagePullSecrets:
 - name: gcr-secret

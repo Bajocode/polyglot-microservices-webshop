@@ -5,8 +5,6 @@ build:
   artifacts:
   - image: gcr.io/fabijanbajo/webshop-cart-service
     context: .
-    docker:
-      noCache: true
 
 deploy:
   helm:
