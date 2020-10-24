@@ -6,11 +6,12 @@ replicaCount: 1
 
 image:
   repository: gcr.io/fabijanbajo/webshop-order-service
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: ""
 
-imagePullSecrets: []
+imagePullSecrets:
+- name: gcr-secret
 nameOverride: ""
 fullnameOverride: ""
 
