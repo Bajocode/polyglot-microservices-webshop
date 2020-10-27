@@ -7,23 +7,6 @@
 
 import Moya
 
-protocol CatalogRequesting: MicroserviceRequesting {}
-
-extension CatalogRequesting {
-    var port: Int {
-        switch Config.env {
-        case .dev:
-            return 9001
-        case .acc, .prod:
-            return 443
-        }
-    }
-
-    var servicePath: String {
-        return "/catalog"
-    }
-}
-
 enum CatalogRequest {
     struct GetProducts: CatalogRequesting {
         typealias ResponseType = [Product]
@@ -39,5 +22,22 @@ enum CatalogRequest {
         var task: Task {
             return .requestPlain
         }
+    }
+}
+
+protocol CatalogRequesting: MicroserviceRequesting {}
+
+extension CatalogRequesting {
+    var port: Int {
+        switch Config.env {
+        case .dev:
+            return 9001
+        case .acc, .prod:
+            return 443
+        }
+    }
+
+    var servicePath: String {
+        return "/catalog"
     }
 }

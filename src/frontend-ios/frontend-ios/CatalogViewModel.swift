@@ -30,3 +30,11 @@ extension CatalogViewModel: ReactiveTransforming {
         return Output(products: products)
     }
 }
+
+protocol CatalogViewModelInput {
+    var viewWillApear: Observable<Void> { get }
+}
+
+protocol CatalogViewModelOutput {
+    var products: Observable<Product> { get }
+}

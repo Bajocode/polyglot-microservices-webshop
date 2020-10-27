@@ -13,4 +13,3 @@ protocol ReactiveTransforming {
 
     func transform(_ input: Input) -> Output
 }
-

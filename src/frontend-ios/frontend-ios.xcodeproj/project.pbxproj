@@ -22,6 +22,8 @@
 		C71140262547BA48004F17F8 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71140252547BA48004F17F8 /* CatalogViewModel.swift */; };
 		C711402A2548572B004F17F8 /* ReactiveTransforming.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71140292548572B004F17F8 /* ReactiveTransforming.swift */; };
 		C711402E25485C2E004F17F8 /* +.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711402D25485C2E004F17F8 /* +.swift */; };
+		C711403225486630004F17F8 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711403125486630004F17F8 /* Cart.swift */; };
+		C711403625486802004F17F8 /* CartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711403525486802004F17F8 /* CartRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		C71140252547BA48004F17F8 /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		C71140292548572B004F17F8 /* ReactiveTransforming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactiveTransforming.swift; sourceTree = "<group>"; };
 		C711402D25485C2E004F17F8 /* +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+.swift"; sourceTree = "<group>"; };
+		C711403125486630004F17F8 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
+		C711403525486802004F17F8 /* CartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartRequest.swift; sourceTree = "<group>"; };
 		DA82EECAFE162341B37EFCB7 /* Pods-frontend-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.release.xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6C3D0DFBCEEC258945BF18A /* Pods-frontend-iosTests.debug (acc).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.debug (acc).xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.debug (acc).xcconfig"; sourceTree = "<group>"; };
 		F6EB329C490B8742231C166E /* Pods-frontend-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-ios.debug.xcconfig"; path = "Target Support Files/Pods-frontend-ios/Pods-frontend-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,7 +127,9 @@
 				C7113FD125478253004F17F8 /* MicroserviceRequesting.swift */,
 				C711401D2547A6A7004F17F8 /* MicroserviceClient.swift */,
 				C711400D25479D94004F17F8 /* CatalogRequest.swift */,
+				C711403525486802004F17F8 /* CartRequest.swift */,
 				C71140192547A12E004F17F8 /* Product.swift */,
+				C711403125486630004F17F8 /* Cart.swift */,
 				C71140212547BA38004F17F8 /* CatalogViewController.swift */,
 				C711402D25485C2E004F17F8 /* +.swift */,
 				C71140252547BA48004F17F8 /* CatalogViewModel.swift */,
@@ -352,6 +358,8 @@
 				C711401E2547A6A7004F17F8 /* MicroserviceClient.swift in Sources */,
 				C711402E25485C2E004F17F8 /* +.swift in Sources */,
 				C7113F8625477C45004F17F8 /* AppDelegate.swift in Sources */,
+				C711403225486630004F17F8 /* Cart.swift in Sources */,
+				C711403625486802004F17F8 /* CartRequest.swift in Sources */,
 				C711402A2548572B004F17F8 /* ReactiveTransforming.swift in Sources */,
 				C711400E25479D94004F17F8 /* CatalogRequest.swift in Sources */,
 				C711401A2547A12E004F17F8 /* Product.swift in Sources */,
