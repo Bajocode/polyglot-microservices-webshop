@@ -1,0 +1,14 @@
+platform :ios, '10.0'
+
+target 'frontend-ios' do
+  use_frameworks!
+  pod 'RxSwift', '5.1.1'
+  pod 'RxCocoa', '5.1.1'
+  pod 'Moya/RxSwift', '~> 14.0'
+
+  target 'frontend-iosTests' do
+    inherit! :search_paths
+    pod 'RxBlocking', '5.1.1'
+    pod 'RxTest', '5.1.1'
+  end
+end
