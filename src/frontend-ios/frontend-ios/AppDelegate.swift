@@ -13,8 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let tc = UITabBarController()
-        let catalogVc = CatalogViewController()
-        tc.viewControllers = [catalogVc]
+        let cartService = CartService()
+        let catalogVm = CatalogViewModel(cartService)
+        let catalogVc = CatalogViewController(viewModel: catalogVm)
+        let cartVc = CartViewController()
+        tc.viewControllers = [UINavigationController(rootViewController: catalogVc), cartVc]
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         window?.rootViewController = tc

@@ -8,19 +8,25 @@
 import RxCocoa
 import RxSwift
 
-struct CatalogViewModel {}
+struct CatalogViewModel {
+    let cartService: CartService
+
+    init(_ cartService: CartService) {
+        self.cartService = cartService
+    }
+}
 
 extension CatalogViewModel: ReactiveTransforming {
-    struct Input {
-        let viewWillAppear: Observable<Void>
+    struct Input: CatalogViewModelInput {
+        var viewWillAppear: Observable<Void>
     }
-    struct Output {
-        let products: Observable<[Product]>
+    struct Output: CatalogViewModelOutput {
+        var products: Observable<[Product]>
     }
 
     func transform(_ input: Input) -> Output {
         let products = input.viewWillAppear
-            .flatMapLatest {
+            .flatMapLatest { _ -> Single<[Product]> in
                 return MicroserviceClient.execute(CatalogRequest.GetProducts())
                     .observeOn(MainScheduler.instance)
                     .catchErrorJustReturn([])
@@ -32,9 +38,9 @@ extension CatalogViewModel: ReactiveTransforming {
 }
 
 protocol CatalogViewModelInput {
-    var viewWillApear: Observable<Void> { get }
+    var viewWillAppear: Observable<Void> { get }
 }
 
 protocol CatalogViewModelOutput {
-    var products: Observable<Product> { get }
+    var products: Observable<[Product]> { get }
 }

@@ -5,25 +5,39 @@
 //  Created by Fabijan Bajo on 27/10/2020.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 
-class CartViewController: UIViewController {
+final class CartViewController: UIViewController {
+    private let bag = DisposeBag()
+    private let viewModel = CartViewModel()
+    private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        bind(to: viewModel)
+        setupView()
     }
-    
 
-    /*
-    // MARK: - Navigation
+    private func bind(to: CartViewModel) {
+        let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
+            .map { _ in }
+            .asObservable()
+        let input = CartViewModel.Input(viewWillAppear: vwa)
+        let output = viewModel.transform(input)
+        let cartItems = output.cart.map({ cart in cart.cartItems })
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        cartItems.bind(to: tableView.rx.items(
+                        cellIdentifier: String(describing: UITableViewCell.self),
+                        cellType: UITableViewCell.self)) { (_, cartItem, cell) in
+            cell.textLabel?.text = cartItem.productId
+        }
+        .disposed(by: bag)
     }
-    */
 
+    private func setupView() {
+        view.addSubview(tableView)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
+        tableView.constrainEdgesToSuper()
+    }
 }

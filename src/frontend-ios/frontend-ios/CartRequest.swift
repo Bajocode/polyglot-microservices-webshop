@@ -15,7 +15,7 @@ enum CartRequest {
             return .get
         }
         var path: String {
-            return ""
+            return "85a3a5d5-e50f-463b-a757-9acf5515644a"
         }
         var task: Task {
             return .requestPlain
@@ -37,6 +37,7 @@ enum CartRequest {
             return ""
         }
         var task: Task {
+            print("sending", cart)
             return .requestJSONEncodable(cart)
         }
     }
@@ -48,7 +49,7 @@ extension CartRequesting {
     var port: Int {
         switch Config.env {
         case .dev:
-            return 9001
+            return 9003
         case .acc, .prod:
             return 443
         }

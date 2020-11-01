@@ -1,5 +1,5 @@
 //
-//  CartViewModel.swift
+//  CartService.swift
 //  frontend-ios
 //
 //  Created by Fabijan Bajo on 27/10/2020.
@@ -8,36 +8,53 @@
 import RxCocoa
 import RxSwift
 
-struct CartViewModel {
-    var cart = BehaviorRelay<Cart>(value: Cart.empty())
-}
-
-extension CartViewModel: ReactiveTransforming {
-    struct Input: CartViewModelInput {
-        var viewWillAppear: Observable<Void>
+class CartService {
+    private let bag = DisposeBag()
+    private var cart = BehaviorRelay<Cart>(value: Cart.empty())
+    private var cartItems: [CartItem] {
+        get{
+            return cart.value.cartItems
+        }
+        set {
+            print("SYNCING")
+            var currentCart = cart.value
+            currentCart.cartItems = newValue
+            cart.accept(currentCart)
+            sync(isOutgoing: true)
+        }
     }
-    struct Output: CartViewModelOutput {
-        var cart: Observable<Cart>
+
+    @discardableResult func fetch() -> Cart {
+        sync()
+
+        return cart.value
     }
 
-    func transform(_ input: Input) -> Output {
-        let cart = input.viewWillAppear
-            .flatMapLatest {
-                return MicroserviceClient.execute(CartRequest.Get())
-                    .catchErrorJustReturn(Cart.empty())
-            }
-            .do(onNext: { cart in
-                self.cart.accept(cart)
-            })
-
-        return Output(cart: cart)
+    func insert(_ cartItem: CartItem) {
+        if let index = cartItems.firstIndex(where: { $0.productId == cartItem.productId }) {
+            cartItems[index] = cartItem
+        } else {
+            cartItems.append(cartItem)
+        }
     }
-}
 
-protocol CartViewModelInput {
-    var viewWillAppear: Observable<Void> { get }
-}
+    private func update() {
 
-protocol CartViewModelOutput {
-    var cart: Observable<Cart> { get }
+    }
+
+    private func sync(isOutgoing: Bool=false) {
+        if isOutgoing {
+            return MicroserviceClient.execute(CartRequest.Put(cart: cart.value))
+                .asObservable()
+                .observeOn(MainScheduler.instance)
+                .bind(to: cart)
+                .disposed(by: bag)
+        } else {
+            return MicroserviceClient.execute(CartRequest.Get())
+                .asObservable()
+                .observeOn(MainScheduler.instance)
+                .bind(to: cart)
+                .disposed(by: bag)
+        }
+    }
 }

@@ -4,17 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"time"
-
-	"github.com/go-redis/redis/v8"
 )
 
 type Repository struct {
-	cache *redis.Client
+	store Store
 	ttl   time.Duration
 }
 
-func NewRepository(cache *redis.Client, ttl time.Duration) *Repository {
-	return &Repository{cache, ttl}
+func NewRepository(store Store, ttl time.Duration) *Repository {
+	return &Repository{store, ttl}
 }
 
 func (r *Repository) GetCart(ctx context.Context, userID string) (*Cart, error) {
@@ -23,7 +21,7 @@ func (r *Repository) GetCart(ctx context.Context, userID string) (*Cart, error) 
 		enc  []byte
 		err  error
 	)
-	if enc, err = r.cache.Get(ctx, userID).Bytes(); err != nil {
+	if enc, err = r.store.Get(ctx, userID); err != nil {
 		return nil, err
 	}
 	err = json.Unmarshal(enc, &cart)
@@ -38,12 +36,13 @@ func (r *Repository) UpdateCart(ctx context.Context, cart Cart) (*Cart, error) {
 	if enc, err = json.Marshal(cart); err != nil {
 		return nil, err
 	}
-	if err = r.cache.Set(ctx, cart.UserID, enc, r.ttl).Err(); err != nil {
+
+	if err = r.store.Set(ctx, cart.UserID, enc); err != nil {
 		return nil, err
 	}
 	return r.GetCart(ctx, cart.UserID)
 }
 
 func (r *Repository) DeleteCart(ctx context.Context, userID string) error {
-	return r.cache.Del(ctx, userID).Err()
+	return r.store.Del(ctx, userID)
 }

@@ -10,6 +10,13 @@ import Foundation
 struct Cart: Codable {
     let userId: String
     var cartItems: [CartItem]
+
+    static func empty() -> Cart {
+        return Cart(
+            userId: "",
+            cartItems: []
+        )
+    }
 }
 
 struct CartItem: Codable {

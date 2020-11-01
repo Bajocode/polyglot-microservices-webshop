@@ -10,7 +10,6 @@
 		21FC07D3136ADBAC73EF6512 /* Pods_frontend_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B88FF22933C1EC9EFD15D3A /* Pods_frontend_iosTests.framework */; };
 		707C1FB8F76206361627D900 /* Pods_frontend_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B99D708CE8857EB75092C6 /* Pods_frontend_ios.framework */; };
 		C7113F8625477C45004F17F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7113F8525477C45004F17F8 /* AppDelegate.swift */; };
-		C7113F8A25477C45004F17F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7113F8925477C45004F17F8 /* ViewController.swift */; };
 		C7113F8F25477C48004F17F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7113F8E25477C48004F17F8 /* Assets.xcassets */; };
 		C7113F9225477C48004F17F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7113F9025477C48004F17F8 /* LaunchScreen.storyboard */; };
 		C7113FD225478253004F17F8 /* MicroserviceRequesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7113FD125478253004F17F8 /* MicroserviceRequesting.swift */; };
@@ -24,6 +23,10 @@
 		C711402E25485C2E004F17F8 /* +.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711402D25485C2E004F17F8 /* +.swift */; };
 		C711403225486630004F17F8 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711403125486630004F17F8 /* Cart.swift */; };
 		C711403625486802004F17F8 /* CartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711403525486802004F17F8 /* CartRequest.swift */; };
+		C711403B2548827F004F17F8 /* CatalogViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711403A2548827F004F17F8 /* CatalogViewModelTests.swift */; };
+		C711404125488D6A004F17F8 /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711404025488D6A004F17F8 /* CartViewModel.swift */; };
+		C711404725489B18004F17F8 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711404625489B18004F17F8 /* CartViewController.swift */; };
+		C711404B2548A4F1004F17F8 /* CartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711404A2548A4F1004F17F8 /* CartService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +51,6 @@
 		9469D45777342A74C158DACD /* Pods-frontend-ios.debug (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-ios.debug (prod).xcconfig"; path = "Target Support Files/Pods-frontend-ios/Pods-frontend-ios.debug (prod).xcconfig"; sourceTree = "<group>"; };
 		C7113F8225477C45004F17F8 /* frontend-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "frontend-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7113F8525477C45004F17F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C7113F8925477C45004F17F8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C7113F8E25477C48004F17F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7113F9125477C48004F17F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C7113F9325477C48004F17F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,6 +67,10 @@
 		C711402D25485C2E004F17F8 /* +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+.swift"; sourceTree = "<group>"; };
 		C711403125486630004F17F8 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		C711403525486802004F17F8 /* CartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartRequest.swift; sourceTree = "<group>"; };
+		C711403A2548827F004F17F8 /* CatalogViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModelTests.swift; sourceTree = "<group>"; };
+		C711404025488D6A004F17F8 /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		C711404625489B18004F17F8 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		C711404A2548A4F1004F17F8 /* CartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartService.swift; sourceTree = "<group>"; };
 		DA82EECAFE162341B37EFCB7 /* Pods-frontend-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.release.xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6C3D0DFBCEEC258945BF18A /* Pods-frontend-iosTests.debug (acc).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.debug (acc).xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.debug (acc).xcconfig"; sourceTree = "<group>"; };
 		F6EB329C490B8742231C166E /* Pods-frontend-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-ios.debug.xcconfig"; path = "Target Support Files/Pods-frontend-ios/Pods-frontend-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,10 +129,10 @@
 			isa = PBXGroup;
 			children = (
 				C7113F8525477C45004F17F8 /* AppDelegate.swift */,
-				C7113F8925477C45004F17F8 /* ViewController.swift */,
 				C7113FD125478253004F17F8 /* MicroserviceRequesting.swift */,
 				C711401D2547A6A7004F17F8 /* MicroserviceClient.swift */,
 				C711400D25479D94004F17F8 /* CatalogRequest.swift */,
+				C711404625489B18004F17F8 /* CartViewController.swift */,
 				C711403525486802004F17F8 /* CartRequest.swift */,
 				C71140192547A12E004F17F8 /* Product.swift */,
 				C711403125486630004F17F8 /* Cart.swift */,
@@ -134,6 +140,8 @@
 				C711402D25485C2E004F17F8 /* +.swift */,
 				C71140252547BA48004F17F8 /* CatalogViewModel.swift */,
 				C71140292548572B004F17F8 /* ReactiveTransforming.swift */,
+				C711404025488D6A004F17F8 /* CartViewModel.swift */,
+				C711404A2548A4F1004F17F8 /* CartService.swift */,
 				C7113FE125478A05004F17F8 /* Config.swift */,
 				C7113F8E25477C48004F17F8 /* Assets.xcassets */,
 				C7113F9025477C48004F17F8 /* LaunchScreen.storyboard */,
@@ -146,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				C7113F9E25477C48004F17F8 /* Info.plist */,
+				C711403A2548827F004F17F8 /* CatalogViewModelTests.swift */,
 			);
 			path = "frontend-iosTests";
 			sourceTree = "<group>";
@@ -223,6 +232,7 @@
 					};
 					C7113F9725477C48004F17F8 = {
 						CreatedOnToolsVersion = 12.0.1;
+						LastSwiftMigration = 1200;
 						TestTargetID = C7113F8125477C45004F17F8;
 					};
 				};
@@ -353,10 +363,12 @@
 			files = (
 				C71140222547BA38004F17F8 /* CatalogViewController.swift in Sources */,
 				C7113FD225478253004F17F8 /* MicroserviceRequesting.swift in Sources */,
+				C711404725489B18004F17F8 /* CartViewController.swift in Sources */,
 				C7113FE225478A05004F17F8 /* Config.swift in Sources */,
-				C7113F8A25477C45004F17F8 /* ViewController.swift in Sources */,
+				C711404B2548A4F1004F17F8 /* CartService.swift in Sources */,
 				C711401E2547A6A7004F17F8 /* MicroserviceClient.swift in Sources */,
 				C711402E25485C2E004F17F8 /* +.swift in Sources */,
+				C711404125488D6A004F17F8 /* CartViewModel.swift in Sources */,
 				C7113F8625477C45004F17F8 /* AppDelegate.swift in Sources */,
 				C711403225486630004F17F8 /* Cart.swift in Sources */,
 				C711403625486802004F17F8 /* CartRequest.swift in Sources */,
@@ -371,6 +383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C711403B2548827F004F17F8 /* CatalogViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +571,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UZAEKA4CYL;
 				INFOPLIST_FILE = "frontend-iosTests/Info.plist";
@@ -569,6 +583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fabijanbajo.frontend-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/frontend-ios.app/frontend-ios";
@@ -581,6 +596,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UZAEKA4CYL;
 				INFOPLIST_FILE = "frontend-iosTests/Info.plist";
@@ -685,6 +701,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UZAEKA4CYL;
 				INFOPLIST_FILE = "frontend-iosTests/Info.plist";
@@ -696,6 +713,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fabijanbajo.frontend-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/frontend-ios.app/frontend-ios";
@@ -789,6 +807,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UZAEKA4CYL;
 				INFOPLIST_FILE = "frontend-iosTests/Info.plist";
@@ -800,6 +819,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fabijanbajo.frontend-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/frontend-ios.app/frontend-ios";

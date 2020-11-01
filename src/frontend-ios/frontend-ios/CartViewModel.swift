@@ -1,5 +1,5 @@
 //
-//  CatalogViewModel.swift
+//  CartViewModel.swift
 //  frontend-ios
 //
 //  Created by Fabijan Bajo on 27/10/2020.
@@ -8,33 +8,33 @@
 import RxCocoa
 import RxSwift
 
-struct CatalogViewModel {}
+struct CartViewModel {}
 
-extension CatalogViewModel: ReactiveTransforming {
-    struct Input: CatalogViewModelInput {
+extension CartViewModel: ReactiveTransforming {
+    struct Input: CartViewModelInput {
         var viewWillAppear: Observable<Void>
     }
-    struct Output: CatalogViewModelOutput {
-        var products: Observable<[Product]>
+    struct Output: CartViewModelOutput {
+        var cart: Observable<Cart>
     }
 
     func transform(_ input: Input) -> Output {
-        let products = input.viewWillAppear
+        let cart = input.viewWillAppear
             .flatMapLatest {
-                return MicroserviceClient.execute(CatalogRequest.GetProducts())
+                return MicroserviceClient.execute(CartRequest.Get())
                     .observeOn(MainScheduler.instance)
-                    .catchErrorJustReturn([])
+                    .catchErrorJustReturn(Cart.empty())
             }
             .share(replay: 1)
 
-        return Output(products: products)
+        return Output(cart: cart)
     }
 }
 
-protocol CatalogViewModelInput {
+protocol CartViewModelInput {
     var viewWillAppear: Observable<Void> { get }
 }
 
-protocol CatalogViewModelOutput {
-    var products: Observable<[Product]> { get }
+protocol CartViewModelOutput {
+    var cart: Observable<Cart> { get }
 }

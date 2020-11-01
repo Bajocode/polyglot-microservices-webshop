@@ -6,20 +6,35 @@
 //
 
 import XCTest
+import RxSwift
+import RxBlocking
+@testable import frontend_ios
 
 class CatalogViewModelTests: XCTestCase {
 
+    var sut: CatalogViewModel!
+    var bag: DisposeBag!
+    var scheduler: ConcurrentDispatchQueueScheduler!
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try! super.setUpWithError()
+
+        sut = CatalogViewModel()
+        bag = DisposeBag()
+        scheduler = ConcurrentDispatchQueueScheduler(qos: .default)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+
+        try! super.tearDownWithError()
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let output = sut.transform(CatalogViewModel.Input(viewWillAppear: Observable.of()))
+            .products.subscribeOn(scheduler)
+        let result = try output.toBlocking().materialize()
+
+        print(result)
     }
 
     func testPerformanceExample() throws {
