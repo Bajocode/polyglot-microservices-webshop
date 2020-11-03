@@ -19,6 +19,21 @@ export default class Config {
   public get serverPort(): number {
     return Number(this.env.SERVER_PORT);
   }
+  public get postgresHost(): string {
+    return String(this.env.POSTGRES_HOST);
+  }
+  public get postgresPort(): number {
+    return Number(this.env.POSTGRES_PORT);
+  }
+  public get postgresDb(): string {
+    return String(this.env.POSTGRES_DB);
+  }
+  public get postgresUser(): string {
+    return String(this.env.POSTGRES_USER);
+  }
+  public get postgresPw(): string {
+    return String(this.env.POSTGRES_PW);
+  }
 
   private env: NodeJS.ProcessEnv & CleanEnv;
 
@@ -45,7 +60,22 @@ export default class Config {
         default: '0.0.0.0',
       }),
       SERVER_PORT: port({
-        default: 9000,
+        default: 9002,
+      }),
+      POSTGRES_HOST: str({
+        default: '0.0.0.0',
+      }),
+      POSTGRES_PORT: port({
+        default: 5432,
+      }),
+      POSTGRES_DB: str({
+        default: 'order-service',
+      }),
+      POSTGRES_USER: str({
+        default: 'admin',
+      }),
+      POSTGRES_PW: str({
+        default: 'admin',
       }),
     };
     return cleanEnv(process.env, schema);

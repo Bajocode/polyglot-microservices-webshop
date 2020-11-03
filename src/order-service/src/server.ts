@@ -1,12 +1,16 @@
 import App from './App';
 import Config from './Config';
 import LogFactory from './LogFactory';
-import ExampleRoute from './example/ExampleRoute';
+import health from './health';
+import orders from './orders';
+import Postgres from './Postgres';
 
-const config = new Config();
-const logger = LogFactory.create(config);
-const app = new App(config, logger, [
-  new ExampleRoute(),
+const cfg = new Config();
+const logger = LogFactory.create(cfg);
+const store = new Postgres(cfg, logger);
+const app = new App(cfg, logger, [
+  health(store),
+  orders(store),
 ]);
 
 app.listen();

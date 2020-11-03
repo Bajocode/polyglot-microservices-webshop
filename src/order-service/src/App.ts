@@ -33,6 +33,10 @@ export default class App {
         });
   }
 
+  public get getServer(): express.Application {
+    return this.app;
+  }
+
   private mountMiddleware() {
     if (this.config.isProd) {
       this.app.use(hpp());

@@ -21,4 +21,11 @@ export default class LogFactory {
 
     return logger;
   }
+
+  public static toMilliString(start: [number, number]): string {
+    const diff = process.hrtime(start);
+    const milli = diff[0] * 1e3 + diff[1] * 1e-6;
+
+    return `${milli.toFixed(3)}μs`;
+  }
 }
