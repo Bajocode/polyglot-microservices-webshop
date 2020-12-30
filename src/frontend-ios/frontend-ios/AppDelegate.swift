@@ -12,16 +12,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let tc = UITabBarController()
-        let cartService = CartService()
-        let catalogVm = CatalogViewModel(cartService)
-        let catalogVc = CatalogViewController(viewModel: catalogVm)
-        let cartVc = CartViewController()
-        tc.viewControllers = [UINavigationController(rootViewController: catalogVc), cartVc]
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
-        window?.rootViewController = tc
-        window?.makeKeyAndVisible()
+        let identityService = IdentityService()
+        let catalogService = CatalogService()
+        let cartService = CartService()
+        let container = DependencyContainer(identityService, catalogService, cartService)
+
+        Coordinator.construct(Coordinator.Config(window: window!, container: container))
+        Coordinator.shared.transition(to: .root, style: .entry)
+
+        if !identityService.isLoggedIn() {
+            Coordinator.shared.transition(to: .auth, style: .modal())
+        }
 
         return true
     }

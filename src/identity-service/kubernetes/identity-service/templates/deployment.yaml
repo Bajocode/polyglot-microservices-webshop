@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "identity-service.fullname" . }}
+  labels:
+    {{- include "identity-service.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "identity-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "identity-service.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "identity-service.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ .Values.image.repository }}
+          # image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: {{ .Values.server.livenessPath }}
+              port: http
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: {{ .Values.server.readinessPath }}
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          - name: NODE_ENV
+            value: {{ .Values.server.nodeEnv }}
+          - name: SERVER_HOST
+            value: {{ .Values.server.host }}
+          - name: SERVER_PORT
+            value: "{{ .Values.server.port }}"
+          - name: LOGGER_LEVEL
+            value: {{ .Values.server.loggerLevel }}
+          - name: POSTGRES_HOST
+            value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}"
+          - name: POSTGRES_PORT
+            value: "{{ .Values.server.postgresql.port }}"
+          - name: POSTGRES_USER
+            value: {{ .Values.server.postgresql.user }}
+          - name: POSTGRES_PW
+            value: {{ .Values.server.postgresql.pw }}
+          - name: POSTGRES_DB
+            value: {{ .Values.server.postgresql.db }}
+          - name: JWT_EXP_SECS
+            value: "{{ .Values.server.jwt.expirySecs }}"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

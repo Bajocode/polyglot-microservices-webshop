@@ -1,5 +1,5 @@
 import {IsString, IsNumber} from 'class-validator';
-import Order from '../orders/Order';
+import Order from './Order';
 
 export class CreateOrderDto implements Order {
   @IsString()

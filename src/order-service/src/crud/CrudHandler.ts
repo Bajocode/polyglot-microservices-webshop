@@ -3,7 +3,7 @@ import CrudHandling from './CrudHandling';
 import CrudRepository from './CrudRepository';
 
 export default abstract class CrudHandler<T> implements CrudHandling {
-  private repo: CrudRepository<T>;
+  protected repo: CrudRepository<T>;
 
   public constructor(repo: CrudRepository<T>) {
     this.repo = repo;

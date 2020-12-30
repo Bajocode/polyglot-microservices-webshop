@@ -82,7 +82,7 @@ affinity: {}
 server:
   nodeEnv: production
   host: "0.0.0.0"
-  port: 9002
+  port: 9003
   loggerLevel: info
   postgresql:
     port: 5432
@@ -91,6 +91,7 @@ server:
     db: order-service
   livenessPath: /status/healthz
   readinessPath: /status/readyz
+  paymentServiceUrl: http://payment-service.default
 
 postgresql:
   image:
@@ -106,6 +107,4 @@ postgresql:
       cpu: 250m
   postgresqlPassword: admin # TODO
   postgresqlDatabase: order-service
-  initdbScripts:
-    init.sql: |
-       CREATE EXTENSION IF NOT EXISTS uuid-ossp;
+  initdbScriptsConfigMap: order-service-initdb-configmap

@@ -9,7 +9,7 @@ services:
     volumes:
     - .data/postgresql_master:/bitnami/postgresql
     environment:
-    - POSTGRESQL_USERNAME=admin
+    # - POSTGRESQL_USERNAME=admin
     - POSTGRESQL_PASSWORD=admin
     - POSTGRESQL_POSTGRES_PASSWORD=admin
     - POSTGRESQL_DATABASE=order-service

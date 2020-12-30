@@ -5,12 +5,12 @@ import health from './health';
 import orders from './orders';
 import Postgres from './Postgres';
 
-const cfg = new Config();
-const logger = LogFactory.create(cfg);
-const store = new Postgres(cfg, logger);
-const app = new App(cfg, logger, [
+const config = new Config();
+const logger = LogFactory.create(config);
+const store = new Postgres(config, logger);
+const app = new App(config, logger, [
   health(store),
-  orders(store),
+  orders(store, config),
 ]);
 
 app.listen();

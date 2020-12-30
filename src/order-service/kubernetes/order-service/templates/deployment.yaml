@@ -69,6 +69,8 @@ spec:
             value: {{ .Values.server.postgresql.pw }}
           - name: POSTGRES_DB
             value: {{ .Values.server.postgresql.db }}
+          - name: PAYMENTSERVICE_URL
+            value: {{ .Values.server.paymentServiceUrl }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,6 +1,7 @@
 package com.fabijanbajo.catalog.products;
 
 import java.util.UUID;
+import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -8,25 +9,26 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Product {
 	
 	@Id
-	private UUID productId;
+	private UUID productid;
+	@NotBlank(message = "product.name required")
 	private String name;
 	private int price;
 
 	public Product() {}
 	public Product(
-			UUID productId,
+			UUID productid,
 			String name,
 			int price) {
-		this.productId = productId;
+		this.productid = productid;
 		this.name = name;
 		this.price = price;
 	}
 
-	public UUID getProductId() {
-		return productId;
+	public UUID getProductid() {
+		return productid;
 	}
-	public void setProductId(UUID productId) {
-		this.productId = productId;
+	public void setProductid(UUID productid) {
+		this.productid = productid;
 	}
 	public String getName() {
 		return name;

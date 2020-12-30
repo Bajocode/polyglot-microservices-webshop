@@ -4,7 +4,7 @@ import "time"
 
 type Config struct {
 	AppEnv       string        `env:"APP_ENV" envDefault:"dev"`
-	ServerPort   string        `env:"SERVER_PORT" envDefault:"9003"`
+	ServerPort   string        `env:"SERVER_PORT" envDefault:"9002"`
 	LocalStore   bool          `env:"LOCAL_STORE_ENABLED" envDefault:"false"`
 	LoggerLevel  string        `env:"LOGGER_LEVEL" envDefault:"info"`
 	RedisHost    string        `env:"REDIS_HOST" envDefault:"0.0.0.0"`

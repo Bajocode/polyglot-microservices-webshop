@@ -1,5 +1,7 @@
 package com.fabijanbajo.catalog.products;
 
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,14 +19,16 @@ public interface ProductController {
 		value = "/catalog/products",
 		produces = "application/json"
 	)
-	Flux<Product> getProducts();
+	Flux<Product> getProducts(
+			@RequestParam(name = "category", required = false) Optional<Integer> categoryid,
+			@RequestParam(name = "ids", required = false) Optional<String> productids);
 
 	@GetMapping(
-		value = "/catalog/products/{productId}",
+		value = "/catalog/products/{productid}",
 		produces = "application/json"
 	)
-	Mono<Product> getProduct(@PathVariable String productId);
+	Mono<Product> getProduct(@PathVariable UUID productid);
 
-	@DeleteMapping(value = "/catalog/products/{productId}")
-	Mono<Void> deleteProduct(@PathVariable String productId);
+	@DeleteMapping(value = "/catalog/products/{productid}")
+	Mono<Void> deleteProduct(@PathVariable UUID productid);
 }

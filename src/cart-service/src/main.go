@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/caarlos0/env/v6"
@@ -15,7 +15,7 @@ func main() {
 	)
 
 	if err := env.Parse(&cfg); err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	if cfg.LocalStore {
@@ -24,9 +24,7 @@ func main() {
 		s = NewRedisAdapter(&cfg)
 	}
 
-	mux := http.NewServeMux()
-	r := NewRepository(s, cfg.RedisCartTTL)
-	h := NewCartHandler(r)
+	h := NewCartHandler(NewRepository(s, cfg.RedisCartTTL))
 	l := logrus.New()
 
 	if cfg.AppEnv == "prod" {
@@ -35,7 +33,6 @@ func main() {
 		l.SetFormatter(&logrus.TextFormatter{})
 	}
 
-	mux.Handle("/cart", LogMiddleware(l, ErrorHandler(h.RouteCart, l)))
-
-	l.Fatal(http.ListenAndServe(":"+cfg.ServerPort, mux))
+	http.Handle("/cart", LogMiddleware(l, ErrorHandler(h.RouteCart, l)))
+	l.Fatal(http.ListenAndServe(":"+cfg.ServerPort, nil))
 }

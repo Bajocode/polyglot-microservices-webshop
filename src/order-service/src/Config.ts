@@ -34,6 +34,22 @@ export default class Config {
   public get postgresPw(): string {
     return String(this.env.POSTGRES_PW);
   }
+  public get authEnabled(): boolean {
+    return Boolean(this.env.AUTH_ENABLED);
+  }
+  public get authPathWhitelist(): string[] {
+    return String(this.env.AUTH_PATH_WHITELIST).split(',');
+  }
+  public get jwtSecret(): string {
+    return String(this.env.JWT_SECRET);
+  }
+  public get jwtAlgo(): string {
+    return String(this.env.JWT_ALGO);
+  }
+  public get paymentserviceUrl(): string {
+    return String(this.env.PAYMENTSERVICE_URL);
+  }
+
 
   private env: NodeJS.ProcessEnv & CleanEnv;
 
@@ -60,7 +76,7 @@ export default class Config {
         default: '0.0.0.0',
       }),
       SERVER_PORT: port({
-        default: 9002,
+        default: 9003,
       }),
       POSTGRES_HOST: str({
         default: '0.0.0.0',
@@ -72,10 +88,25 @@ export default class Config {
         default: 'order-service',
       }),
       POSTGRES_USER: str({
-        default: 'admin',
+        default: 'postgres',
       }),
       POSTGRES_PW: str({
         default: 'admin',
+      }),
+      AUTH_ENABLED: bool({
+        default: false,
+      }),
+      AUTH_PATH_WHITELIST: str({
+        default: '',
+      }),
+      JWT_SECRET: str({
+        default: 'secret',
+      }),
+      JWT_ALGO: str({
+        default: 'HS256',
+      }),
+      PAYMENTSERVICE_URL: str({
+        default: 'http://0.0.0.0:9004',
       }),
     };
     return cleanEnv(process.env, schema);

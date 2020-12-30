@@ -1,6 +1,7 @@
 interface OrderItem {
   orderid: string;
   productid: string;
+  quantity: number;
   price: number;
 }
 

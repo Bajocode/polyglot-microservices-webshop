@@ -1,0 +1,18 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+  - image: gcr.io/fabijanbajo/webshop-identity-service
+    context: .
+
+deploy:
+  helm:
+    releases:
+    - name: identity-service
+      chartPath: kubernetes/identity-service
+      valuesFiles:
+      - kubernetes/identity-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-identity-service
+      version: 0.1.0
+      namespace: default

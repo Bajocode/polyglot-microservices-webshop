@@ -20,3 +20,29 @@ extension UIView {
         bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: insets.bottom).isActive = true
     }
 }
+
+extension UIViewController {
+    func extractFromNav() -> UIViewController {
+        if let nav = self as? UINavigationController {
+            return nav.viewControllers.first!
+        } else {
+            return self
+        }
+    }
+
+    func embedInNav() -> UINavigationController {
+        if let nav = self as? UINavigationController {
+            return nav
+        } else {
+            return UINavigationController(rootViewController: self)
+        }
+    }
+
+    func extractFromTab() -> UIViewController {
+        if let tab = self as? UITabBarController {
+            return tab.selectedViewController!
+        } else {
+            return self
+        }
+    }
+}
