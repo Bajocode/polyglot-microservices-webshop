@@ -1,0 +1,216 @@
+{
+  "version": 2,
+  "extra_config": {},
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "krakend",
+  "endpoints": [
+    {
+      "endpoint": "/auth/login",
+      "method": "POST",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/auth/login",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "POST",
+          "extra_config": {},
+          "host": [
+            "identity-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/auth/register",
+      "method": "POST",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/auth/register",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "POST",
+          "extra_config": {},
+          "host": [
+            "identity-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/cart",
+      "method": "GET",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/cart",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "cart-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/cart",
+      "method": "PUT",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/cart",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "PUT",
+          "extra_config": {},
+          "host": [
+            "cart-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/catalog/products",
+      "method": "GET",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/catalog/products",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "catalog-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": true,
+          "querystring_params": [
+            "ids",
+            "category"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/catalog/categories",
+      "method": "GET",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/catalog/categories",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "catalog-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": true,
+          "querystring_params": [
+            "parent"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders",
+      "method": "GET",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/orders",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "order-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": true
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders",
+      "method": "POST",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/orders",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "POST",
+          "extra_config": {},
+          "host": [
+            "order-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/{orderid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/orders/{orderid}",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "order-service.default"
+          ],
+          "disable_host_sanitize": true
+        }
+      ]
+    },
+    {
+      "endpoint": "/charge",
+      "method": "POST",
+      "output_encoding": "json",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/charge",
+          "encoding": "json",
+          "sd": "dns",
+          "method": "POST",
+          "extra_config": {},
+          "host": [
+            "payment-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    }
+  ]
+}
