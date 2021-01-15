@@ -54,7 +54,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ template "krakend.fullname" . }}-configmap
+            name: {{ template "gateway.fullname" . }}-configmap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

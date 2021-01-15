@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust
+  labels:
+    app: locust
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust
+  template:
+    metadata:
+      labels:
+        app: locust
+    spec:
+      containers:
+      - image: locustio/locust
+        name: locust
+        args:
+          - --locustfile=/mnt/locust/locustfile.py
+          - --host=gateway.default
+          - --loglevel=DEBUG
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8089
+        resources:
+          requests: 
+            cpu: 300m
+            memory: 156Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        volumeMounts:
+        - name: locustfile
+          mountPath: /mnt/locust
+      volumes:
+      - name: locustfile
+        configMap:
+          name: locustfile-configmap
