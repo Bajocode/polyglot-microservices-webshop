@@ -46,6 +46,7 @@ extension UserViewModel: ReactiveTransforming {
         let orders = input.viewWillAppear
             .flatMapLatest {
                 MicroserviceClient.execute(OrderRequest.Get())
+                    .debug()
                     .asDriver(onErrorJustReturn: [])
             }
             .asDriver(onErrorJustReturn: [])

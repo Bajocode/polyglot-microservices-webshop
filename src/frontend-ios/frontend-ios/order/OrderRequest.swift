@@ -12,7 +12,7 @@ extension OrderRequesting {
     var port: Int {
         switch Config.env {
         case .dev:
-            return 9003
+            return 8080
         case .acc, .prod:
             return 443
         }

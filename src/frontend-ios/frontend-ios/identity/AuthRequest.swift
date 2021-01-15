@@ -53,7 +53,7 @@ extension AuthRequesting {
     var port: Int {
         switch Config.env {
         case .dev:
-            return 9005
+            return 8080
         case .acc, .prod:
             return 443
         }
