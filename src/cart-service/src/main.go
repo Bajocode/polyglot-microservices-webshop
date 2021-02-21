@@ -33,6 +33,10 @@ func main() {
 		l.SetFormatter(&logrus.TextFormatter{})
 	}
 
-	http.Handle("/cart", LogMiddleware(l, ErrorHandler(h.RouteCart, l)))
+	if level, err := logrus.ParseLevel(cfg.LoggerLevel); err == nil {
+		l.SetLevel(level)
+	}
+
+	http.Handle("/", LogMiddleware(l, ErrorHandler(h.RouteCart, l)))
 	l.Fatal(http.ListenAndServe(":"+cfg.ServerPort, nil))
 }

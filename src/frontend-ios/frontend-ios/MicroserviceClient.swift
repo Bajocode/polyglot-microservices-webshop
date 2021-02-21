@@ -24,7 +24,6 @@ struct MicroserviceClient {
                 guard let unwrapped = try? JSONDecoder().decode(KrakenWrapper<T.ResponseType>.self, from: $0.data) else {
                     return try JSONDecoder().decode(T.ResponseType.self, from: $0.data)
                 }
-                print(unwrapped)
                 return unwrapped.collection
             }
     }

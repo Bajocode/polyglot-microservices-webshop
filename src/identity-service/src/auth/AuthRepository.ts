@@ -37,11 +37,12 @@ export default class AuthRepository {
 
   private signed(user: User): Token {
     delete user.password;
-    const payload = {user};
+    const payload = {userid: user.userid, user};
     const expiresIn = Math.floor(Date.now() / 1000) + this.config.jwtExpSecs;
     const options: SignOptions = {
       expiresIn,
       algorithm: this.config.jwtAlgo as Algorithm,
+      keyid: 'userid',
     };
 
     const signed = sign(payload, this.config.jwtSecret, options);

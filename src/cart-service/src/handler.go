@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 )
 
-const hardcodedUserID = "85a3a5d5-e50f-463b-a757-9acf5515644a"
+var userID string
 
 type CartHandling interface {
 	RouteCart(http.ResponseWriter, *http.Request) error
@@ -60,6 +61,12 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 }
 
 func (h *CartHandler) RouteCart(res http.ResponseWriter, req *http.Request) error {
+	userID = strings.TrimSuffix(req.URL.Path, "/cart")
+	userID = strings.TrimPrefix(userID, "/")
+	if len(userID) == 0 {
+		return NewHTTPError(nil, http.StatusBadRequest, "Bad request: no userID")
+	}
+
 	switch req.Method {
 	case http.MethodGet:
 		return h.handleGet(res, req)
@@ -72,7 +79,7 @@ func (h *CartHandler) RouteCart(res http.ResponseWriter, req *http.Request) erro
 }
 
 func (h *CartHandler) handleGet(res http.ResponseWriter, req *http.Request) error {
-	cart, err := h.repo.GetCart(req.Context(), hardcodedUserID)
+	cart, err := h.repo.GetCart(req.Context(), userID)
 	if err != nil {
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: cart not found")
 	}
@@ -93,7 +100,7 @@ func (h *CartHandler) handlePut(res http.ResponseWriter, req *http.Request) erro
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: invalid JSON")
 	}
 
-	cart, err := h.repo.UpdateCart(req.Context(), payload)
+	cart, err := h.repo.UpdateCart(req.Context(), userID, payload)
 	if err != nil {
 		return fmt.Errorf("Server error (update store): %v", err)
 	}
@@ -108,7 +115,7 @@ func (h *CartHandler) handlePut(res http.ResponseWriter, req *http.Request) erro
 }
 
 func (h *CartHandler) handleDel(res http.ResponseWriter, req *http.Request) error {
-	if err := h.repo.DeleteCart(req.Context(), hardcodedUserID); err != nil {
+	if err := h.repo.DeleteCart(req.Context(), userID); err != nil {
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: cart not found")
 	}
 

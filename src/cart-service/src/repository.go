@@ -28,7 +28,7 @@ func (r *Repository) GetCart(ctx context.Context, userID string) (*Cart, error) 
 	return cart, err
 }
 
-func (r *Repository) UpdateCart(ctx context.Context, cart Cart) (*Cart, error) {
+func (r *Repository) UpdateCart(ctx context.Context, userID string, cart Cart) (*Cart, error) {
 	var (
 		enc []byte
 		err error
@@ -37,10 +37,10 @@ func (r *Repository) UpdateCart(ctx context.Context, cart Cart) (*Cart, error) {
 		return nil, err
 	}
 
-	if err = r.store.Set(ctx, cart.UserID, enc); err != nil {
+	if err = r.store.Set(ctx, userID, enc); err != nil {
 		return nil, err
 	}
-	return r.GetCart(ctx, cart.UserID)
+	return r.GetCart(ctx, userID)
 }
 
 func (r *Repository) DeleteCart(ctx context.Context, userID string) error {

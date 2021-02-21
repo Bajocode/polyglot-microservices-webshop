@@ -3,18 +3,18 @@
   "extra_config": {},
   "timeout": "3000ms",
   "cache_ttl": "300s",
-  "output_encoding": "json",
+  "output_encoding": "no-op",
   "name": "krakend",
   "endpoints": [
     {
       "endpoint": "/auth/login",
       "method": "POST",
-      "output_encoding": "json",
+      "output_encoding": "no-op",
       "extra_config": {},
       "backend": [
         {
           "url_pattern": "/auth/login",
-          "encoding": "json",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "POST",
           "extra_config": {},
@@ -29,12 +29,12 @@
     {
       "endpoint": "/auth/register",
       "method": "POST",
-      "output_encoding": "json",
+      "output_encoding": "no-op",
       "extra_config": {},
       "backend": [
         {
           "url_pattern": "/auth/register",
-          "encoding": "json",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "POST",
           "extra_config": {},
@@ -49,12 +49,19 @@
     {
       "endpoint": "/cart",
       "method": "GET",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/cart",
-          "encoding": "json",
+          "url_pattern": "/{JWT.userid}/cart",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "GET",
           "extra_config": {},
@@ -69,12 +76,19 @@
     {
       "endpoint": "/cart",
       "method": "PUT",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/cart",
-          "encoding": "json",
+          "url_pattern": "/{JWT.userid}/cart",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "PUT",
           "extra_config": {},
@@ -87,14 +101,41 @@
       ]
     },
     {
+      "endpoint": "/cart",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/{JWT.userid}/cart",
+          "encoding": "no-op",
+          "sd": "dns",
+          "method": "DELETE",
+          "extra_config": {},
+          "host": [
+            "cart-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": false
+        }
+      ]
+    },
+    {
       "endpoint": "/catalog/products",
       "method": "GET",
-      "output_encoding": "json",
+      "output_encoding": "no-op",
       "extra_config": {},
       "backend": [
         {
           "url_pattern": "/catalog/products",
-          "encoding": "json",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "GET",
           "extra_config": {},
@@ -113,12 +154,12 @@
     {
       "endpoint": "/catalog/categories",
       "method": "GET",
-      "output_encoding": "json",
+      "output_encoding": "no-op",
       "extra_config": {},
       "backend": [
         {
           "url_pattern": "/catalog/categories",
-          "encoding": "json",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "GET",
           "extra_config": {},
@@ -136,12 +177,19 @@
     {
       "endpoint": "/orders",
       "method": "GET",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/orders",
-          "encoding": "json",
+          "url_pattern": "/{JWT.userid}/orders",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "GET",
           "extra_config": {},
@@ -156,12 +204,19 @@
     {
       "endpoint": "/orders",
       "method": "POST",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/orders",
-          "encoding": "json",
+          "url_pattern": "/{JWT.userid}/orders",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "POST",
           "extra_config": {},
@@ -176,12 +231,19 @@
     {
       "endpoint": "/orders/{orderid}",
       "method": "GET",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/orders/{orderid}",
-          "encoding": "json",
+          "url_pattern": "/{JWT.userid}/orders/{orderid}",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "GET",
           "extra_config": {},
@@ -195,12 +257,19 @@
     {
       "endpoint": "/charge",
       "method": "POST",
-      "output_encoding": "json",
-      "extra_config": {},
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
       "backend": [
         {
-          "url_pattern": "/charge",
-          "encoding": "json",
+          "url_pattern": "{JWT.userid}/charge",
+          "encoding": "no-op",
           "sd": "dns",
           "method": "POST",
           "extra_config": {},

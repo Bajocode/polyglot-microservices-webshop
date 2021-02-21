@@ -1,8 +1,7 @@
 package main
 
 type Cart struct {
-	UserID string     `json:"userid"`
-	Items  []CartItem `json:"items"`
+	Items []CartItem `json:"items"`
 }
 
 type CartItem struct {

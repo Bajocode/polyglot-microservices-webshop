@@ -38,7 +38,8 @@ public class ProductControllerImpl implements ProductController {
 	public Flux<Product> getProducts(Optional<Integer> categoryid, Optional<String> productids) {
 		if (productids.isPresent()) {
 			String ids = productids.get();
-			ids
+
+			// if one of given id fails, throw
 			List<UUID> uuids = Arrays.asList(ids.split(","))
 				.stream()
 				.map(s -> {

@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import {AddressInfo} from 'net';
@@ -47,6 +48,7 @@ export default class App {
     this.app.use(express.urlencoded({extended: true}));
     this.app.use(authMiddleware(this.config));
     this.app.use(logMiddleware(this.logger));
+    this.app.use(express.static(path.join(__dirname, 'static')));
   }
 
   private mountRoutes(routes: Routing[]) {

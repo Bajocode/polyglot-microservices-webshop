@@ -1,0 +1,9 @@
+dependencies:
+- name: gateway
+  repository: file://../src/gateway
+  version: 0.1.0
+- name: catalog-service
+  repository: file://../src/catalog-service/kubernetes/catalog-service
+  version: 0.1.0
+digest: sha256:ab4eedf38df8fac94d868389038e1edc5691893ea9f632b615f5c58430eff05e
+generated: "2021-02-12T21:17:29.401392+01:00"
