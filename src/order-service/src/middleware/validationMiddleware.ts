@@ -31,6 +31,9 @@ export default function validationMiddleware(type: any): RequestHandler {
       return;
     }
 
+    // append userid from gateway JWT claim passing
+    req.body.userid = req.params.userid;
+
     validate(plainToClass(type, req.body))
         .then((errs: ValidationError[]) => {
           if (errs.length > 0) {

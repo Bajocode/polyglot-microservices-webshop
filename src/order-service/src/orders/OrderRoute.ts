@@ -5,7 +5,7 @@ import OrderHandler from './OrderHandler';
 import {CreateOrderDto, UpdateOrderDto} from './Dto';
 
 export default class OrderRoute implements Routing {
-  public path = '/orders';
+  public path = 'orders';
   public router = Router();
   private handler: OrderHandler;
 
@@ -15,11 +15,43 @@ export default class OrderRoute implements Routing {
   }
 
   private mountRoutes() {
-    this.getAll();
-    this.getById();
-    this.post();
-    this.put();
-    this.delete();
+    this.getAllForUser();
+    this.getByIdForUser();
+    this.postForUser();
+    this.putForUser();
+    this.deleteForUser();
+  }
+
+  private getAllForUser(): Router {
+    return this.router.get(
+        `/:userid/${this.path}`,
+        this.handler.getAllForUser);
+  }
+
+  private getByIdForUser(): Router {
+    return this.router.get(
+        `/:userid/${this.path}/:id`,
+        this.handler.getByIdForUser);
+  }
+
+  private postForUser(): Router {
+    return this.router.post(
+        `/:userid/${this.path}`,
+        validationMiddleware(CreateOrderDto),
+        this.handler.postForUser);
+  }
+
+  private putForUser(): Router {
+    return this.router.put(
+        `/:userid/${this.path}/:id`,
+        validationMiddleware(UpdateOrderDto),
+        this.handler.put);
+  }
+
+  private deleteForUser(): Router {
+    return this.router.delete(
+        `/:userid/${this.path}/:id`,
+        this.handler.deleteForUser);
   }
 
   private getAll(): Router {
@@ -32,25 +64,5 @@ export default class OrderRoute implements Routing {
     return this.router.get(
         `${this.path}/:id`,
         this.handler.getById);
-  }
-
-  private post(): Router {
-    return this.router.post(
-        `${this.path}`,
-        validationMiddleware(CreateOrderDto),
-        this.handler.post);
-  }
-
-  private put(): Router {
-    return this.router.put(
-        `${this.path}/:id`,
-        validationMiddleware(UpdateOrderDto),
-        this.handler.put);
-  }
-
-  private delete(): Router {
-    return this.router.delete(
-        `${this.path}/:id`,
-        this.handler.delete);
   }
 }

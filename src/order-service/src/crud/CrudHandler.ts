@@ -49,7 +49,6 @@ export default abstract class CrudHandler<T> implements CrudHandling {
     return;
   }
 
-
   public put = async (
       req: Request,
       res: Response,
@@ -65,7 +64,6 @@ export default abstract class CrudHandler<T> implements CrudHandling {
     }
     return;
   }
-
 
   public delete = async (
       req: Request,
