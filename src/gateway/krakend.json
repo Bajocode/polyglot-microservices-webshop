@@ -255,6 +255,58 @@
       ]
     },
     {
+      "endpoint": "/orders/{orderid}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/{JWT.userid}/orders/{orderid}",
+          "encoding": "no-op",
+          "sd": "dns",
+          "method": "PUT",
+          "extra_config": {},
+          "host": [
+            "order-service.default"
+          ],
+          "disable_host_sanitize": true
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/{orderid}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+            "alg": "HS256",
+            "jwk-url": "http://identity-service.default/jwks.json",
+            "disable_jwk_security": true,
+            "kid": "userid"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/{JWT.userid}/orders/{orderid}",
+          "encoding": "no-op",
+          "sd": "dns",
+          "method": "DELETE",
+          "extra_config": {},
+          "host": [
+            "order-service.default"
+          ],
+          "disable_host_sanitize": true
+        }
+      ]
+    },
+    {
       "endpoint": "/charge",
       "method": "POST",
       "output_encoding": "no-op",
