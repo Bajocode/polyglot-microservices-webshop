@@ -12,15 +12,16 @@ export default class OrderRepository extends CrudRepository<Order> {
     this.itemRepo = new OrderItemRepository(store);
   }
 
+  // Skip userid (sent through JWT claims)
   public async readAllForUser(userid: string): Promise<Order[]> {
     const {rows} = await this.store.query(
-        `SELECT * from orders WHERE userid = $1`, [userid]);
+        `SELECT orderid, price from orders WHERE userid = $1`, [userid]);
     return rows;
   }
 
   public async readByIdForUser(userid: string, id: string): Promise<Order> {
     const {rows} = await this.store.query(
-        `SELECT * FROM orders WHERE userid = $1 AND orderid = $2`,
+        `SELECT orderid, price FROM orders WHERE userid = $1 AND orderid = $2`,
         [userid, id],
     );
 
@@ -41,7 +42,15 @@ export default class OrderRepository extends CrudRepository<Order> {
 
     items.forEach(async (i) => await this.itemRepo.create({orderid: id, ...i}));
 
+    delete rows[0].userid;
     return rows[0];
+  }
+
+  public async update(id: string, obj: Order): Promise<Order> {
+    const updated = await super.update(id, obj);
+
+    delete updated.userid;
+    return updated;
   }
 
   public async deleteForUser(userid: string, id: string): Promise<void> {

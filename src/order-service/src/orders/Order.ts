@@ -2,7 +2,7 @@ import OrderItem from './OrderItem';
 
 interface Order {
   orderid?: string;
-  userid: string;
+  userid?: string;
   items?: OrderItem[];
   price: number;
 }
