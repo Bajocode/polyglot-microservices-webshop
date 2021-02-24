@@ -46,7 +46,7 @@ export default class Config {
   public get jwtAlgo(): string {
     return String(this.env.JWT_ALGO);
   }
-  public get paymentserviceUrl(): string {
+  public get paymentsUrl(): string {
     return String(this.env.PAYMENTSERVICE_URL);
   }
 

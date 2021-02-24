@@ -61,8 +61,8 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 }
 
 func (h *CartHandler) RouteCart(res http.ResponseWriter, req *http.Request) error {
-	userID = strings.TrimSuffix(req.URL.Path, "/cart")
-	userID = strings.TrimPrefix(userID, "/")
+	userID = extractUserID(req)
+
 	if len(userID) == 0 {
 		return NewHTTPError(nil, http.StatusBadRequest, "Bad request: no userID")
 	}
@@ -123,4 +123,10 @@ func (h *CartHandler) handleDel(res http.ResponseWriter, req *http.Request) erro
 	res.WriteHeader(http.StatusNoContent)
 
 	return nil
+}
+
+func extractUserID(req *http.Request) string {
+	userID := strings.TrimSuffix(req.URL.Path, "/cart")
+
+	return strings.TrimPrefix(userID, "/")
 }
