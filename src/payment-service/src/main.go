@@ -26,6 +26,10 @@ func main() {
 		l.SetFormatter(&logrus.TextFormatter{})
 	}
 
+	if level, err := logrus.ParseLevel(cfg.LoggerLevel); err == nil {
+		l.SetLevel(level)
+	}
+
 	http.Handle("/charge", LogMiddleware(l, ErrorHandler(h.HandleCharge, l)))
 	l.Fatal(http.ListenAndServe(":"+cfg.ServerPort, nil))
 }

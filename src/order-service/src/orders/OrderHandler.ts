@@ -45,7 +45,7 @@ export default class OrderHandler extends CrudHandler<Order> {
     }
   }
 
-  // TODO: charge with new endpoint, including userid
+  // TODO: charge with real frontend stripe-token in header
   public postForUser = async (
       req: Request,
       res: Response,
