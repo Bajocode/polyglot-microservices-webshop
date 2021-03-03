@@ -15,20 +15,20 @@ func NewRepository(store Store, ttl time.Duration) *Repository {
 	return &Repository{store, ttl}
 }
 
-func (r *Repository) GetCart(ctx context.Context, userID string) (*Cart, error) {
+func (r *Repository) Get(ctx context.Context, userID string) (*Cart, error) {
 	var (
 		cart *Cart
 		enc  []byte
 		err  error
 	)
 	if enc, err = r.store.Get(ctx, userID); err != nil {
-		return nil, err
+		return r.Update(ctx, userID, Cart{[]CartItem{}})
 	}
 	err = json.Unmarshal(enc, &cart)
 	return cart, err
 }
 
-func (r *Repository) UpdateCart(ctx context.Context, userID string, cart Cart) (*Cart, error) {
+func (r *Repository) Update(ctx context.Context, userID string, cart Cart) (*Cart, error) {
 	var (
 		enc []byte
 		err error
@@ -40,9 +40,9 @@ func (r *Repository) UpdateCart(ctx context.Context, userID string, cart Cart) (
 	if err = r.store.Set(ctx, userID, enc); err != nil {
 		return nil, err
 	}
-	return r.GetCart(ctx, userID)
+	return r.Get(ctx, userID)
 }
 
-func (r *Repository) DeleteCart(ctx context.Context, userID string) error {
+func (r *Repository) Delete(ctx context.Context, userID string) error {
 	return r.store.Del(ctx, userID)
 }

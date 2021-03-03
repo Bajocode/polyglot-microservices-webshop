@@ -11,19 +11,19 @@ import (
 
 var userID string
 
-type CartHandling interface {
-	RouteCart(http.ResponseWriter, *http.Request) error
+type Handling interface {
+	Route(http.ResponseWriter, *http.Request) error
 	handleGet(http.ResponseWriter, *http.Request) error
 	handlePut(http.ResponseWriter, *http.Request) error
 	handleDel(http.ResponseWriter, *http.Request) error
 }
 
-type CartHandler struct {
+type Handler struct {
 	repo *Repository
 }
 
-func NewCartHandler(r *Repository) CartHandling {
-	return &CartHandler{r}
+func NewHandler(r *Repository) Handling {
+	return &Handler{r}
 }
 
 type handlerFunc func(http.ResponseWriter, *http.Request) error
@@ -60,7 +60,7 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 	})
 }
 
-func (h *CartHandler) RouteCart(res http.ResponseWriter, req *http.Request) error {
+func (h *Handler) Route(res http.ResponseWriter, req *http.Request) error {
 	userID = extractUserID(req)
 
 	if len(userID) == 0 {
@@ -75,11 +75,11 @@ func (h *CartHandler) RouteCart(res http.ResponseWriter, req *http.Request) erro
 	case http.MethodDelete:
 		return h.handleDel(res, req)
 	}
-	return nil
+	return NewHTTPError(nil, http.StatusNotImplemented, "Bad request: not implemented")
 }
 
-func (h *CartHandler) handleGet(res http.ResponseWriter, req *http.Request) error {
-	cart, err := h.repo.GetCart(req.Context(), userID)
+func (h *Handler) handleGet(res http.ResponseWriter, req *http.Request) error {
+	cart, err := h.repo.Get(req.Context(), userID)
 	if err != nil {
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: cart not found")
 	}
@@ -93,14 +93,14 @@ func (h *CartHandler) handleGet(res http.ResponseWriter, req *http.Request) erro
 	return nil
 }
 
-func (h *CartHandler) handlePut(res http.ResponseWriter, req *http.Request) error {
+func (h *Handler) handlePut(res http.ResponseWriter, req *http.Request) error {
 	var payload Cart
 
 	if err := json.NewDecoder(req.Body).Decode(&payload); err != nil {
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: invalid JSON")
 	}
 
-	cart, err := h.repo.UpdateCart(req.Context(), userID, payload)
+	cart, err := h.repo.Update(req.Context(), userID, payload)
 	if err != nil {
 		return fmt.Errorf("Server error (update store): %v", err)
 	}
@@ -114,9 +114,9 @@ func (h *CartHandler) handlePut(res http.ResponseWriter, req *http.Request) erro
 	return nil
 }
 
-func (h *CartHandler) handleDel(res http.ResponseWriter, req *http.Request) error {
-	if err := h.repo.DeleteCart(req.Context(), userID); err != nil {
-		return NewHTTPError(err, http.StatusBadRequest, "Bad request: cart not found")
+func (h *Handler) handleDel(res http.ResponseWriter, req *http.Request) error {
+	if err := h.repo.Delete(req.Context(), userID); err != nil {
+		return fmt.Errorf("Caching error: %v", err)
 	}
 
 	res.Header().Set("Content-Type", "application/json")

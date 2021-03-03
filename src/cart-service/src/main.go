@@ -24,7 +24,7 @@ func main() {
 		s = NewRedisAdapter(&cfg)
 	}
 
-	h := NewCartHandler(NewRepository(s, cfg.RedisCartTTL))
+	h := NewHandler(NewRepository(s, cfg.RedisCartTTL))
 	l := logrus.New()
 
 	if cfg.AppEnv == "prod" {
@@ -37,6 +37,6 @@ func main() {
 		l.SetLevel(level)
 	}
 
-	http.Handle("/", LogMiddleware(l, ErrorHandler(h.RouteCart, l)))
+	http.Handle("/", LogMiddleware(l, ErrorHandler(h.Route, l)))
 	l.Fatal(http.ListenAndServe(":"+cfg.ServerPort, nil))
 }
