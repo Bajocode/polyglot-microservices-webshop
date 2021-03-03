@@ -17,7 +17,7 @@ protocol OrderViewModelOutput {
 }
 
 internal struct OrderViewModel {
-    typealias Dependencies = CartServiceDependency & CatalogServiceDependency
+    typealias Dependencies = CartServiceDependency & CatalogServiceDependency & IdentityServiceDependency
 
     let dependencies: Dependencies
     let order: Order
@@ -37,15 +37,17 @@ extension OrderViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let order = input.viewWillAppear
-            .flatMapLatest {
-                MicroserviceClient.execute(OrderRequest.GetOne(order: self.order))
+        let order = Observable.combineLatest(
+            input.viewWillAppear,
+            dependencies.identityService.sharedToken)
+            .flatMapLatest { _, token in
+                MicroserviceClient.execute(OrderRequest.GetOne(token, order: self.order))
                     .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())
             .flatMapLatest { order -> Driver<Order> in
                 return dependencies.catalogService.getProducts(for: order)
-                    .map { populated(order, with: $0) }
+                    .map { products in populateItems(for: order, with: products) }
                     .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())
@@ -55,7 +57,7 @@ extension OrderViewModel: ReactiveTransforming {
         )
     }
 
-    private func populated(_ order: Order, with products: [Product]) -> Order {
+    private func populateItems(for order: Order, with products: [Product]) -> Order {
         let items = order.items.map { item -> OrderItem in
             guard let product = products.first(where: { $0.productid == item.productid }) else {
                 return item

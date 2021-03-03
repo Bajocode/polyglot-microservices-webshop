@@ -18,7 +18,6 @@ protocol CartViewModelOutput {
     var cart: Driver<Cart> { get }
     var cartUpdate: Driver<Void> { get }
     var orderTransition: Driver<Void> { get }
-    var authTransition: Driver<Void> { get }
 }
 
 struct CartViewModel {
@@ -33,27 +32,27 @@ struct CartViewModel {
 
 extension CartViewModel: ReactiveTransforming {
     struct Input: CartViewModelInput {
-        var viewWillAppear: Observable<Void>
-        var quantityStep: Observable<CartItem>
-        var orderButtonTap: Observable<Void>
+        let viewWillAppear: Observable<Void>
+        let quantityStep: Observable<CartItem>
+        let orderButtonTap: Observable<Void>
     }
     struct Output: CartViewModelOutput {
-        var cart: Driver<Cart>
-        var cartUpdate: Driver<Void>
-        var orderTransition: Driver<Void>
-        var authTransition: Driver<Void>
+        let cart: Driver<Cart>
+        let cartUpdate: Driver<Void>
+        let orderTransition: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let cartVwa = input.viewWillAppear
-            .flatMapLatest {
-                return dependencies.cartService.get()
+        let cartVwa = Observable
+            .combineLatest(input.viewWillAppear, dependencies.identityService.sharedToken)
+            .flatMapLatest { _, token in
+                return dependencies.cartService.get(token)
                 .catchErrorJustReturn(Cart.empty())
             }
             .share(replay: 1)
             .flatMapLatest { cart -> Observable<Cart> in
                 return dependencies.catalogService.getProducts(for: cart)
-                    .map { dependencies.cartService.populated(with: $0) }
+                    .map { products in dependencies.cartService.populateItems(with: products) }
                     .catchErrorJustReturn(Cart.empty())
             }
             .share(replay: 1)
@@ -63,12 +62,7 @@ extension CartViewModel: ReactiveTransforming {
             .do(onNext:  { dependencies.cartService.upsert($0) })
             .map { _ in }
             .asDriver(onErrorJustReturn:())
-        let authTransition = input.orderButtonTap
-            .takeWhile { !dependencies.identityService.isLoggedIn() }
-            .do { _ in Coordinator.shared.transition(to: .auth, style: .modal()) }
-            .asDriver(onErrorJustReturn: ())
         let orderTransition = input.orderButtonTap
-            .takeWhile { dependencies.identityService.isLoggedIn() }
             .withLatestFrom(cart)
             .map { Order.from($0) }
             .do { order in Coordinator.shared.transition(to: .orderConfirm(order), style: .modal()) }
@@ -77,7 +71,6 @@ extension CartViewModel: ReactiveTransforming {
 
         return Output(cart: cart.asDriver(onErrorJustReturn: Cart.empty()),
                       cartUpdate: cartUpdate,
-                      orderTransition: orderTransition,
-                      authTransition: authTransition)
+                      orderTransition: orderTransition)
     }
 }

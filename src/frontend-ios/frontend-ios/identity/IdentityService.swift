@@ -10,38 +10,44 @@ import RxCocoa
 import JWTDecode
 
 internal class IdentityService {
+    internal var sharedToken: Observable<Token> { return token.asObservable() }
+    private var token = BehaviorRelay<Token>(value: Token.empty())
     internal var sharedUser: Observable<User> { return user.asObservable() }
     private var user = BehaviorRelay<User>(value: User.empty())
 
     internal func isLoggedIn() -> Bool {
-        let token = tokenFromStore()
+        let token = self.token.value.token.isEmpty ? tokenFromStore() : self.token.value
         guard
             !token.token.isEmpty,
             token.expiry > Int(Date().timeIntervalSince1970) else {
                 return false
         }
-        setUser(from: token)
 
         return true
-    }
-
-    internal func tokenFromStore() -> Token {
-        let expiry = UserDefaults.standard.integer(forKey: Constants.UserDefaults.tokenExpiryKey)
-        guard let token = UserDefaults.standard.string(forKey: Constants.UserDefaults.tokenKey) else {
-            return Token.empty()
-        }
-
-        return Token(token: token, expiry: expiry)
     }
 
     internal func storeToken(_ token: Token) {
         UserDefaults.standard.setValue(token.token, forKey: Constants.UserDefaults.tokenKey)
         UserDefaults.standard.setValue(token.expiry, forKey: Constants.UserDefaults.tokenExpiryKey)
+
+        self.token.accept(token)
     }
 
     internal func logOut() {
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.tokenKey)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.tokenExpiryKey)
+    }
+
+    private func tokenFromStore() -> Token {
+        let expiry = UserDefaults.standard.integer(forKey: Constants.UserDefaults.tokenExpiryKey)
+        guard let tokenString = UserDefaults.standard.string(forKey: Constants.UserDefaults.tokenKey) else {
+            return Token.empty()
+        }
+
+        let tokenFromStore = Token(token: tokenString, expiry: expiry)
+        self.token.accept(tokenFromStore)
+
+        return tokenFromStore
     }
 
     private func setUser(from token: Token) {

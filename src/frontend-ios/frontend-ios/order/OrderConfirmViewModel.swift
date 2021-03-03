@@ -19,7 +19,7 @@ protocol OrderConfirmViewModelOutput {
 }
 
 internal struct OrderConfirmViewModel {
-    typealias Dependencies = CartServiceDependency
+    typealias Dependencies = CartServiceDependency & IdentityServiceDependency
 
     private let dependencies: Dependencies
     private let order: Order
@@ -42,9 +42,9 @@ extension OrderConfirmViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let orderPost = input.confirmButtonTap
-            .flatMapLatest {
-                MicroserviceClient.execute(OrderRequest.Post(order: order))
+        let orderPost = Observable.combineLatest(input.confirmButtonTap, dependencies.identityService.sharedToken)
+            .flatMapLatest { _, token in
+                MicroserviceClient.execute(OrderRequest.Post(token, order: order))
                     .do(onSuccess: { (order) in
                         Coordinator.shared.alert(title: "Success", message: "sfs")
                     })

@@ -21,7 +21,7 @@ protocol TabBarViewModelOutput {
 }
 
 struct TabBarViewModel {
-    typealias Dependencies = CartServiceDependency
+    typealias Dependencies = CartServiceDependency & IdentityServiceDependency
 
     let dependencies: Dependencies
 
@@ -32,20 +32,21 @@ struct TabBarViewModel {
 
 extension TabBarViewModel: ReactiveTransforming {
     struct Input: TabBarViewModelInput {
-        var viewWillAppear: Observable<Void>
-        var tabSelect: Observable<UIViewController>
+        let viewWillAppear: Observable<Void>
+        let tabSelect: Observable<UIViewController>
     }
     struct Output: TabBarViewModelOutput {
-        var cartSync: Driver<Void>
-        var sharedCart: Driver<Cart>
-        var coordinatorSync: Driver<Void>
+        let cartSync: Driver<Void>
+        let sharedCart: Driver<Cart>
+        let coordinatorSync: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let cartSync = input.viewWillAppear
-            .flatMapLatest {
+        let cartSync = Observable
+            .combineLatest(input.viewWillAppear, dependencies.identityService.sharedToken)
+            .flatMapLatest { _, token in
                 return dependencies.cartService
-                    .get()
+                    .get(token)
                     .map { _ in }
                     .asDriver(onErrorJustReturn: ())
             }

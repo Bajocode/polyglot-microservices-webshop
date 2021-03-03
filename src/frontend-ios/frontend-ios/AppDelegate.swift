@@ -20,10 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let container = DependencyContainer(identityService, catalogService, cartService)
 
         Coordinator.construct(Coordinator.Config(window: window!, container: container))
-        Coordinator.shared.transition(to: .root, style: .entry)
 
-        if !identityService.isLoggedIn() {
-            Coordinator.shared.transition(to: .auth, style: .modal())
+        if identityService.isLoggedIn() {
+            Coordinator.shared.transition(to: .root, style: .entry, animated: false)
+        } else {
+            Coordinator.shared.transition(to: .auth, style: .entry, animated: false)
         }
 
         return true

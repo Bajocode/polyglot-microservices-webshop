@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class UserViewController: UIViewController {
+final class UserViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: UserViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)

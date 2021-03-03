@@ -37,7 +37,7 @@ internal struct Builder {
         let vm = AuthViewModel(dependencies)
         let vc = AuthViewController(viewModel: vm)
 
-        return vc
+        return vc.embedInNav()
     }
 
     private static func buildRoot(

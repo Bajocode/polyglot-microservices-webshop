@@ -8,11 +8,10 @@
 import Foundation
 
 struct Cart: Codable {
-    let userid: String
     var items: [CartItem]
 
     static func empty() -> Cart {
-        return Cart(userid: "", items: [])
+        return Cart(items: [])
     }
 }
 

@@ -62,9 +62,6 @@ final class CartViewController: UIViewController {
         output.orderTransition
             .drive()
             .disposed(by: bag)
-        output.authTransition
-            .drive()
-            .disposed(by: bag)
     }
 }
 

@@ -53,7 +53,7 @@ internal final class Coordinator {
         let vc = Builder.build(scene, with: container, coordinator: self)
 
         switch style {
-        case .entry: handleEntry(for: vc)
+        case .entry: handleEntry(for: vc, animated)
         case .push: handlePush(for: vc, animated)
         case .modal(let modalStyle): handleModal(for: vc, modalStyle: modalStyle, animated)
         case .dismiss: handleDismiss(animated)
@@ -72,9 +72,15 @@ internal final class Coordinator {
         self.currentVc = vc
     }
 
-    private func handleEntry(for vc: UIViewController) {
+    private func handleEntry(for vc: UIViewController, _ animated: Bool) {
         currentVc = vc.extractFromTab()
         window.rootViewController = vc
+
+        UIView.transition(with: window,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: nil,
+                          completion: nil)
 
         self.window.makeKeyAndVisible()
     }
@@ -87,7 +93,6 @@ internal final class Coordinator {
     }
 
     private func handleModal(for vc: UIViewController, modalStyle: UIModalPresentationStyle?=nil, _ animated: Bool) {
-
         if let style = modalStyle {
             vc.modalPresentationStyle = style
         }

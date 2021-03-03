@@ -11,34 +11,33 @@ import RxSwift
 class CartService {
     internal var sharedCart: Observable<Cart> { return cart.asObservable() }
     private var cart = BehaviorRelay<Cart>(value: Cart.empty())
+    private var token: Token = Token.empty()
     private var items: [CartItem] {
         get{ return cart.value.items }
         set {
             var current = cart.value
             current.items = newValue
             cart.accept(current)
-            put()
+            put(token)
         }
     }
     private let bag = DisposeBag()
 
-    // Get from /cart, update behavior and return result
-    @discardableResult internal func get() -> Observable<Cart> {
-        return MicroserviceClient.execute(CartRequest.Get())
+    @discardableResult internal func get(_ token: Token) -> Observable<Cart> {
+        setToken(token: token)
+        return MicroserviceClient.execute(CartRequest.Get(token))
             .asObservable()
             .do { self.cart.accept($0) }
     }
 
-    // Push to /cart and bind result back to behaviorrelay
-    // If cart empty, it was due to empty put
-    internal func put() {
-        _ = MicroserviceClient.execute(CartRequest.Put(cart: cart.value))
+    internal func put(_ token: Token) {
+        setToken(token: token)
+        _ = MicroserviceClient.execute(CartRequest.Put(token, cart: cart.value))
             .asObservable()
             .subscribe()
             .disposed(by: bag)
     }
 
-    // Add cartitem to items
     internal func upsert(_ item: CartItem) {
         if let index = items.firstIndex(where: { $0.productid == item.productid }) {
             updateItems(with: item, index: index)
@@ -46,20 +45,8 @@ class CartService {
             items.append(item)
         }
     }
-    private func updateItems(with item: CartItem, index: Int) {
-        if item.quantity < 1 {
-            items.remove(at: index)
-            return
-        }
 
-        var updating = items[index]
-        updating.quantity = item.quantity
-        updating.price = item.product.price * updating.quantity
-        items[index] = updating
-    }
-
-    // Add product to cart items, update behavior and return cart
-    @discardableResult internal func populated(with products: [Product]) -> Cart {
+    @discardableResult internal func populateItems(with products: [Product]) -> Cart {
         var cart = self.cart.value
 
         let items = cart.items.map { item -> CartItem in
@@ -76,5 +63,21 @@ class CartService {
         self.cart.accept(cart)
 
         return cart
+    }
+
+    private func updateItems(with item: CartItem, index: Int) {
+        if item.quantity < 1 {
+            items.remove(at: index)
+            return
+        }
+
+        var updating = items[index]
+        updating.quantity = item.quantity
+        updating.price = item.product.price * updating.quantity
+        items[index] = updating
+    }
+
+    private func setToken(token: Token) {
+        self.token = token
     }
 }

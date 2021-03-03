@@ -60,4 +60,21 @@ extension CategoriesViewModel: ReactiveTransforming {
     }
 }
 
-
+extension CategoriesViewModel: CollectionViewConfigurable {
+    var collectionCellInfo: [CellInfo] {
+        return [(
+            cellClass: UICollectionViewCell.self,
+            reuseId: String(describing: UICollectionViewCell.self),
+            isXib: false
+        )]
+    }
+    var allEqualInset: CGFloat {
+        return 2
+    }
+    var rowItemCount: Int {
+        return 3
+    }
+    var columnItemCount: Int {
+        return 3
+    }
+}

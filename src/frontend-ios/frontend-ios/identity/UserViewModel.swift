@@ -43,9 +43,11 @@ extension UserViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let orders = input.viewWillAppear
-            .flatMapLatest {
-                MicroserviceClient.execute(OrderRequest.Get())
+        let orders = Observable.combineLatest(
+            input.viewWillAppear,
+            dependencies.identityService.sharedToken)
+            .flatMapLatest { _, token in
+                MicroserviceClient.execute(OrderRequest.Get(token))
                     .debug()
                     .asDriver(onErrorJustReturn: [])
             }
@@ -58,9 +60,7 @@ extension UserViewModel: ReactiveTransforming {
             .map { _ in }
             .asDriver(onErrorJustReturn: ())
         let userLogout = input.logoutButtonTap
-            .do { _ in dependencies.identityService.logOut() }
-            .takeWhile { !dependencies.identityService.isLoggedIn() }
-            .do { _ in Coordinator.shared.alert(title: "Logged out", message: "pannekoek") }
+            .do { _ in Coordinator.shared.transition(to: .auth, style: .entry) }
             .asDriver(onErrorJustReturn: ())
 
         return Output(

@@ -26,12 +26,23 @@ extension OrderRequesting {
 enum OrderRequest {
     struct Get: OrderRequesting {
         typealias ResponseType = [Order]
+        private let token: Token
+
+        init(_ token: Token) {
+            self.token = token
+        }
 
         var method: Method {
             return .get
         }
         var path: String {
             return ""
+        }
+        var headers: [String : String]? {
+            return [
+                "content-type": "application/json",
+                "authorization": "Bearer \(token.token)"
+            ]
         }
         var task: Task {
             return .requestPlain
@@ -41,8 +52,10 @@ enum OrderRequest {
     struct GetOne: OrderRequesting {
         typealias ResponseType = Order
         private let order: Order
+        private let token: Token
 
-        init(order: Order) {
+        init(_ token: Token, order: Order) {
+            self.token = token
             self.order = order
         }
 
@@ -52,6 +65,12 @@ enum OrderRequest {
         var path: String {
             return "/\(order.orderid)"
         }
+        var headers: [String : String]? {
+            return [
+                "content-type": "application/json",
+                "authorization": "Bearer \(token.token)"
+            ]
+        }
         var task: Task {
             return .requestPlain
         }
@@ -59,9 +78,11 @@ enum OrderRequest {
 
     struct Post: OrderRequesting {
         typealias ResponseType = Order
+        private let token: Token
         private let order: Order
 
-        init(order: Order) {
+        init(_ token: Token, order: Order) {
+            self.token = token
             self.order = order
         }
 
@@ -70,6 +91,12 @@ enum OrderRequest {
         }
         var path: String {
             return ""
+        }
+        var headers: [String : String]? {
+            return [
+                "content-type": "application/json",
+                "authorization": "Bearer \(token.token)"
+            ]
         }
         var task: Task {
             return .requestJSONEncodable(order)

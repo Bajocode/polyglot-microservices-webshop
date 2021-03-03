@@ -9,18 +9,16 @@ import Foundation
 
 internal struct Order {
     var orderid: String = ""
-    let userid: String
     var items: [OrderItem]
     let price: Int
 
     internal static func empty() -> Order {
-        return Order(orderid: "", userid: "", items: [], price: 0)
+        return Order(orderid: "", items: [], price: 0)
     }
 
     internal static func from(_ cart: Cart) -> Order {
         return Order(
             orderid: "",
-            userid: cart.userid,
             items: cart.items.map { OrderItem.from($0) },
             price: cart.items
                 .map { $0.price }
@@ -31,12 +29,11 @@ internal struct Order {
 
 extension Order: Encodable {
     private enum EncodingKeys: String, CodingKey {
-        case userid, items, price
+        case items, price
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKeys.self)
-        try container.encode(userid, forKey: .userid)
         try container.encode(items, forKey: .items)
         try container.encode(price, forKey: .price)
     }
@@ -44,13 +41,12 @@ extension Order: Encodable {
 
 extension Order: Decodable {
     private enum DecodingKeys: String, CodingKey {
-        case orderid, userid, items, price
+        case orderid, items, price
     }
 
     init(from decoder: Decoder) throws {
         let dto = try decoder.container(keyedBy: DecodingKeys.self)
         orderid = try dto.decode(String.self, forKey: .orderid)
-        userid = try dto.decode(String.self, forKey: .userid)
         price = try dto.decode(Int.self, forKey: .price)
 
         if let items = try dto.decodeIfPresent([OrderItem].self, forKey: .items) {

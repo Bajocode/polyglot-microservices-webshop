@@ -32,13 +32,19 @@ internal class AuthViewController: UIViewController {
     }
 
     private func bind(to: AuthViewModel) {
+        let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
+            .map { _ in }
         let input = AuthViewModel.Input(
+            viewWillAppear: vwa,
             loginButtonTap: loginButton.rx.tap.asObservable(),
             registerButtonTap: registerButton.rx.tap.asObservable(),
             emailTextFieldText: emailTextField.rx.text.orEmpty.asObservable(),
             passwordTextFieldText: passwordTextField.rx.text.orEmpty.asObservable())
         let output = viewModel.transform(input)
 
+        output.reset
+            .drive()
+            .disposed(by: bag)
         output.authorization
             .drive()
             .disposed(by: bag)

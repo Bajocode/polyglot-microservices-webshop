@@ -7,41 +7,6 @@
 
 import Moya
 
-enum CartRequest {
-    struct Get: CartRequesting {
-        typealias ResponseType = Cart
-
-        var method: Method {
-            return .get
-        }
-        var path: String {
-            return ""
-        }
-        var task: Task {
-            return .requestPlain
-        }
-    }
-
-    struct Put: CartRequesting {
-        typealias ResponseType = Cart
-        private let cart: Cart
-
-        init(cart: Cart) {
-            self.cart = cart
-        }
-
-        var method: Method {
-            return .put
-        }
-        var path: String {
-            return ""
-        }
-        var task: Task {
-            return .requestJSONEncodable(cart)
-        }
-    }
-}
-
 protocol CartRequesting: MicroserviceRequesting {}
 
 extension CartRequesting {
@@ -56,5 +21,59 @@ extension CartRequesting {
 
     var servicePath: String {
         return "/cart"
+    }
+}
+
+enum CartRequest {
+    struct Get: CartRequesting {
+        typealias ResponseType = Cart
+        private let token: Token
+
+        init(_ token: Token) {
+            self.token = token
+        }
+
+        var method: Method {
+            return .get
+        }
+        var path: String {
+            return ""
+        }
+        var headers: [String : String]? {
+            return [
+                "content-type": "application/json",
+                "authorization": "Bearer \(token.token)"
+            ]
+        }
+        var task: Task {
+            return .requestPlain
+        }
+    }
+
+    struct Put: CartRequesting {
+        typealias ResponseType = Cart
+        private let token: Token
+        private let cart: Cart
+
+        init(_ token: Token, cart: Cart) {
+            self.token = token
+            self.cart = cart
+        }
+
+        var method: Method {
+            return .put
+        }
+        var path: String {
+            return ""
+        }
+        var headers: [String : String]? {
+            return [
+                "content-type": "application/json",
+                "authorization": "Bearer \(token.token)"
+            ]
+        }
+        var task: Task {
+            return .requestJSONEncodable(cart)
+        }
     }
 }
