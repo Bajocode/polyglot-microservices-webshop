@@ -12,9 +12,6 @@ final internal class CategoriesViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: CategoriesViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
-    private lazy var collectionView: UICollectionView = { [unowned self] in
-        return UICollectionView(configurable: self.viewModel, frame: self.view.bounds)
-    }()
 
     internal override func viewDidLoad() {
         super.viewDidLoad()

@@ -17,7 +17,7 @@ func main() {
 	}
 
 	stripe.Key = cfg.StripeKey
-	h := new(PaymentHandler)
+	h := new(Handler)
 	l := logrus.New()
 
 	if cfg.AppEnv == "prod" {

@@ -9,6 +9,7 @@ import Moya
 import RxSwift
 
 // krakend.io gateway automatically wraps array responses with root "collection" key
+// https://www.krakend.io/docs/backends/data-manipulation/#when-the-backend-response-is-inside-an-array
 struct KrakenWrapper<T: Decodable>: Decodable {
     let collection: T
 }

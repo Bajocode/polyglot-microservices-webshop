@@ -12,11 +12,11 @@ import (
 
 const hardcodedUserID = "85a3a5d5-e50f-463b-a757-9acf5515644a"
 
-type PaymentHandling interface {
+type Handling interface {
 	HandleCharge(http.ResponseWriter, *http.Request) error
 }
 
-type PaymentHandler struct{}
+type Handler struct{}
 
 type handlerFunc func(http.ResponseWriter, *http.Request) error
 
@@ -52,7 +52,7 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 	})
 }
 
-func (h *PaymentHandler) HandleCharge(res http.ResponseWriter, req *http.Request) error {
+func (h *Handler) HandleCharge(res http.ResponseWriter, req *http.Request) error {
 	var payment Payment
 	if err := json.NewDecoder(req.Body).Decode(&payment); err != nil {
 		return NewHTTPError(err, http.StatusBadRequest, "Bad request: invalid JSON")
