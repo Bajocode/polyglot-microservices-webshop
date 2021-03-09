@@ -1,0 +1,25 @@
+---
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+  - image: gcr.io/fabijanbajo/webshop-catalog-service
+    context: .
+
+deploy:
+  helm:
+    releases:
+    - name: catalog-service
+      chartPath: ./src/catalog-service/kubernetes/catalog-service
+      valuesFiles:
+      - ./src/catalog-service/kubernetes/catalog-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-catalog-service:0.1.0
+      version: 0.1.0
+    - name: identity-service
+      chartPath: ./src/identity-service/kubernetes/identity-service
+      valuesFiles:
+      - ./src/identity-service/kubernetes/identity-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-identity-service:0.1.0
+      version: 0.1.0
