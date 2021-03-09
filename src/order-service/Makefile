@@ -4,7 +4,7 @@ registry = fabijanbajo
 repository_prefix = webshop-
 repository = ${repository_prefix}$(shell basename $(CURDIR))
 commit_hash = $(shell git rev-parse --short HEAD)
-version = latest
+version = 0.1.0
 tag = ${server}/${registry}/${repository}:${version}
 run_port = 9002
 
