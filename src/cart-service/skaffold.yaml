@@ -16,4 +16,4 @@ deploy:
       artifactOverrides:
         image.repository: gcr.io/fabijanbajo/webshop-cart-service
       version: 0.1.0
-      namespace: default
+      # namespace: default

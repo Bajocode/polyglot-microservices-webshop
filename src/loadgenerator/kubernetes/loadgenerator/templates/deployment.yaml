@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "loadgenerator.fullname" . }}
+  labels:
+    {{- include "loadgenerator.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "loadgenerator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "loadgenerator.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "loadgenerator.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          # image: {{ .Values.image.repository }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          args:
+            - --locustfile=/mnt/locust/locustfile.py
+            - "--host=gateway.{{ .Release.Namespace }}"
+            - "--loglevel={{ .Values.server.loglevel }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: locustfile
+            mountPath: /mnt/locust
+      volumes:
+      - name: locustfile
+        configMap:
+          name: {{ template "loadgenerator.fullname" . }}-configmap
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

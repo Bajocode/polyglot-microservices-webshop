@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "loadgenerator.fullname" . }}-configmap
+data:
+  locustfile.py: |-
+{{ .Files.Get "locustfile.py" | indent 4 }}

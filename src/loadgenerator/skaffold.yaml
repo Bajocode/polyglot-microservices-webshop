@@ -5,9 +5,9 @@ kind: Config
 deploy:
   helm:
     releases:
-    - name: gateway
-      chartPath: kubernetes/gateway
+    - name: loadgenerator
+      chartPath: kubernetes/loadgenerator
       valuesFiles:
-      - kubernetes/gateway/values.yaml
+      - kubernetes/loadgenerator/values.yaml
       version: 0.1.0
       # namespace: default

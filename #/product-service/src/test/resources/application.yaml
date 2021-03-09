@@ -1,5 +1,0 @@
----
-spring.r2dbc.url: r2dbc:h2:mem://./testdb
-logging.level.org.springframework:
-  transaction: TRACE
-  data.r2dbc.connectionfactory: DEBUG
