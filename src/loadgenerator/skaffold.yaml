@@ -6,8 +6,8 @@ deploy:
   helm:
     releases:
     - name: loadgenerator
-      chartPath: kubernetes/loadgenerator
+      chartPath: ../../kubernetes/loadgenerator
       valuesFiles:
-      - kubernetes/loadgenerator/values.yaml
+      - ../../kubernetes/loadgenerator/values.yaml
       version: 0.1.0
       # namespace: default

@@ -10,9 +10,9 @@ deploy:
   helm:
     releases:
     - name: cart-service
-      chartPath: kubernetes/cart-service
+      chartPath: ../../kubernetes/cart-service
       valuesFiles:
-      - kubernetes/cart-service/values.yaml
+      - ../../kubernetes/cart-service/values.yaml
       artifactOverrides:
         image.repository: gcr.io/fabijanbajo/webshop-cart-service
       version: 0.1.0

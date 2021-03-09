@@ -4,22 +4,61 @@ kind: Config
 build:
   artifacts:
   - image: gcr.io/fabijanbajo/webshop-catalog-service
-    context: .
+    context: ./src/catalog-service
+  - image: gcr.io/fabijanbajo/webshop-cart-service
+    context: ./src/cart-service
+  - image: gcr.io/fabijanbajo/webshop-identity-service
+    context: ./src/identity-service
+  - image: gcr.io/fabijanbajo/webshop-order-service
+    context: ./src/order-service
+  - image: gcr.io/fabijanbajo/webshop-payment-service
+    context: ./src/payment-service
 
 deploy:
   helm:
     releases:
     - name: catalog-service
-      chartPath: ./src/catalog-service/kubernetes/catalog-service
+      chartPath: ./kubernetes/catalog-service
       valuesFiles:
-      - ./src/catalog-service/kubernetes/catalog-service/values.yaml
+      - ./kubernetes/catalog-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-catalog-service:0.1.0
+        image.repository: gcr.io/fabijanbajo/webshop-catalog-service
+      version: 0.1.0
+    - name: cart-service
+      chartPath: ./kubernetes/cart-service
+      valuesFiles:
+      - ./kubernetes/cart-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-cart-service
       version: 0.1.0
     - name: identity-service
-      chartPath: ./src/identity-service/kubernetes/identity-service
+      chartPath: ./kubernetes/identity-service
       valuesFiles:
-      - ./src/identity-service/kubernetes/identity-service/values.yaml
+      - ./kubernetes/identity-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-identity-service:0.1.0
+        image.repository: gcr.io/fabijanbajo/webshop-identity-service
+      version: 0.1.0
+    - name: order-service
+      chartPath: ./kubernetes/order-service
+      valuesFiles:
+      - ./kubernetes/order-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-order-service
+      version: 0.1.0
+    - name: payment-service
+      chartPath: ./kubernetes/payment-service
+      valuesFiles:
+      - ./kubernetes/payment-service/values.yaml
+      artifactOverrides:
+        image.repository: gcr.io/fabijanbajo/webshop-payment-service
+      version: 0.1.0
+    - name: gateway
+      chartPath: ./kubernetes/gateway
+      valuesFiles:
+      - ./kubernetes/gateway/values.yaml
+      version: 0.1.0
+    - name: loadgenerator
+      chartPath: ./kubernetes/loadgenerator
+      valuesFiles:
+      - ./kubernetes/loadgenerator/values.yaml
       version: 0.1.0

@@ -10,9 +10,9 @@ deploy:
   helm:
     releases:
     - name: catalog-service
-      chartPath: kubernetes/catalog-service
+      chartPath: ../../kubernetes/catalog-service
       valuesFiles:
-      - kubernetes/catalog-service/values.yaml
+      - ../../kubernetes/catalog-service/values.yaml
       artifactOverrides:
         image.repository: gcr.io/fabijanbajo/webshop-catalog-service
       version: 0.1.0

@@ -6,8 +6,8 @@ deploy:
   helm:
     releases:
     - name: gateway
-      chartPath: kubernetes/gateway
+      chartPath: ../../kubernetes/gateway
       valuesFiles:
-      - kubernetes/gateway/values.yaml
+      - ../../kubernetes/gateway/values.yaml
       version: 0.1.0
       # namespace: default

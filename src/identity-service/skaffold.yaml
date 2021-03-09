@@ -9,9 +9,9 @@ deploy:
   helm:
     releases:
     - name: identity-service
-      chartPath: kubernetes/identity-service
+      chartPath: ../../kubernetes/identity-service
       valuesFiles:
-      - kubernetes/identity-service/values.yaml
+      - ../../kubernetes/identity-service/values.yaml
       artifactOverrides:
         image.repository: gcr.io/fabijanbajo/webshop-identity-service
       version: 0.1.0

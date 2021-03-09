@@ -9,9 +9,9 @@ deploy:
   helm:
     releases:
     - name: order-service
-      chartPath: kubernetes/order-service
+      chartPath: ../../kubernetes/order-service
       valuesFiles:
-      - kubernetes/order-service/values.yaml
+      - ../../kubernetes/order-service/values.yaml
       artifactOverrides:
         image.repository: gcr.io/fabijanbajo/webshop-order-service
       version: 0.1.0
