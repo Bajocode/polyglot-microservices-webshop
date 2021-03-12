@@ -13,6 +13,7 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 </details>
 
 ## Architecture
+###### System
 ![design-system](./media/design-system.svg)
 
 | Service                                    | Language    | Description                                                  |
@@ -33,29 +34,46 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ![design-system](./media/design-ios.svg)
 
 ###### Technologies
-* ops
-  * k8s
-  * helm
-  * prometheus
-  * skaffold
-  * grafana
-  * docker
-  * concourse ci
-* dev
-  * iOS
-  * locust
-  * stripe
+?
 
 ## Getting Started
-### Kubernetes
-###### Local Vagrant + Ansible
-###### Local Docker for Desktop
-###### Terraform (AWS, GCP, IBM)
+### Prerequisites
+* [Docker](https://www.docker.com/)
+* [Skaffold](https://skaffold.dev/) (Kubernetes only)
 
-### Docker Compose
-###### Running
+### Deploy
+###### Kubernetes Local Docker Desktop
+> Ensure Docker and Skaffold are installed
 
-### Tests
+1. Enable Kubernetes on [Docker Desktop](https://docs.docker.com/docker-for-mac/#kubernetes)
+2. Clone this repository
+```sh
+git clone git@github.com:Bajocode/polyglot-microservices-webshop.git
+cd polyglot-microservices-webshop
+```
+3. Deploy
+```sh
+skaffold run
+```
+4. Expose the gateway port
+```sh
+kubectl port-forward deployment/gateway 8080
+```
+
+###### Docker Compose
+> Ensure Docker and Docker Compose are installed
+
+1. Clone this repository
+```sh
+git clone git@github.com:Bajocode/polyglot-microservices-webshop.git
+cd polyglot-microservices-webshop
+```
+3. Deploy
+```sh
+docker-compose up
+```
+
+### Test
 Run basic tests to verify build and deployment with an e2e test bash script
 > [e2e_test.sh](./e2e_test.sh): (simplified contract test framework I've written in bash)
 
