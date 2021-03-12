@@ -70,5 +70,5 @@ cd root
 * react front-end
 
 ## Contact
-Fabijan Bajo - [linkedIN](https://www.linkedin.com/in/fabijanbajo/) - [email](mailto: bajo09gmail.com)
+Fabijan Bajo - [linkedIN](https://www.linkedin.com/in/fabijanbajo/) - [email](mailto:bajo09gmail.com)
 Project link: [project](https://github.com/Bajocode/polyglot-microservices-webshop)
