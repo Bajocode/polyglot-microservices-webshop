@@ -24,7 +24,7 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ###### Authentication
 ![design-system](./media/design-auth.svg)
 
-###### Frontend
+###### Frontend iOS
 ![design-system](./media/design-ios.svg)
 
 ###### Technologies
@@ -51,14 +51,14 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ###### Running
 
 ### Tests
-Verify build and deployment with an e2e test bash script
-> Wrote the script myself with bash (for fun) / not meant to be exhaustive
+Run basic tests to verify build and deployment with an e2e test bash script
+> [e2e_test.sh](./e2e_test.sh): (simplified contract test framework I've written in bash)
 
 ```sh
 cd root
 ./e2e_test.sh
 ```
-[e2e-test](./media/e2e-test.png)
+![e2e-test](./media/e2e-test.png)
 
 
 ## Roadmap
@@ -68,3 +68,7 @@ cd root
 * end to end testing
 * payment with tokens
 * react front-end
+
+## Contact
+Fabijan Bajo - [linkedIN](https://www.linkedin.com/in/fabijanbajo/) - [email](mailto: bajo09gmail.com)
+Project link: [project](https://github.com/Bajocode/polyglot-microservices-webshop)
