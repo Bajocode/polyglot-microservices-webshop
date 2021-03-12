@@ -34,7 +34,22 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ![design-system](./media/design-ios.svg)
 
 ###### Technologies
-?
+Ops
+* Docker
+* Kubernetes
+* Helm
+* Skaffold
+* Prometheus
+* Grafana
+* Locust
+
+Dev
+* iOS
+* Nodejs Express
+* Go vanilla net/http
+* Java Springboot
+* Postgresql
+* Redis
 
 ## Getting Started
 ### Prerequisites
