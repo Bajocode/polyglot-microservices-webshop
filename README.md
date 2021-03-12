@@ -12,7 +12,7 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 
 | Service                                    | Language    | Description                                                  |
 | ------------------------------------------ | ----------- | ------------------------------------------------------------ |
-| [ios-frontend](./src/ios-frontend)         | Swift       | Mobile UI                                                    |
+| [frontend-ios](./src/frontend-ios)         | Swift       | Mobile UI                                                    |
 | [gateway](./src/gateway)                   | Helm / Yaml | API Gateway that forwards clients to the micro-services, handles JWT validation, terminates tls and transforms url paths |
 | [identity-service](./src/identity-service) | Typescript  | Manages customer accounts and signs JWTs (symmetric HMAC), while hosting a JSON Web Key set (JWK) to offload authorization |
 | [catalog-service](./src/catalog-service)   | Java        | Manages a catalog of products and categories |
