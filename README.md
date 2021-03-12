@@ -1,11 +1,16 @@
 # Polyglot Sample Microservices Application
 Simplified cloud-native ecommerce application hosted on Kubernetes, allowing users to browse products and submit orders through an iOS frontend. The goal of the project is to experiment with languages, frameworks and architectures
 
-## Table of Contents
-1. Architecture
-2. Getting Started
-3. Roadmap
-4. Contact
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
 ## Architecture
 ![design-system](./media/design-system.svg)
