@@ -13,13 +13,13 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 | Service                                    | Language    | Description                                                  |
 | ------------------------------------------ | ----------- | ------------------------------------------------------------ |
 | [ios-frontend](./src/ios-frontend)         | Swift       | Mobile UI                                                    |
-| [gateway](./src/gateway)                   | Helm / Yaml | Provides a single entry-point for all services, while provising cross-cutting features such as authentication, SSL termination and cache |
-| [identity-service](./src/identity-service) | Typescript  | Acts as token issuer and handles user login and registration |
-| [catalog-service](./src/catalog-service)   | Java        | Provides products and categories                             |
-| [cart-service](./src/cart-service)         | Go          | A product and categories                                     |
-| [order-service](./src/order-service)       | Typescript  | Creates orders and submits payment requests to the payment-service |
-| [payment-service](./src/payment-service)   | Go          | Charges the order through Stripe payment-gateway             |
-| [load-generator](./src/load-generator)     | Python      | Imitating realistic user shopping flows by continuously sending API requests |
+| [gateway](./src/gateway)                   | Helm / Yaml | API Gateway that forwards clients to the micro-services, handles JWT validation, terminates tls and transforms url paths |
+| [identity-service](./src/identity-service) | Typescript  | Manages customer accounts and signs JWTs (symmetric HMAC), while hosting a JSON Web Key set (JWK) to offload authorization |
+| [catalog-service](./src/catalog-service)   | Java        | Manages a catalog of products and categories |
+| [cart-service](./src/cart-service)         | Go          | Manages shopping carts for **registered** customers |
+| [order-service](./src/order-service)       | Typescript  | Manages **complete** orders for **registered** customers based on shopping carts |
+| [payment-service](./src/payment-service)   | Go          | Manages payments based on orders from **registered** customers, offloading payment processing to the Stripe payment gateway |
+| [load-generator](./src/load-generator)     | Python      | Generates artificial load using Python config files |
 
 ###### Authentication
 ![design-system](./media/design-auth.svg)
@@ -28,16 +28,18 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ![design-system](./media/design-ios.svg)
 
 ###### Technologies
-* docker
-* k8s
-* helm
-* prometheus
-* skaffold
-* grafana
-* iOS
-* locust
-* concourse ci
-* stripe
+* ops
+  * k8s
+  * helm
+  * prometheus
+  * skaffold
+  * grafana
+  * docker
+  * concourse ci
+* dev
+  * iOS
+  * locust
+  * stripe
 
 ## Getting Started
 ### Kubernetes
@@ -48,7 +50,7 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 ### Docker Compose
 ###### Running
 
-### Run Contract Tests
+### Tests
 Verify build and deployment with an e2e test bash script
 > Wrote the script myself with bash (for fun) / not meant to be exhaustive
 
