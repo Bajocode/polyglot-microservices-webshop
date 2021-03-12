@@ -55,6 +55,24 @@ cd polyglot-microservices-webshop
 ```sh
 skaffold run
 ```
+wait and verify all helmcharts have been deployed
+```
+kubectl get pods
+
+NAME                                READY   STATUS    RESTARTS   AGE
+cart-service-7b9695d479-s2r4t       1/1     Running   0          8m1s
+cart-service-redis-master-0         1/1     Running   0          8m1s
+catalog-service-58dbd85c8b-pftj5    1/1     Running   0          8m12s
+catalog-service-postgresql-0        1/1     Running   0          8m12s
+gateway-87cf57767-47qnc             1/1     Running   0          7m34s
+identity-service-567685c7b6-mcx68   1/1     Running   0          7m52s
+identity-service-postgresql-0       1/1     Running   0          7m51s
+loadgenerator-58c8d474f8-zxctx      1/1     Running   0          7m32s
+order-service-5df4f68cb9-vtkvv      1/1     Running   0          7m38s
+order-service-postgresql-0          1/1     Running   0          7m38s
+payment-service-5bdf497d8b-6nxt2    1/1     Running   0          7m36s
+```
+
 4. Expose the gateway port
 ```sh
 kubectl port-forward deployment/gateway 8080
