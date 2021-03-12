@@ -70,7 +70,7 @@ function get_token() {
 
   IFS=$'\n' read -rd "" got_body got_code dur <<< "${res_curl}"
 
-  TOKEN="$(echo $got_body | jq -r .token)"
+  TOKEN=$(echo "${got_body}" | jq -r .token)
 }
 
 function clear_database() {
@@ -79,10 +79,7 @@ function clear_database() {
   kubectl exec \
     -it identity-service-postgresql-0 \
     -- sh \
-    -c 'PGPASSWORD=admin psql \
-    -U postgres \
-    -d identity-service \
-    -c "DELETE from users"'
+    -c 'PGPASSWORD=admin psql -U postgres -d identity-service -c "DELETE from users"'
 }
 
 function test_auth() {
@@ -129,6 +126,12 @@ function test_catalog() {
     "all products 200" \
     200
   test_case \
+    "/catalog/products/9aad6cf4-6efb-4ec6-a4e0-64343bfe0134" \
+    "GET" \
+    '' \
+    "one products 200" \
+    200
+  test_case \
     "/catalog/categories" \
     "GET" \
     '' \
@@ -141,7 +144,7 @@ function test_cart() {
     "/cart" \
     "GET" \
     '' \
-    "get without before any cart exists for user 204" \
+    "get without existing cart 200" \
     200
   test_case \
     "/cart" \
@@ -150,9 +153,22 @@ function test_cart() {
     "create filled cart 201" \
     201 \
     '{"items":[{"productid":"94e8d5de-2192-4419-b824-ccbe7b21fa6f","quantity":2,"price":200}]}'
+  test_case \
+    "/cart" \
+    "GET" \
+    '' \
+    "get with existing cart 200" \
+    200 \
+    '{"items":[{"productid":"94e8d5de-2192-4419-b824-ccbe7b21fa6f","quantity":2,"price":200}]}'
 }
 
 function test_orders() {
+  test_case \
+    "/orders" \
+    "POST" \
+    '{"items":[{"quantity":5,"price":50050,"productid":"dac36ad3-99dd-482c-96b4-a95390029745","productid":"81ba794d-390a-464b-b60f-68add6cd9687"}],"price":200555 }' \
+    "post one 201" \
+    201
   test_case \
     "/orders" \
     "GET" \

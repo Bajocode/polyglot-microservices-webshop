@@ -152,6 +152,26 @@
       ]
     },
     {
+      "endpoint": "/catalog/products/{productid}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/catalog/products/{productid}",
+          "encoding": "no-op",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "catalog-service.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": true
+        }
+      ]
+    },
+    {
       "endpoint": "/catalog/categories",
       "method": "GET",
       "output_encoding": "no-op",

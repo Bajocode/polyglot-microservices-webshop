@@ -40,17 +40,24 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 * stripe
 
 ## Getting Started
-###### Prerequisites
-* docker
-* xcode
-* skaffold
+### Kubernetes
+###### Local Vagrant + Ansible
+###### Local Docker for Desktop
+###### Terraform (AWS, GCP, IBM)
 
-###### Installing
-* k8s
-* compose
-
+### Docker Compose
 ###### Running
-* skaffold run
+
+### Run Contract Tests
+Verify build and deployment with an e2e test bash script
+> Wrote the script myself with bash (for fun) / not meant to be exhaustive
+
+```sh
+cd root
+./e2e_test.sh
+```
+[e2e-test](./media/e2e-test.png)
+
 
 ## Roadmap
 * async message passing
