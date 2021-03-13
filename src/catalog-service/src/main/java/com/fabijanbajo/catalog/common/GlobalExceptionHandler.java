@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 			ServerHttpResponse response,
 			ResponseStatusException exception) {
 		response.setStatusCode(exception.getStatus());
-		logger.error(stringifyTrace(exception));
+		logger.error(exception.getMessage());
 
 		return new HttpExceptionInfo(
 				exception.getStatus().value(),

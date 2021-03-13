@@ -87,12 +87,14 @@ order-service-5df4f68cb9-vtkvv      1/1     Running   0          7m38s
 order-service-postgresql-0          1/1     Running   0          7m38s
 payment-service-5bdf497d8b-6nxt2    1/1     Running   0          7m36s
 ```
-
 4. Expose the gateway port
 ```sh
 kubectl port-forward deployment/gateway 8080
 ```
-
+5. Destroy (optional)
+```sh
+skaffold delete
+```
 
 ###### Docker Compose
 > Ensure Docker and Docker Compose are installed
@@ -106,17 +108,19 @@ cd polyglot-microservices-webshop
 ```sh
 docker-compose up
 ```
+5. Destroy (optional)
+```sh
+docker-compose down --rmi all
+```
 
 ### Test
-Run basic tests to verify build and deployment with an e2e test bash script
-> [e2e_test.sh](./e2e_test.sh): (simplified contract test framework I've written in bash)
+Verify the backend and infrastructure
+> [e2e_test.sh](./e2e_test.sh): (simplified test framework I've written in bash)
 
 ```sh
-cd root
 ./e2e_test.sh
 ```
 ![e2e-test](./media/e2e-test.png)
-
 
 ## Roadmap
 * async message passing

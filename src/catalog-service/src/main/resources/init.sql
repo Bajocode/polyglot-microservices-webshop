@@ -13,6 +13,7 @@ CREATE TABLE products (
     productid uuid PRIMARY KEY DEFAULT uuid_generate_v4 (),
     name varchar(255) UNIQUE NOT NULL,
     price integer NOT NULL DEFAULT 0,
+    imagepath varchar(255) UNIQUE NOT NULL,
     created timestamptz NOT NULL DEFAULT NOW()
 );
 
@@ -38,8 +39,8 @@ GRANT ALL PRIVILEGES ON TABLE categories TO postgres;
 GRANT ALL PRIVILEGES ON TABLE product_categories TO postgres;
 
 -- SEED
-INSERT INTO products (productid, name, price)
-    VALUES ('9AAD6CF4-6EFB-4EC6-A4E0-64343BFE0134', 'Product 1', 200), ('F068D900-C905-4E63-BE77-E796FEEBD648', 'Product 2', 4000), ('81BA794D-390A-464B-B60F-68ADD6CD9687', 'Product 3', 2050), ('39E211B6-FE78-4041-8D99-EB595233B49A', 'Product 4', 100), ('6E8A34B6-C065-4187-96CA-C88D936CB01A', 'Product 5', 80000), ('0C68EFF0-70E4-4435-B79E-06DFA82F5325', 'Product 6', 2001);
+INSERT INTO products (productid, name, imagepath, price)
+    VALUES ('9AAD6CF4-6EFB-4EC6-A4E0-64343BFE0134', 'Product 1', 'product1.jpg', 200), ('F068D900-C905-4E63-BE77-E796FEEBD648', 'Product 2', 'product2', 4000), ('81BA794D-390A-464B-B60F-68ADD6CD9687', 'Product 3', 'product3.jpg', 2050), ('39E211B6-FE78-4041-8D99-EB595233B49A', 'Product 4', 'product4.jpg', 100), ('6E8A34B6-C065-4187-96CA-C88D936CB01A', 'Product 5', 'product5.jpg', 80000), ('0C68EFF0-70E4-4435-B79E-06DFA82F5325', 'Product 6', 'product6.jpg', 2001);
 
 INSERT INTO categories (categoryid, parentid, name, isfinal)
     VALUES (1, 0, 'Category 1', TRUE), (2, 0, 'Category 2', FALSE), (3, 0, 'Category 3', TRUE), (4, 2, 'Category 2 Sub 1', TRUE);

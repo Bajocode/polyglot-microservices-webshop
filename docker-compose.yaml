@@ -17,17 +17,19 @@ services:
 
   # Service
   catalog-service:
-    image: gcr.io/fabijanbajo/webshop-catalog-service
-    build:
-      context: ./src/catalog-service
+    container_name: catalog-service
+    build: .
+    mem_limit: 350m
     ports:
-    - 9001
+    - 9001:9001
     environment:
+    - SPRING_PROFILES_ACTIVE=docker
+    - LOGGER_LEVEL=INFO
     - POSTGRES_HOST=postgresql-master
-    - POSTGRES_PORT=5432
+    - POSTGRES_PORT=5432 
+    - POSTGRES_DB=catalog-service
     - POSTGRES_USER=postgres
     - POSTGRES_PW=admin
-    # - POSTGRES_DB=
     depends_on:
     - postgresql-master
   cart-service:
