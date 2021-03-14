@@ -14,3 +14,14 @@ services:
     - POSTGRESQL_PASSWORD=admin
     - POSTGRESQL_POSTGRES_PASSWORD=admin
     - POSTGRESQL_DATABASE=catalog-service
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+    - 9000:9000
+    environment:
+    - MINIO_ACCESS_KEY=minioadmin
+    - MINIO_SECRET_KEY=minioadmin
+    - MINIO_BROWSER=on
+    command: server /data
