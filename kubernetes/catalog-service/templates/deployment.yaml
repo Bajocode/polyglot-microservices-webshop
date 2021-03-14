@@ -27,6 +27,10 @@ spec:
       serviceAccountName: {{ include "catalog-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: seed-objectstore
+          image: {{ .Values.image.repository }}
+          command: ['bash', '-c', '/seed/s3_putdir.sh "{{ .Release.Name }}-objectstore.{{ .Release.Namespace }}" catalog /seed/images']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

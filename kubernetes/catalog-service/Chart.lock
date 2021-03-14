@@ -2,5 +2,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 9.8.1
-digest: sha256:ed4437f41e25a558cc883edc3f56ce100051151c967fb700f2dc6b7fae0969d7
-generated: "2020-10-20T21:53:24.736507+02:00"
+- name: objectstore
+  repository: file://objectstore
+  version: 0.1.0
+digest: sha256:4ae5f9db422cd344234b9c118d0585c51528cc51e97a15859ea682467cf6aef7
+generated: "2021-03-14T17:35:33.549947+01:00"
