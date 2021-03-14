@@ -17,6 +17,7 @@ function put() {
   _signature="PUT\n\n${content_type}\n${date}\n${resource}"
   signature=$(echo -en "${_signature}" | openssl sha1 -hmac "${S3_SECRET}" -binary | base64)
 
+  echo "http://${FQDN}${resource}"
   curl \
     -X PUT \
     -T "${filepath}" \
@@ -25,10 +26,11 @@ function put() {
     -H "Content-Type: ${content_type}" \
     -H "Authorization: AWS ${S3_KEY}:${signature}" \
     "http://${FQDN}${resource}" \
-    -v
+   -v
 }
 
 function seed() {
+  echo ${DIR}
   for file in "${DIR}"/*; do
     put "${file}"
   done

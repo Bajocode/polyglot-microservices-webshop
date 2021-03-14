@@ -24,4 +24,18 @@ services:
     - MINIO_ACCESS_KEY=minioadmin
     - MINIO_SECRET_KEY=minioadmin
     - MINIO_BROWSER=on
-    command: server /data
+    entrypoint: sh
+    command: -c 'mkdir -p /data/catalog && /usr/bin/minio server /data'
+
+  minio-seed:
+    image: alpine/openssl:latest
+    container_name: minio-seed
+    volumes:
+    - ./seed/:/seed
+    entrypoint: >
+      /bin/sh -c '
+      apk add curl;
+      sh /seed/s3_putdir.sh minio:9000 catalog /seed/images;
+      exit 0;'
+    depends_on:
+    - minio
