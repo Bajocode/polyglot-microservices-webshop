@@ -172,6 +172,26 @@
       ]
     },
     {
+      "endpoint": "/catalog/products/{productid}/images",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/catalog/{productid}.jpeg",
+          "encoding": "no-op",
+          "sd": "dns",
+          "method": "GET",
+          "extra_config": {},
+          "host": [
+            "catalog-service-objectstore.default"
+          ],
+          "disable_host_sanitize": true,
+          "is_collection": true
+        }
+      ]
+    },
+    {
       "endpoint": "/catalog/categories",
       "method": "GET",
       "output_encoding": "no-op",

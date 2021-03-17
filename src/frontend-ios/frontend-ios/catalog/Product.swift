@@ -10,12 +10,14 @@ import Foundation
 struct Product: Hashable, Decodable {
     let productid: String
     let name: String
+    let imagepath: String
     let price: Int
 
     static func empty() -> Product {
         return Product(
             productid: "",
             name: "",
+            imagepath: "",
             price: 0)
     }
 }
