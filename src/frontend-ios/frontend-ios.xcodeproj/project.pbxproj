@@ -46,6 +46,7 @@
 		C78828DE2565904400379138 /* IdentityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828DD2565904400379138 /* IdentityService.swift */; };
 		C78828EE2565AB3800379138 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828D725658F9800379138 /* AuthViewModel.swift */; };
 		C78828F22565C69C00379138 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828F12565C69C00379138 /* Constants.swift */; };
+		C791938B260770FD00B0D29A /* MediaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7919388260768A000B0D29A /* MediaRequest.swift */; };
 		C79403062564870C00D5E927 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79403052564870C00D5E927 /* AuthRequest.swift */; };
 		C794030A2564879800D5E927 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79403092564879800D5E927 /* User.swift */; };
 		C794030E2564886E00D5E927 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C794030D2564886E00D5E927 /* Token.swift */; };
@@ -118,6 +119,7 @@
 		C78828D725658F9800379138 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		C78828DD2565904400379138 /* IdentityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityService.swift; sourceTree = "<group>"; };
 		C78828F12565C69C00379138 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C7919388260768A000B0D29A /* MediaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRequest.swift; sourceTree = "<group>"; };
 		C79403052564870C00D5E927 /* AuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
 		C79403092564879800D5E927 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C794030D2564886E00D5E927 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 		C79193872607513500B0D29A /* media */ = {
 			isa = PBXGroup;
 			children = (
+				C7919388260768A000B0D29A /* MediaRequest.swift */,
 			);
 			path = media;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				C70377CF255C5A200093FDC1 /* ProductsViewController.swift in Sources */,
 				C74EEA712568CC470095D617 /* ProductViewController.swift in Sources */,
 				C711404B2548A4F1004F17F8 /* CartService.swift in Sources */,
+				C791938B260770FD00B0D29A /* MediaRequest.swift in Sources */,
 				C711401E2547A6A7004F17F8 /* MicroserviceClient.swift in Sources */,
 				C75495FA256D2608000AE761 /* OrderConfirmViewModel.swift in Sources */,
 				C74EEA80256BEAC00095D617 /* TabBarViewModel.swift in Sources */,

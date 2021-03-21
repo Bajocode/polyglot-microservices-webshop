@@ -22,7 +22,11 @@ struct MicroserviceClient {
             .rx
             .request(MultiTarget(request))
             .map {
+                guard request.servicePath != "/media" else {
+                    return $0.data as! T.ResponseType
+                }
                 guard let unwrapped = try? JSONDecoder().decode(KrakenWrapper<T.ResponseType>.self, from: $0.data) else {
+
                     return try JSONDecoder().decode(T.ResponseType.self, from: $0.data)
                 }
                 return unwrapped.collection

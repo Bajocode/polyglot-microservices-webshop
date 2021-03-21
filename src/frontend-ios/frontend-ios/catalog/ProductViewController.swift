@@ -32,9 +32,17 @@ class ProductViewController: UIViewController {
     }
 
     private func bind(to: ProductViewModel) {
+        let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
+            .map { _ in }
         let upsertCartButtonTap = upsertCartButton.rx.tap.asDriver()
-        let output = viewModel.transform(ProductViewModel.Input(upsertCartButtonTap: upsertCartButtonTap))
+        let output = viewModel.transform(ProductViewModel.Input(
+                                            viewWillAppear: vwa,
+                                            upsertCartButtonTap: upsertCartButtonTap))
 
+
+        output.image
+            .drive(imageView.rx.image)
+            .disposed(by: bag)
         output.cartUpdate
             .drive()
             .disposed(by: bag)
