@@ -189,6 +189,7 @@
 				C71C5A0625543FD7005BD5A2 /* catalog */,
 				C71C5A0825543FFF005BD5A2 /* cart */,
 				C7CCDA82256C846100BE1F0A /* tab */,
+				C79193872607513500B0D29A /* media */,
 				C7113FE125478A05004F17F8 /* Config.swift */,
 				C711401D2547A6A7004F17F8 /* MicroserviceClient.swift */,
 				C7113FD125478253004F17F8 /* MicroserviceRequesting.swift */,
@@ -243,6 +244,13 @@
 				C711403125486630004F17F8 /* Cart.swift */,
 			);
 			path = cart;
+			sourceTree = "<group>";
+		};
+		C79193872607513500B0D29A /* media */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = media;
 			sourceTree = "<group>";
 		};
 		C79402FF256328FD00D5E927 /* order */ = {

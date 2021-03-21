@@ -106,3 +106,8 @@ postgresql:
       cpu: 250m
   postgresqlPassword: admin # TODO
   postgresqlDatabase: catalog-service
+
+objectstore:
+  accessKey: minioadmin
+  secretKey: minioadmin
+  initialBucket: catalog

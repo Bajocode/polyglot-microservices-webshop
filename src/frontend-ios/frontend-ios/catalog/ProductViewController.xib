@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductViewController" customModule="frontend_ios" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="97O-Qj-w0X" id="kEl-qT-VMa"/>
                 <outlet property="productNameLabel" destination="29w-00-XbD" id="iNN-Wf-T8p"/>
                 <outlet property="productPriceLabel" destination="gs3-CH-DZN" id="VED-yU-gj8"/>
                 <outlet property="upsertCartButton" destination="BEq-Fn-WYn" id="2E1-9s-8jz"/>
@@ -23,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iPI-xd-2D1">
-                    <rect key="frame" x="184" y="404.5" width="46" height="87"/>
+                    <rect key="frame" x="184" y="362.5" width="46" height="87"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29w-00-XbD">
                             <rect key="frame" x="0.0" y="0.0" width="46" height="20.5"/>
@@ -43,14 +44,21 @@
                         </button>
                     </subviews>
                 </stackView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="97O-Qj-w0X">
+                    <rect key="frame" x="0.0" y="44" width="414" height="310.5"/>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="iPI-xd-2D1" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="2Pn-Xp-NN4"/>
+                <constraint firstItem="iPI-xd-2D1" firstAttribute="top" secondItem="97O-Qj-w0X" secondAttribute="bottom" constant="8" symbolic="YES" id="9ZW-wl-ZXw"/>
+                <constraint firstItem="97O-Qj-w0X" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="G7b-VY-K5q"/>
+                <constraint firstItem="97O-Qj-w0X" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="GLe-Qv-oPU"/>
                 <constraint firstItem="iPI-xd-2D1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="T8N-jR-FPD"/>
+                <constraint firstItem="97O-Qj-w0X" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.75" id="gKr-GO-ehI"/>
+                <constraint firstAttribute="trailing" secondItem="97O-Qj-w0X" secondAttribute="trailing" id="mEX-sz-zwu"/>
             </constraints>
-            <point key="canvasLocation" x="142" y="140"/>
+            <point key="canvasLocation" x="140.57971014492756" y="139.95535714285714"/>
         </view>
     </objects>
     <resources>

@@ -30,7 +30,10 @@ spec:
       initContainers:
         - name: seed-objectstore
           image: {{ .Values.image.repository }}
-          command: ['bash', '-c', '/seed/s3_putdir.sh "{{ .Release.Name }}-objectstore.{{ .Release.Namespace }}" catalog /seed/images']
+          command: ['bash', '-c', '/seed/s3_putdir.sh "{{ .Release.Name }}-objectstore.{{ .Release.Namespace }}" {{ .Values.objectstore.initialBucket }} /seed/images']
+        - name: set-bucketpolicy
+          image: minio/mc:RELEASE.2021-03-12T03-36-59Z
+          command: ['bash', '-c', 'mc config host rm local && mc config host add local "http://{{ .Release.Name }}-objectstore.{{ .Release.Namespace }}" {{ .Values.objectstore.accessKey }} {{ .Values.objectstore.secretKey }} && mc policy set public local/{{ .Values.objectstore.initialBucket }}']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

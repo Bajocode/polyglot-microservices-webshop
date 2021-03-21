@@ -12,6 +12,7 @@ class ProductViewController: UIViewController {
     @IBOutlet private weak var productNameLabel: UILabel!
     @IBOutlet private weak var productPriceLabel: UILabel!
     @IBOutlet private weak var upsertCartButton: UIButton!
+    @IBOutlet private weak var imageView: UIImageView!
 
     private let bag = DisposeBag()
     private let viewModel: ProductViewModel
