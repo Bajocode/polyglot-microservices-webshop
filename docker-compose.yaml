@@ -5,66 +5,70 @@ services:
   # Edge
   gateway:
     image: devopsfaith/krakend:1.2
+    container_name: gateway
     ports:
-      - 8080:8080
-  loadgenerator:
-    image: locustio/locust
-    ports:
-    - 8089:8089
+    - 8080:8080
     volumes:
-    - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://127.0.0.1:8080
+    - ./src/gateway/krakend.json:/etc/krakend/krakend.json
+  
+  # loadgenerator:
+  #   image: locustio/locust
+  #   ports:
+  #   - 8089:8089
+  #   volumes:
+  #   - ./:/mnt/locust
+  #   command: -f /mnt/locust/locustfile.py --master -H http://127.0.0.1:8080
 
   # Service
   catalog-service:
+    build:
+      context: ./src/catalog-service
     container_name: catalog-service
-    build: .
-    mem_limit: 350m
     ports:
-    - 9001:9001
+    - 9001
     environment:
     - SPRING_PROFILES_ACTIVE=docker
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9001
     - LOGGER_LEVEL=INFO
-    - POSTGRES_HOST=postgresql-master
-    - POSTGRES_PORT=5432 
-    - POSTGRES_DB=catalog-service
-    - POSTGRES_USER=postgres
-    - POSTGRES_PW=admin
-    depends_on:
-    - postgresql-master
-  cart-service:
-    image: gcr.io/fabijanbajo/webshop-cart-service
-    build:
-      context: ./src/cart-service
-    ports:
-    - 9002
-    environment:
-    - REDIS_HOST=0.0.0.0
-    - REDIS_PORT=6379
-    depends_on:
-    - redis-master
-  order-service:
-    image: gcr.io/fabijanbajo/webshop-order-service
-    build:
-      context: ./src/order-service
-    ports:
-    - 9003
-    environment:
     - POSTGRES_HOST=postgresql-master
     - POSTGRES_PORT=5432
     - POSTGRES_USER=postgres
     - POSTGRES_PW=admin
-    # - POSTGRES_DB=
-    depends_on:
-    - postgresql-master
-  payment-service:
-    image: gcr.io/fabijanbajo/webshop-payment-service
-    build:
-      context: ./src/payment-service
-    ports:
-    - 9004
+    - POSTGRES_DB=catalog-service
+
+  # cart-service:
+  #   image: gcr.io/fabijanbajo/webshop-cart-service
+  #   build:
+  #     context: ./src/cart-service
+  #   ports:
+  #   - 9002
+  #   environment:
+  #   - REDIS_HOST=0.0.0.0
+  #   - REDIS_PORT=6379
+  #   depends_on:
+  #   - redis-master
+  # order-service:
+  #   image: gcr.io/fabijanbajo/webshop-order-service
+  #   build:
+  #     context: ./src/order-service
+  #   ports:
+  #   - 9003
+  #   environment:
+  #   - POSTGRES_HOST=postgresql-master
+  #   - POSTGRES_PORT=5432
+  #   - POSTGRES_USER=postgres
+  #   - POSTGRES_PW=admin
+  #   # - POSTGRES_DB=
+  #   depends_on:
+  #   - postgresql-master
+  # payment-service:
+  #   image: gcr.io/fabijanbajo/webshop-payment-service
+  #   build:
+  #     context: ./src/payment-service
+  #   ports:
+  #   - 9004
   identity-service:
-    image: gcr.io/fabijanbajo/webshop-identity-service
     build:
       context: ./src/identity-service
     ports:
@@ -74,29 +78,31 @@ services:
     - POSTGRES_PORT=5432
     - POSTGRES_USER=postgres
     - POSTGRES_PW=admin
-    # - POSTGRES_DB=
+    - POSTGRES_DB=identity-service
     depends_on:
     - postgresql-master
 
   # Store
   postgresql-master:
-    image: bitnami/postgresql:12
+    image: postgres:12-alpine
     container_name: postgresql-master
     ports:
     - 5432:5432
     volumes:
-    - .data/postgresql_master:/bitnami/postgresql
+    - .data/postgresql_master:/var/lib/postgresql/data
+    - ./scripts:/docker-entrypoint-initdb.d
     environment:
-    - POSTGRESQL_USERNAME=postgres
-    - POSTGRESQL_PASSWORD=admin
-    - POSTGRESQL_DATABASE=store-monolith
-  redis-master:
-    image: bitnami/redis:latest
-    container_name: redis-master
-    ports:
-    - 6379:6379
-    environment:
-    - REDIS_REPLICATION_MODE=master
-    - REDIS_PASSWORD=admin
-    volumes:
-    - .data/redis:/bitnami
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=admin
+    - POSTGRES_MULTIPLE_DATABASES=catalog-service,identity-service
+
+  # redis-master:
+  #   image: bitnami/redis:latest
+  #   container_name: redis-master
+  #   ports:
+  #   - 6379:6379
+  #   environment:
+  #   - REDIS_REPLICATION_MODE=master
+  #   - REDIS_PASSWORD=admin
+  #   volumes:
+  #   - .data/redis:/bitnami

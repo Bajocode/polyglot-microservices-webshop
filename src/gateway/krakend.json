@@ -15,11 +15,11 @@
         {
           "url_pattern": "/auth/login",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "POST",
           "extra_config": {},
           "host": [
-            "identity-service.default"
+            "http://identity-service:9005"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -35,11 +35,11 @@
         {
           "url_pattern": "/auth/register",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "POST",
           "extra_config": {},
           "host": [
-            "identity-service.default"
+            "http://identity-service:9005"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -53,7 +53,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -62,11 +62,11 @@
         {
           "url_pattern": "/{JWT.userid}/cart",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "cart-service.default"
+            "http://cart-service:9002"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -80,7 +80,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -89,11 +89,11 @@
         {
           "url_pattern": "/{JWT.userid}/cart",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "PUT",
           "extra_config": {},
           "host": [
-            "cart-service.default"
+            "http://cart-service:9002"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -107,7 +107,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -116,11 +116,11 @@
         {
           "url_pattern": "/{JWT.userid}/cart",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "DELETE",
           "extra_config": {},
           "host": [
-            "cart-service.default"
+            "http://cart-service:9002"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -137,11 +137,11 @@
         {
           "url_pattern": "/catalog/products",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "catalog-service.default"
+            "http://catalog-service:9001"
           ],
           "disable_host_sanitize": true,
           "is_collection": true
@@ -157,11 +157,11 @@
         {
           "url_pattern": "/catalog/products/{productid}",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "catalog-service.default"
+            "http://catalog-service:9001"
           ],
           "disable_host_sanitize": true,
           "is_collection": true
@@ -178,11 +178,11 @@
         {
           "url_pattern": "/catalog/categories",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "catalog-service.default"
+            "http://catalog-service:9001"
           ],
           "disable_host_sanitize": true,
           "is_collection": true
@@ -198,11 +198,11 @@
         {
           "url_pattern": "/{bucket}/{file}",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "catalog-service-objectstore.default"
+            "minio"
           ],
           "disable_host_sanitize": true,
           "is_collection": true
@@ -216,7 +216,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -225,11 +225,11 @@
         {
           "url_pattern": "/{JWT.userid}/orders",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "order-service.default"
+            "http://order-service:9003"
           ],
           "disable_host_sanitize": true,
           "is_collection": true
@@ -243,7 +243,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -252,11 +252,11 @@
         {
           "url_pattern": "/{JWT.userid}/orders",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "POST",
           "extra_config": {},
           "host": [
-            "order-service.default"
+            "http://order-service:9003"
           ],
           "disable_host_sanitize": true,
           "is_collection": false
@@ -270,7 +270,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -279,11 +279,11 @@
         {
           "url_pattern": "/{JWT.userid}/orders/{orderid}",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "GET",
           "extra_config": {},
           "host": [
-            "order-service.default"
+            "http://order-service:9003"
           ],
           "disable_host_sanitize": true
         }
@@ -296,7 +296,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -305,11 +305,11 @@
         {
           "url_pattern": "/{JWT.userid}/orders/{orderid}",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "PUT",
           "extra_config": {},
           "host": [
-            "order-service.default"
+            "http://order-service:9003"
           ],
           "disable_host_sanitize": true
         }
@@ -322,7 +322,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -331,11 +331,11 @@
         {
           "url_pattern": "/{JWT.userid}/orders/{orderid}",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "DELETE",
           "extra_config": {},
           "host": [
-            "order-service.default"
+            "http://order-service:9003"
           ],
           "disable_host_sanitize": true
         }
@@ -348,7 +348,7 @@
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
             "alg": "HS256",
-            "jwk-url": "http://identity-service.default/jwks.json",
+            "jwk-url": "http://identity-service:9005/jwks.json",
             "disable_jwk_security": true,
             "kid": "userid"
         }
@@ -357,11 +357,11 @@
         {
           "url_pattern": "{JWT.userid}/charge",
           "encoding": "no-op",
-          "sd": "dns",
+          "sd": "static",
           "method": "POST",
           "extra_config": {},
           "host": [
-            "payment-service.default"
+            "http://payment-service:9003"
           ],
           "disable_host_sanitize": true,
           "is_collection": false

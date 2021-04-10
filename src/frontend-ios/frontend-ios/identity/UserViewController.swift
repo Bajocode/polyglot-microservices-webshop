@@ -13,8 +13,11 @@ final class UserViewController: UIViewController {
     private let viewModel: UserViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
     private var logoutButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-        return button
+        return UIBarButtonItem(
+            title: "Logout",
+            style: .done,
+            target: nil,
+            action: nil)
     }()
 
     override func viewDidLoad() {

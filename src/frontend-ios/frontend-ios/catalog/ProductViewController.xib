@@ -23,40 +23,44 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iPI-xd-2D1">
-                    <rect key="frame" x="184" y="362.5" width="46" height="87"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="iPI-xd-2D1">
+                    <rect key="frame" x="8" y="362.5" width="406" height="90.5"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29w-00-XbD">
-                            <rect key="frame" x="0.0" y="0.0" width="46" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gs3-CH-DZN">
-                            <rect key="frame" x="0.0" y="28.5" width="46" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="406" height="41"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BEq-Fn-WYn">
-                            <rect key="frame" x="0.0" y="57" width="46" height="30"/>
-                            <state key="normal" title="Button"/>
-                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29w-00-XbD">
+                            <rect key="frame" x="0.0" y="57" width="406" height="33.5"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                 </stackView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="97O-Qj-w0X">
                     <rect key="frame" x="0.0" y="44" width="414" height="310.5"/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BEq-Fn-WYn">
+                    <rect key="frame" x="0.0" y="832" width="414" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="iPI-xd-2D1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="3NU-D8-hzK"/>
                 <constraint firstItem="iPI-xd-2D1" firstAttribute="top" secondItem="97O-Qj-w0X" secondAttribute="bottom" constant="8" symbolic="YES" id="9ZW-wl-ZXw"/>
                 <constraint firstItem="97O-Qj-w0X" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="G7b-VY-K5q"/>
                 <constraint firstItem="97O-Qj-w0X" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="GLe-Qv-oPU"/>
-                <constraint firstItem="iPI-xd-2D1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="T8N-jR-FPD"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="BEq-Fn-WYn" secondAttribute="bottom" id="OZR-Cz-Yly"/>
                 <constraint firstItem="97O-Qj-w0X" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.75" id="gKr-GO-ehI"/>
+                <constraint firstItem="BEq-Fn-WYn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hjR-tf-0x0"/>
                 <constraint firstAttribute="trailing" secondItem="97O-Qj-w0X" secondAttribute="trailing" id="mEX-sz-zwu"/>
+                <constraint firstAttribute="trailing" secondItem="BEq-Fn-WYn" secondAttribute="trailing" id="n18-FR-bgH"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="iPI-xd-2D1" secondAttribute="trailing" id="vgG-px-r9o"/>
             </constraints>
             <point key="canvasLocation" x="140.57971014492756" y="139.95535714285714"/>
         </view>

@@ -1,6 +1,30 @@
 ---
 version: "3.8"
 services: 
+  gateway:
+    image: devopsfaith/krakend:1.2
+    container_name: gateway
+    ports:
+    - 8080:8080
+    volumes:
+    - ../gateway/krakend.json:/etc/krakend/krakend.json
+  
+  catalog-service:
+    build:
+      context: .
+    container_name: catalog-service
+    ports:
+    - 9001
+    environment:
+    - SPRING_PROFILES_ACTIVE=docker
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9001
+    - LOGGER_LEVEL=INFO
+    - POSTGRES_HOST=postgresql-master
+    - POSTGRES_PORT=5432
+    - POSTGRES_USER=postgres
+    - POSTGRES_PW=admin
+    - POSTGRES_DB=catalog-service
 
   postgresql-master:
     image: bitnami/postgresql:12
@@ -10,16 +34,14 @@ services:
     volumes:
     - .data/postgresql_master:/bitnami/postgresql
     environment:
-    - POSTGRESQL_USERNAME=admin
-    - POSTGRESQL_PASSWORD=admin
-    - POSTGRESQL_POSTGRES_PASSWORD=admin
+    - POSTGRESQL_PASSWORD=admin # username=postgres
     - POSTGRESQL_DATABASE=catalog-service
 
   minio:
     image: minio/minio
     container_name: minio
     ports:
-    - 9000:9000
+    - 9000
     environment:
     - MINIO_ACCESS_KEY=minioadmin
     - MINIO_SECRET_KEY=minioadmin
