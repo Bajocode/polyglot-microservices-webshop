@@ -10,7 +10,8 @@ DROP TABLE IF EXISTS order_items CASCADE;
 CREATE TABLE orders (
     orderid uuid PRIMARY KEY DEFAULT uuid_generate_v4 (),
     userid uuid NOT NULL,
-    price integer NOT NULL
+    price integer NOT NULL,
+    created bigint NOT NULL
 );
 
 CREATE TABLE order_items (

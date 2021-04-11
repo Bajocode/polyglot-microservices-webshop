@@ -15,13 +15,15 @@ export default class OrderRepository extends CrudRepository<Order> {
   // Skip userid (sent through JWT claims)
   public async readAllForUser(userid: string): Promise<Order[]> {
     const {rows} = await this.store.query(
-        `SELECT orderid, price from orders WHERE userid = $1`, [userid]);
+        `SELECT orderid, price, created\
+      FROM orders WHERE userid = $1`, [userid]);
     return rows;
   }
 
   public async readByIdForUser(userid: string, id: string): Promise<Order> {
     const {rows} = await this.store.query(
-        `SELECT orderid, price FROM orders WHERE userid = $1 AND orderid = $2`,
+        `SELECT orderid, price, created\
+      FROM orders WHERE userid = $1 AND orderid = $2`,
         [userid, id],
     );
 
@@ -36,6 +38,7 @@ export default class OrderRepository extends CrudRepository<Order> {
   }
 
   public async create(obj: Order): Promise<Order> {
+    obj.created = Date.now();
     const {items, ...rest} = obj;
     const {rows} = await this.store.insert(rest, this.table);
     const id = rows[0].orderid;
