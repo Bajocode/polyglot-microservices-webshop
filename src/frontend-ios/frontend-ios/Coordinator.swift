@@ -19,7 +19,7 @@ internal enum Scene {
 }
 
 internal enum TransitionStyle {
-    case entry, push, modal(UIModalPresentationStyle?=nil), dismiss
+    case entry, push, modal(UIModalPresentationStyle?=nil)
 }
 
 internal final class Coordinator {
@@ -56,8 +56,11 @@ internal final class Coordinator {
         case .entry: handleEntry(for: vc, animated)
         case .push: handlePush(for: vc, animated)
         case .modal(let modalStyle): handleModal(for: vc, modalStyle: modalStyle, animated)
-        case .dismiss: handleDismiss(animated)
         }
+    }
+
+    internal func dismiss(_ animated: Bool, completion: (() -> Void)?=nil) {
+        currentVc.dismiss(animated: animated, completion: completion)
     }
 
     internal func alert(title: String, message: String) {
@@ -96,15 +99,6 @@ internal final class Coordinator {
         if let style = modalStyle {
             vc.modalPresentationStyle = style
         }
-        // TODO: - solve dismissing, resetting vc to presenting vc
-        currentVc.present(vc, animated: animated, completion: { [weak self] in
-            self?.currentVc = vc
-        })
-    }
-
-    private func handleDismiss(_ animated: Bool) {
-        currentVc.dismiss(animated: animated) { [weak self] in
-            self?.currentVc = self?.currentVc.presentingViewController
-        }
+        currentVc.present(vc, animated: animated, completion: nil)
     }
 }

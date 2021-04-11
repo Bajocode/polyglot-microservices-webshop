@@ -13,9 +13,7 @@ final class CartViewController: UIViewController {
     private let viewModel: CartViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
     private var orderButton: UIBarButtonItem = {
-        let buttom = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-        buttom.title = "Order"
-        return buttom
+        return UIBarButtonItem(title: "Order", style: .done, target: nil, action: nil)
     }()
 
     override func viewDidLoad() {
@@ -45,21 +43,31 @@ final class CartViewController: UIViewController {
             .map { _ in }
         let quantityStep = PublishSubject<CartItem>()
         let orderButtonTap = orderButton.rx.tap.asObservable()
-        let input = CartViewModel.Input(viewWillAppear: vwa, quantityStep: quantityStep, orderButtonTap: orderButtonTap)
+        let selection = tableView.rx.itemSelected.asObservable()
+        let input = CartViewModel.Input(viewWillAppear: vwa,
+                                        quantityStep: quantityStep,
+                                        orderButtonTap: orderButtonTap,
+                                        cellSelection: selection)
         let output = viewModel.transform(input)
 
+        output.cart
+            .map { !$0.items.isEmpty }
+            .drive(orderButton.rx.isEnabled)
+            .disposed(by: bag)
         output.cart
             .map { $0.items }
             .drive(tableView.rx.items(
                         cellIdentifier: String(describing: TableViewCell.self),
                         cellType: TableViewCell.self)) { (_, item, cell) in
-                cell.bind(item: item, quantityStepped: quantityStep.asObserver())
-        }
-        .disposed(by: bag)
+                cell.bind(item: item, quantityStepped: quantityStep.asObserver())}
+            .disposed(by: bag)
         output.cartUpdate
             .drive()
             .disposed(by: bag)
         output.orderTransition
+            .drive()
+            .disposed(by: bag)
+        output.productTransition
             .drive()
             .disposed(by: bag)
     }

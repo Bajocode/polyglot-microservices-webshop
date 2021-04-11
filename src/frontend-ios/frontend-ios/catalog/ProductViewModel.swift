@@ -41,14 +41,13 @@ extension ProductViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let image = Observable.combineLatest(
-            input.viewWillAppear,
-            dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                MicroserviceClient.execute(MediaRequest.GetImageData(token, imagePath: self.product.imagepath))
-                    .debug()
-                    .map { UIImage(data: $0) ?? UIImage() }
-                    .asDriver(onErrorJustReturn: UIImage())
+        let image = input.viewWillAppear.flatMapLatest {
+            MicroserviceClient
+                .execute(MediaRequest.GetImageData(
+                            dependencies.identityService.sharedToken,
+                            imagePath: self.product.imagepath))
+                .map { UIImage(data: $0) ?? UIImage() }
+                .asDriver(onErrorJustReturn: UIImage())
             }
             .asDriver(onErrorJustReturn: UIImage())
         let cartUpdate = input.upsertCartButtonTap

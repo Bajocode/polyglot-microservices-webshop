@@ -12,15 +12,17 @@ protocol CartViewModelInput {
     var viewWillAppear: Observable<Void> { get }
     var quantityStep: Observable<CartItem> { get }
     var orderButtonTap: Observable<Void> { get }
+    var cellSelection: Observable<IndexPath> { get }
 }
 
 protocol CartViewModelOutput {
     var cart: Driver<Cart> { get }
     var cartUpdate: Driver<Void> { get }
     var orderTransition: Driver<Void> { get }
+    var productTransition: Driver<Void> { get }
 }
 
-struct CartViewModel {
+internal struct CartViewModel {
     typealias Dependencies = CartServiceDependency & CatalogServiceDependency & IdentityServiceDependency
 
     private let dependencies: Dependencies
@@ -31,22 +33,22 @@ struct CartViewModel {
 }
 
 extension CartViewModel: ReactiveTransforming {
-    struct Input: CartViewModelInput {
+    internal struct Input: CartViewModelInput {
         let viewWillAppear: Observable<Void>
         let quantityStep: Observable<CartItem>
         let orderButtonTap: Observable<Void>
+        var cellSelection: Observable<IndexPath>
     }
-    struct Output: CartViewModelOutput {
+    internal struct Output: CartViewModelOutput {
         let cart: Driver<Cart>
         let cartUpdate: Driver<Void>
         let orderTransition: Driver<Void>
+        var productTransition: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let cartVwa = Observable
-            .combineLatest(input.viewWillAppear, dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                return dependencies.cartService.get(token)
+        let cartVwa = input.viewWillAppear.flatMapLatest {
+                return dependencies.cartService.get(dependencies.identityService.sharedToken)
                 .catchErrorJustReturn(Cart.empty())
             }
             .share(replay: 1)
@@ -68,9 +70,17 @@ extension CartViewModel: ReactiveTransforming {
             .do { order in Coordinator.shared.transition(to: .orderConfirm(order), style: .modal()) }
             .map { _ in }
             .asDriver(onErrorJustReturn: ())
+        let productTransition = input.cellSelection
+            .withLatestFrom(cart) { (indexPath, cart) -> CartItem in
+                return cart.items[indexPath.row]
+            }
+            .do { Coordinator.shared.transition(to: .product($0.product), style: .push) }
+            .map { _ in }
+            .asDriver(onErrorJustReturn: ())
 
         return Output(cart: cart.asDriver(onErrorJustReturn: Cart.empty()),
                       cartUpdate: cartUpdate,
-                      orderTransition: orderTransition)
+                      orderTransition: orderTransition,
+                      productTransition: productTransition)
     }
 }

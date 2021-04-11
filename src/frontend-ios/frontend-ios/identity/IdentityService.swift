@@ -10,7 +10,7 @@ import RxCocoa
 import JWTDecode
 
 internal class IdentityService {
-    internal var sharedToken: Observable<Token> { return token.asObservable() }
+    internal var sharedToken: Token { return token.value }
     private var token = BehaviorRelay<Token>(value: Token.empty())
     internal var sharedUser: Observable<User> { return user.asObservable() }
     private var user = BehaviorRelay<User>(value: User.empty())

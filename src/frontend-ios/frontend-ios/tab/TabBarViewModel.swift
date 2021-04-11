@@ -42,13 +42,11 @@ extension TabBarViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let cartSync = Observable
-            .combineLatest(input.viewWillAppear, dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                return dependencies.cartService
-                    .get(token)
-                    .map { _ in }
-                    .asDriver(onErrorJustReturn: ())
+        let cartSync = input.viewWillAppear.flatMapLatest {
+            return dependencies.cartService
+                .get(dependencies.identityService.sharedToken)
+                .map { _ in }
+                .asDriver(onErrorJustReturn: ())
             }
             .asDriver(onErrorJustReturn: ())
         let sharedCart = dependencies.cartService

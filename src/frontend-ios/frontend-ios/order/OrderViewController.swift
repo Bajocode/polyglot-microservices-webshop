@@ -30,7 +30,9 @@ class OrderViewController: UIViewController {
     private func bind(to: OrderViewModel) {
         let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
             .map { _ in }
-        let input = OrderViewModel.Input(viewWillAppear: vwa)
+        let selection = tableView.rx.itemSelected.asObservable()
+        let input = OrderViewModel.Input(viewWillAppear: vwa,
+                                         cellSelection: selection)
         let output = viewModel.transform(input)
 
         output.order
@@ -40,6 +42,9 @@ class OrderViewController: UIViewController {
                     cellType: UITableViewCell.self)) { (_, item, cell) in
                 cell.textLabel?.text = item.product.name + "  -  " + item.price.description
             }
+            .disposed(by: bag)
+        output.productTransition
+            .drive()
             .disposed(by: bag)
     }
 

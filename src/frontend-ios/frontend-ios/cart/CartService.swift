@@ -46,6 +46,14 @@ class CartService {
         }
     }
 
+    internal func empty(_ token: Token) {
+        setToken(token: token)
+        _ = MicroserviceClient.execute(CartRequest.Put(token, cart: Cart.empty()))
+            .asObservable()
+            .bind(to: cart)
+            .disposed(by: bag)
+    }
+
     @discardableResult internal func populateItems(with products: [Product]) -> Cart {
         var cart = self.cart.value
 

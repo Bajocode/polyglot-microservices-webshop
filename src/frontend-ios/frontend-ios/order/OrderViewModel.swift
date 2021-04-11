@@ -10,10 +10,12 @@ import RxCocoa
 
 protocol OrderViewModelInput {
     var viewWillAppear: Observable<Void> { get }
+    var cellSelection: Observable<IndexPath> { get }
 }
 
 protocol OrderViewModelOutput {
     var order: Driver<Order> { get }
+    var productTransition: Driver<Void> { get }
 }
 
 internal struct OrderViewModel {
@@ -31,18 +33,18 @@ internal struct OrderViewModel {
 extension OrderViewModel: ReactiveTransforming {
     struct Input: OrderViewModelInput {
         var viewWillAppear: Observable<Void>
+        var cellSelection: Observable<IndexPath>
     }
     struct Output: OrderViewModelOutput {
         var order: Driver<Order>
+        var productTransition: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let order = Observable.combineLatest(
-            input.viewWillAppear,
-            dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                MicroserviceClient.execute(OrderRequest.GetOne(token, order: self.order))
-                    .asDriver(onErrorJustReturn: Order.empty())
+        let order = input.viewWillAppear.flatMapLatest {
+            MicroserviceClient
+                .execute(OrderRequest.GetOne(dependencies.identityService.sharedToken, order: self.order))
+                .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())
             .flatMapLatest { order -> Driver<Order> in
@@ -51,9 +53,17 @@ extension OrderViewModel: ReactiveTransforming {
                     .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())
+        let productTransition = input.cellSelection
+            .withLatestFrom(order) { (indexPath, order) -> OrderItem in
+                return order.items[indexPath.row]
+            }
+            .do { Coordinator.shared.transition(to: .product($0.product), style: .push) }
+            .map { _ in }
+            .asDriver(onErrorJustReturn: ())
 
         return Output(
-            order: order
+            order: order,
+            productTransition: productTransition
         )
     }
 

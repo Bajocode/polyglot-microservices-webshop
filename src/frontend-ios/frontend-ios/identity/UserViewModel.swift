@@ -23,7 +23,7 @@ protocol UserViewModelOutput {
 internal struct UserViewModel {
     typealias Dependencies = IdentityServiceDependency
 
-    let dependencies: Dependencies
+    private let dependencies: Dependencies
 
     init(_ dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -43,13 +43,10 @@ extension UserViewModel: ReactiveTransforming {
     }
 
     func transform(_ input: Input) -> Output {
-        let orders = Observable.combineLatest(
-            input.viewWillAppear,
-            dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                MicroserviceClient.execute(OrderRequest.Get(token))
-                    .debug()
-                    .asDriver(onErrorJustReturn: [])
+        let orders = input.viewWillAppear.flatMapLatest {
+            MicroserviceClient
+                .execute(OrderRequest.Get(dependencies.identityService.sharedToken))
+                .asDriver(onErrorJustReturn: [])
             }
             .asDriver(onErrorJustReturn: [])
         let orderTransition = input.cellSelection

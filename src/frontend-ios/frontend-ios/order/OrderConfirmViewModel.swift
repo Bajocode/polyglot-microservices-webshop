@@ -11,11 +11,13 @@ import RxCocoa
 protocol OrderConfirmViewModelInput {
     var viewWillAppear: Observable<Void> { get }
     var confirmButtonTap: Observable<Void> { get }
+    var cancelButtonTap: Observable<Void> { get }
 }
 
 protocol OrderConfirmViewModelOutput {
     var order: Driver<Order> { get }
     var orderPost: Driver<Void> { get }
+    var orderCancel: Driver<Void> { get }
 }
 
 internal struct OrderConfirmViewModel {
@@ -34,28 +36,39 @@ extension OrderConfirmViewModel: ReactiveTransforming {
     struct Input: OrderConfirmViewModelInput {
         var viewWillAppear: Observable<Void>
         var confirmButtonTap: Observable<Void>
+        var cancelButtonTap: Observable<Void>
     }
 
     struct Output: OrderConfirmViewModelOutput {
         var order: Driver<Order>
         var orderPost: Driver<Void>
+        var orderCancel: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let orderPost = Observable.combineLatest(input.confirmButtonTap, dependencies.identityService.sharedToken)
-            .flatMapLatest { _, token in
-                MicroserviceClient.execute(OrderRequest.Post(token, order: order))
-                    .do(onSuccess: { (order) in
-                        Coordinator.shared.alert(title: "Success", message: "sfs")
-                    })
-                    .asDriver(onErrorJustReturn: Order.empty())
+        let successCompletion: (Order) -> Void = {
+            order in Coordinator.shared.dismiss(true) {
+                Coordinator.shared.alert(title: "Success",
+                                         message: "Order: \(order.orderid)")}}
+        let orderPost = input.confirmButtonTap.flatMapLatest {
+            MicroserviceClient
+                .execute(OrderRequest.Post(dependencies.identityService.sharedToken, order: order))
+                .do(onSuccess: { _ in dependencies.cartService.empty(dependencies.identityService.sharedToken) },
+                    afterSuccess: { order in successCompletion(order)
+                })
+                .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())
             .map { _ in }
+        let orderCancel = input.cancelButtonTap
+            .debug()
+            .do (onNext: { Coordinator.shared.dismiss(true) })
+            .asDriver(onErrorJustReturn: ())
 
         return Output(
             order: Driver.of(order),
-            orderPost: orderPost
+            orderPost: orderPost,
+            orderCancel: orderCancel
         )
     }
 }

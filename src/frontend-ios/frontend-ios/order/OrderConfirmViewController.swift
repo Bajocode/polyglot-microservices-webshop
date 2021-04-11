@@ -13,9 +13,10 @@ class OrderConfirmViewController: UIViewController {
     private let viewModel: OrderConfirmViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
     private var confirmButton: UIBarButtonItem = {
-        let buttom = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-        buttom.title = "Order"
-        return buttom
+        return UIBarButtonItem(title: "Buy", style: .done, target: nil, action: nil)
+    }()
+    private var cancelButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
     }()
 
     internal override func viewDidLoad() {
@@ -37,14 +38,18 @@ class OrderConfirmViewController: UIViewController {
         view.addSubview(tableView)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: String.init(describing: UITableViewCell.self))
         tableView.constrainEdgesToSuper()
-        navigationItem.setRightBarButton(confirmButton, animated: true)
+        navigationItem.setRightBarButton(confirmButton, animated: false)
+        navigationItem.setLeftBarButton(cancelButton, animated: false)
     }
 
     private func bind(to: OrderConfirmViewModel) {
         let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
             .map { _ in }
         let confirmButtonTap = confirmButton.rx.tap.asObservable()
-        let input = OrderConfirmViewModel.Input(viewWillAppear: vwa, confirmButtonTap: confirmButtonTap)
+        let cancelButtonTap = cancelButton.rx.tap.asObservable()
+        let input = OrderConfirmViewModel.Input(viewWillAppear: vwa,
+                                                confirmButtonTap: confirmButtonTap,
+                                                cancelButtonTap: cancelButtonTap)
         let output = viewModel.transform(input)
 
         output.order
@@ -56,6 +61,9 @@ class OrderConfirmViewController: UIViewController {
         }
         .disposed(by: bag)
         output.orderPost
+            .drive()
+            .disposed(by: bag)
+        output.orderCancel
             .drive()
             .disposed(by: bag)
     }
