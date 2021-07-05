@@ -10,7 +10,6 @@ brew install go
 docker and docker-compose
 ```sh
 brew install docker
-brew install docker-compose
 ```
 
 ###### Kubernetes
@@ -36,7 +35,7 @@ go install
 LOCAL_STORE_ENABLED=true cart-service
 
 # run with external cache
-docker-compose up -d && cart-service
+docker compose up --detach && cart-service
 ```
 
 ###### Kubernetes

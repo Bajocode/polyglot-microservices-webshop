@@ -30,15 +30,20 @@ final class ProductsViewController: UIViewController {
     private func bind(to: ProductsViewModel) {
         let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
             .map { _ in }
+        let addButtonTap = PublishSubject<Void>()
         let selection = tableView.rx.itemSelected.asObservable()
         let output = viewModel.transform(ProductsViewModel.Input(
                                             viewWillAppear: vwa,
+                                            addButtonTap: addButtonTap,
                                             cellSelection: selection))
 
         output.products
-            .drive(tableView.rx.items(cellIdentifier: String(describing: UITableViewCell.self),
-                                         cellType: UITableViewCell.self)) { (_, item, cell) in
-                cell.textLabel?.text = item.name
+            .drive(tableView.rx.items(cellIdentifier: String(describing: ProductTableViewCell.self),
+                                         cellType: ProductTableViewCell.self)) { (_, product, cell) in
+                var cartItem = CartItem.empty()
+                cartItem.product = product
+
+                cell.bind(item: cartItem, buttonTapped: quantityStep.asObserver())
             }
             .disposed(by: bag)
         output.productTransition
@@ -49,7 +54,10 @@ final class ProductsViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
+        tableView.register(UINib(
+                            nibName: String(describing: ProductTableViewCell.self),
+                            bundle: Bundle.main),
+                           forCellReuseIdentifier: String(describing: ProductTableViewCell.self))
         tableView.constrainEdgesToSuper()
         tableView.reloadData()
     }

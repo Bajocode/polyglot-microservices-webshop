@@ -38,7 +38,7 @@ export default class OrderRepository extends CrudRepository<Order> {
   }
 
   public async create(obj: Order): Promise<Order> {
-    obj.created = Date.now();
+    obj.created = Math.floor(Date.now() / 1000);
     const {items, ...rest} = obj;
     const {rows} = await this.store.insert(rest, this.table);
     const id = rows[0].orderid;

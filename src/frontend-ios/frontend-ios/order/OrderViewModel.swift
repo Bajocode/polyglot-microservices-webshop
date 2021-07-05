@@ -28,6 +28,13 @@ internal struct OrderViewModel {
         self.dependencies = dependencies
         self.order = order
     }
+
+    func dateString(for order: Order) -> String {
+        let date = Date(timeIntervalSince1970: order.created)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
+    }
 }
 
 extension OrderViewModel: ReactiveTransforming {

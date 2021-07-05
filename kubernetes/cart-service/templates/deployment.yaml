@@ -38,24 +38,16 @@ spec:
             - name: http
               containerPort: {{ .Values.server.port }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     scheme: HTTP
-          #     path: {{ .Values.server.livenessPath }}
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     scheme: HTTP
-          #     path: {{ .Values.server.readinessPath }}
-          #     port: http
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: {{ .Values.server.livenessPath }}
+              port: http
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: {{ .Values.server.readinessPath }}
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -65,6 +57,14 @@ spec:
             value: "{{ .Values.server.port }}"
           - name: LOGGER_LEVEL
             value: {{ .Values.server.loggerLevel }}
+          - name: LOCAL_STORE_ENABLED
+            value: "{{ .Values.server.localStoreEnabled }}"
+          - name: SERVER_READ_TIMEOUT
+            value: {{ .Values.server.readTimeout }}
+          - name: SERVER_WRITE_TIMEOUT
+            value: {{ .Values.server.writeTimeout }}
+          - name: SERVER_IDLE_TIMEOUT
+            value: {{ .Values.server.idleTimeout }}
           - name: REDIS_HOST
             value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}"
           - name: REDIS_PORT

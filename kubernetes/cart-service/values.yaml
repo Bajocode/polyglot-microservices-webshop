@@ -1,11 +1,7 @@
-# Default values for cart-service.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
-  repository: gcr.io/fabijanbajo/webshop-cart-service
+  repository: ""
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -16,11 +12,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
@@ -79,14 +72,19 @@ server:
   host: "0.0.0.0"
   port: 9002
   loggerLevel: debug
+  readTimeout: 5s
+  writeTimeout: 10s
+  idleTimeout: 15s
   redis:
     port: 6379
     pw: admin
     cartTtl: "24h"
-  livenessPath: /
-  readinessPath: /
+  localStoreEnabled: true
+  livenessPath: /healthz
+  readinessPath: /healthz
 
 redis:
+  enabled: true
   image:
     tag: 6.0.8-debian-10-r35
     debug: true
@@ -101,4 +99,4 @@ redis:
     requests:
       memory: 256Mi
       cpu: 250m
-  password: admin # TODO
+  password: admin # TODO: use secrets

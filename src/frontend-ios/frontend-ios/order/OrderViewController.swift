@@ -36,6 +36,10 @@ class OrderViewController: UIViewController {
         let output = viewModel.transform(input)
 
         output.order
+            .map { [weak self] in self?.viewModel.dateString(for: $0) }
+            .drive(navigationItem.rx.title)
+            .disposed(by: bag)
+        output.order
             .map { $0.items }
             .drive(tableView.rx.items(
                     cellIdentifier: String(describing: UITableViewCell.self),

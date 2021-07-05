@@ -19,7 +19,7 @@ internal class IdentityService {
         let token = self.token.value.token.isEmpty ? tokenFromStore() : self.token.value
         guard
             !token.token.isEmpty,
-            token.expiry > Int(Date().timeIntervalSince1970) else {
+            token.expiry > Double(Date().timeIntervalSince1970) else {
                 return false
         }
 
@@ -39,7 +39,7 @@ internal class IdentityService {
     }
 
     private func tokenFromStore() -> Token {
-        let expiry = UserDefaults.standard.integer(forKey: Constants.UserDefaults.tokenExpiryKey)
+        let expiry = UserDefaults.standard.double(forKey: Constants.UserDefaults.tokenExpiryKey)
         guard let tokenString = UserDefaults.standard.string(forKey: Constants.UserDefaults.tokenKey) else {
             return Token.empty()
         }

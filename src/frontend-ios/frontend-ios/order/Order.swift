@@ -11,9 +11,10 @@ internal struct Order {
     var orderid: String = ""
     var items: [OrderItem]
     let price: Int
+    let created: Double
 
     internal static func empty() -> Order {
-        return Order(orderid: "", items: [], price: 0)
+        return Order(orderid: "", items: [], price: 0, created: 0)
     }
 
     internal static func from(_ cart: Cart) -> Order {
@@ -22,7 +23,8 @@ internal struct Order {
             items: cart.items.map { OrderItem.from($0) },
             price: cart.items
                 .map { $0.price }
-                .reduce(0, +)
+                .reduce(0, +),
+            created: 0
         )
     }
 }
@@ -41,13 +43,14 @@ extension Order: Encodable {
 
 extension Order: Decodable {
     private enum DecodingKeys: String, CodingKey {
-        case orderid, items, price
+        case orderid, items, price, created
     }
 
     init(from decoder: Decoder) throws {
         let dto = try decoder.container(keyedBy: DecodingKeys.self)
         orderid = try dto.decode(String.self, forKey: .orderid)
         price = try dto.decode(Int.self, forKey: .price)
+        created = try dto.decode(Double.self, forKey: .created)
 
         if let items = try dto.decodeIfPresent([OrderItem].self, forKey: .items) {
             self.items = items

@@ -56,6 +56,8 @@
 		C79E8D8325855A9B0035B91C /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E8D8025855A9A0035B91C /* OrderViewModel.swift */; };
 		C7CCDA87256C850B00BE1F0A /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CCDA86256C850B00BE1F0A /* Builder.swift */; };
 		C7CCDA8B256C857600BE1F0A /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CCDA8A256C857600BE1F0A /* DependencyContainer.swift */; };
+		C7D399FE262376AF0044CF8D /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D399FC262376AF0044CF8D /* ProductTableViewCell.swift */; };
+		C7D399FF262376AF0044CF8D /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7D399FD262376AF0044CF8D /* ProductTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +131,8 @@
 		C79E8D8125855A9B0035B91C /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		C7CCDA86256C850B00BE1F0A /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		C7CCDA8A256C857600BE1F0A /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
+		C7D399FC262376AF0044CF8D /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
+		C7D399FD262376AF0044CF8D /* ProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTableViewCell.xib; sourceTree = "<group>"; };
 		DA82EECAFE162341B37EFCB7 /* Pods-frontend-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.release.xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6C3D0DFBCEEC258945BF18A /* Pods-frontend-iosTests.debug (acc).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-iosTests.debug (acc).xcconfig"; path = "Target Support Files/Pods-frontend-iosTests/Pods-frontend-iosTests.debug (acc).xcconfig"; sourceTree = "<group>"; };
 		F6EB329C490B8742231C166E /* Pods-frontend-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-ios.debug.xcconfig"; path = "Target Support Files/Pods-frontend-ios/Pods-frontend-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -230,6 +234,8 @@
 				C70377B7255C57C50093FDC1 /* ProductsViewModel.swift */,
 				C71140212547BA38004F17F8 /* ProductsViewController.swift */,
 				C74EEA752568D1BC0095D617 /* ProductViewModel.swift */,
+				C7D399FC262376AF0044CF8D /* ProductTableViewCell.swift */,
+				C7D399FD262376AF0044CF8D /* ProductTableViewCell.xib */,
 				C74EEA6F2568CC470095D617 /* ProductViewController.swift */,
 				C74EEA702568CC470095D617 /* ProductViewController.xib */,
 			);
@@ -398,6 +404,7 @@
 			files = (
 				C7113F9225477C48004F17F8 /* LaunchScreen.storyboard in Resources */,
 				C78828D225658D5600379138 /* AuthViewController.xib in Resources */,
+				C7D399FF262376AF0044CF8D /* ProductTableViewCell.xib in Resources */,
 				C74EEA722568CC470095D617 /* ProductViewController.xib in Resources */,
 				C7113F8F25477C48004F17F8 /* Assets.xcassets in Resources */,
 			);
@@ -527,6 +534,7 @@
 				C78828DE2565904400379138 /* IdentityService.swift in Sources */,
 				C78828EE2565AB3800379138 /* AuthViewModel.swift in Sources */,
 				C712BE23255B25180043BF3D /* Category.swift in Sources */,
+				C7D399FE262376AF0044CF8D /* ProductTableViewCell.swift in Sources */,
 				C79E8D8225855A9B0035B91C /* OrderViewController.swift in Sources */,
 				C78828D125658D5600379138 /* AuthViewController.swift in Sources */,
 				C79E8D79258525590035B91C /* UserViewController.swift in Sources */,

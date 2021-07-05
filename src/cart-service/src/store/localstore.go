@@ -1,4 +1,4 @@
-package main
+package store
 
 import (
 	"context"
@@ -11,6 +11,7 @@ type localStore struct {
 	mx sync.RWMutex
 }
 
+// NewLocalStore constructs a local store
 func NewLocalStore() Store {
 	return &localStore{m: make(map[string][]byte)}
 }

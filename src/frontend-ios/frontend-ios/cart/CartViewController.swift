@@ -76,7 +76,7 @@ final class CartViewController: UIViewController {
 class TableViewCell: UITableViewCell {
     private let stepper: UIStepper = {
         let stepper = UIStepper()
-        stepper.backgroundColor = .red
+//        stepper.backgroundColor = .red
         return stepper
     }()
     private var disposeBag = DisposeBag()

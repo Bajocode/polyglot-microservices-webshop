@@ -9,9 +9,9 @@ import Foundation
 
 internal struct Token: Decodable {
     let token: String
-    let expiry: Int
+    let expiry: Double
 
-    init(token: String, expiry: Int) {
+    init(token: String, expiry: Double) {
         self.token = token
         self.expiry = expiry
     }

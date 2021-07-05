@@ -56,8 +56,10 @@ extension OrderConfirmViewModel: ReactiveTransforming {
                 .do(onSuccess: { _ in dependencies.cartService.empty(dependencies.identityService.sharedToken) },
                     afterSuccess: { order in successCompletion(order)
                 })
+                .debug()
                 .asDriver(onErrorJustReturn: Order.empty())
             }
+            .debug()
             .asDriver(onErrorJustReturn: Order.empty())
             .map { _ in }
         let orderCancel = input.cancelButtonTap

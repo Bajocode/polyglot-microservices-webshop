@@ -1,4 +1,4 @@
-import {Pool, QueryConfig, QueryResult} from 'pg';
+import {Pool, QueryConfig, QueryResult, types} from 'pg';
 import {Logger} from 'winston';
 import Config from './Config';
 import LogFactory from './LogFactory';
@@ -16,6 +16,9 @@ export default class Postgres {
       password: cfg.postgresPw,
       database: cfg.postgresDb,
     });
+
+    // Convert bigserial + bigint (both with typeId = 20) to number
+    types.setTypeParser(20, parseInt);
   }
 
   public async query(text, values=[]) {

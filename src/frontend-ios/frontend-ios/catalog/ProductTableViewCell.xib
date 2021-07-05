@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProductTableViewCell" rowHeight="250" id="KGk-i7-Jjw" customClass="ProductTableViewCell" customModule="frontend_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nQ0-Oy-zPP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applewatch" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="00S-Na-SD8">
+                                <rect key="frame" x="8" y="8.5" width="304" height="161.5"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="50"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bTp-9E-Kl4">
+                                <rect key="frame" x="122.5" y="186.5" width="75.5" height="47.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Product 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83t-09-KP8">
+                                        <rect key="frame" x="0.0" y="0.0" width="75.5" height="25"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="279,00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-TB-LLS">
+                                        <rect key="frame" x="18" y="33" width="39.5" height="14.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wX-3G-Nit">
+                                <rect key="frame" x="287" y="218" width="25" height="24"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="00S-Na-SD8" firstAttribute="top" secondItem="nQ0-Oy-zPP" secondAttribute="top" constant="8" id="KMr-Ct-tjd"/>
+                            <constraint firstItem="bTp-9E-Kl4" firstAttribute="centerX" secondItem="nQ0-Oy-zPP" secondAttribute="centerX" id="RCA-i2-HXo"/>
+                            <constraint firstAttribute="bottom" secondItem="bTp-9E-Kl4" secondAttribute="bottom" constant="16" id="UPu-yy-WNM"/>
+                            <constraint firstItem="bTp-9E-Kl4" firstAttribute="top" secondItem="00S-Na-SD8" secondAttribute="bottom" constant="16" id="aBg-OT-RV4"/>
+                            <constraint firstAttribute="trailing" secondItem="6wX-3G-Nit" secondAttribute="trailing" constant="8" id="ao7-Xy-LQ1"/>
+                            <constraint firstAttribute="bottom" secondItem="6wX-3G-Nit" secondAttribute="bottom" constant="8" id="gUF-v1-3Ri"/>
+                            <constraint firstAttribute="trailing" secondItem="00S-Na-SD8" secondAttribute="trailing" constant="8" id="gfF-fm-HmH"/>
+                            <constraint firstItem="00S-Na-SD8" firstAttribute="height" secondItem="nQ0-Oy-zPP" secondAttribute="height" multiplier="0.65" id="ljx-SA-c6o"/>
+                            <constraint firstItem="00S-Na-SD8" firstAttribute="leading" secondItem="nQ0-Oy-zPP" secondAttribute="leading" constant="8" id="zKO-JH-JD7"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="nQ0-Oy-zPP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Lre-Rp-3vq"/>
+                    <constraint firstAttribute="bottom" secondItem="nQ0-Oy-zPP" secondAttribute="bottom" id="PeP-S3-JLQ"/>
+                    <constraint firstItem="nQ0-Oy-zPP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dT8-Jo-Go6"/>
+                    <constraint firstAttribute="trailing" secondItem="nQ0-Oy-zPP" secondAttribute="trailing" id="hiM-kj-eLl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addButton" destination="6wX-3G-Nit" id="QRH-Tl-WGn"/>
+                <outlet property="priceLabel" destination="7tO-TB-LLS" id="DlK-dd-vbk"/>
+                <outlet property="thumbnailImageView" destination="00S-Na-SD8" id="HBy-nO-rn3"/>
+                <outlet property="titleLabel" destination="83t-09-KP8" id="dWx-MQ-J3z"/>
+            </connections>
+            <point key="canvasLocation" x="140.57971014492756" y="127.23214285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="applewatch" catalog="system" width="114" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
