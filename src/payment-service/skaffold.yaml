@@ -3,7 +3,7 @@ apiVersion: skaffold/v2beta7
 kind: Config
 build:
   artifacts:
-  - image: gcr.io/fabijanbajo/webshop-payment-service
+  - image: payment-service
     context: .
 
 deploy:
@@ -14,6 +14,6 @@ deploy:
       valuesFiles:
       - ../../kubernetes/payment-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-payment-service
+        image.repository: payment-service
       version: 0.1.0
       # namespace: default

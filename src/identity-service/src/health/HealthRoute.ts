@@ -10,6 +10,7 @@ export default class HealthRoute implements Routing {
     this.router.get(`${this.path}/healthz`, (req, res) => {
       res.status(200).send();
     });
+    // Signal readyness after valid db connection
     this.router.get(`${this.path}/readyz`, (req, res) => {
       return store.ready()
           .then(() => res.status(200).send())

@@ -18,12 +18,12 @@ export default function logMiddleware(logger: Logger) {
 }
 
 function toLog(req: Request, res: Response, start: [number, number]): string {
+  const requestId = req['requestId'] || 'unknown';
   const method = req.method;
   const url = req.url;
   const status = res.statusCode;
   const dur = LogFactory.toMilliString(start);
-  const msg = `${method} ${url} ${status} - ${dur}`;
+  const msg = `${method} ${url} ${status} - ${dur} (id: ${requestId})`;
 
   return msg;
 }
-

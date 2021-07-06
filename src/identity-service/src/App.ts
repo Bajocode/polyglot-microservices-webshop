@@ -8,6 +8,7 @@ import Config from './Config';
 import authMiddleware from './middleware/authMiddleware';
 import errorMiddleware from './middleware/errorMiddleware';
 import logMiddleware from './middleware/logMiddleware';
+import traceMiddleware from './middleware/traceMiddleware';
 import Routing from './Routing';
 
 export default class App {
@@ -33,6 +34,15 @@ export default class App {
               `node pid${process.pid} @ ${addr.address}:${addr.port}`,
           );
         });
+    server.keepAliveTimeout = this.config.serverReadTimeout;
+    server.requestTimeout = this.config.serverIdleTimeout;
+
+    process.on('SIGTERM', () => {
+      this.logger.debug('Graceful shutdown...');
+      server.close(() => {
+        this.logger.debug('Server stopped');
+      });
+    });
   }
 
   public get getServer(): express.Application {
@@ -46,8 +56,9 @@ export default class App {
     }
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}));
-    this.app.use(authMiddleware(this.config));
+    this.app.use(traceMiddleware());
     this.app.use(logMiddleware(this.logger));
+    this.app.use(authMiddleware(this.config));
     this.app.use(express.static(path.join(__dirname, 'static')));
   }
 

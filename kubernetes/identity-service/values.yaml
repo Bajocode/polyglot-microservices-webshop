@@ -1,11 +1,8 @@
-# Default values for identity-service.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
-  repository: gcr.io/fabijanbajo/webshop-identity-service
+  # Overridden by Skaffold
+  repository: ""
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -16,11 +13,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
@@ -54,24 +48,20 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 5
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -83,18 +73,23 @@ server:
   nodeEnv: production
   host: "0.0.0.0"
   port: 9005
+  readTimeout: 10000 # milliseconds
+  idleTimeout: 15000 # milliseconds
   loggerLevel: info
+  livenessPath: /status/healthz
+  readinessPath: /status/readyz
+  jwt:
+    expirySecs: 3600
+    validationEnabled: true
+    pathsWhitelist: /auth/register,/auth/login,/status/healthz,/status/readyz,/jwks.json
   postgresql:
     port: 5432
     user: postgres
     pw: admin
     db: identity-service
-  livenessPath: /status/healthz
-  readinessPath: /status/readyz
-  jwt:
-    expirySecs: 3600
 
 postgresql:
+  enabled: true
   image:
     tag: 11.9.0-debian-10-r41
     debug: true

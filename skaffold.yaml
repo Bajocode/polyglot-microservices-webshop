@@ -3,15 +3,15 @@ apiVersion: skaffold/v2beta7
 kind: Config
 build:
   artifacts:
-  - image: gcr.io/fabijanbajo/webshop-catalog-service
+  - image: catalog-service
     context: ./src/catalog-service
-  - image: gcr.io/fabijanbajo/webshop-cart-service
+  - image: cart-service
     context: ./src/cart-service
-  - image: gcr.io/fabijanbajo/webshop-identity-service
+  - image: identity-service
     context: ./src/identity-service
-  - image: gcr.io/fabijanbajo/webshop-order-service
+  - image: order-service
     context: ./src/order-service
-  - image: gcr.io/fabijanbajo/webshop-payment-service
+  - image: payment-service
     context: ./src/payment-service
 
 deploy:
@@ -22,35 +22,35 @@ deploy:
       valuesFiles:
       - ./kubernetes/catalog-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-catalog-service
+        image.repository: catalog-service
       version: 0.1.0
     - name: cart-service
       chartPath: ./kubernetes/cart-service
       valuesFiles:
       - ./kubernetes/cart-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-cart-service
+        image.repository: cart-service
       version: 0.1.0
     - name: identity-service
       chartPath: ./kubernetes/identity-service
       valuesFiles:
       - ./kubernetes/identity-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-identity-service
+        image.repository: identity-service
       version: 0.1.0
     - name: order-service
       chartPath: ./kubernetes/order-service
       valuesFiles:
       - ./kubernetes/order-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-order-service
+        image.repository: order-service
       version: 0.1.0
     - name: payment-service
       chartPath: ./kubernetes/payment-service
       valuesFiles:
       - ./kubernetes/payment-service/values.yaml
       artifactOverrides:
-        image.repository: gcr.io/fabijanbajo/webshop-payment-service
+        image.repository: payment-service
       version: 0.1.0
     - name: gateway
       chartPath: ./kubernetes/gateway

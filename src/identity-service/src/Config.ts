@@ -19,6 +19,27 @@ export default class Config {
   public get serverPort(): number {
     return Number(this.env.SERVER_PORT);
   }
+  public get serverReadTimeout(): number {
+    return Number(this.env.SERVER_READ_TIMEOUT);
+  }
+  public get serverIdleTimeout(): number {
+    return Number(this.env.SERVER_IDLE_TIMEOUT);
+  }
+  public get jwtValidationEnabled(): boolean {
+    return Boolean(this.env.JWT_VALIDATION_ENABLED);
+  }
+  public get jwtPathsWhitelist(): string[] {
+    return String(this.env.JWT_PATHS_WHITELIST).split(',');
+  }
+  public get jwtSecret(): string {
+    return String(this.env.JWT_SECRET);
+  }
+  public get jwtExpSecs(): number {
+    return Number(this.env.JWT_EXP_SECS);
+  }
+  public get jwtAlgo(): string {
+    return String(this.env.JWT_ALGO);
+  }
   public get postgresHost(): string {
     return String(this.env.POSTGRES_HOST);
   }
@@ -34,21 +55,7 @@ export default class Config {
   public get postgresPw(): string {
     return String(this.env.POSTGRES_PW);
   }
-  public get authEnabled(): boolean {
-    return Boolean(this.env.AUTH_ENABLED);
-  }
-  public get authPathWhitelist(): string[] {
-    return String(this.env.AUTH_PATH_WHITELIST).split(',');
-  }
-  public get jwtSecret(): string {
-    return String(this.env.JWT_SECRET);
-  }
-  public get jwtExpSecs(): number {
-    return Number(this.env.JWT_EXP_SECS);
-  }
-  public get jwtAlgo(): string {
-    return String(this.env.JWT_ALGO);
-  }
+
 
   private env: NodeJS.ProcessEnv & CleanEnv;
 
@@ -77,6 +84,27 @@ export default class Config {
       SERVER_PORT: port({
         default: 9005,
       }),
+      SERVER_READ_TIMEOUT: num({
+        default: 10000,
+      }),
+      SERVER_IDLE_TIMEOUT: num({
+        default: 15000,
+      }),
+      JWT_VALIDATION_ENABLED: bool({
+        default: false,
+      }),
+      JWT_PATHS_WHITELIST: str({
+        default: '/auth/register,/auth/login,/jwks.json',
+      }),
+      JWT_SECRET: str({
+        default: 'secret',
+      }),
+      JWT_EXP_SECS: num({
+        default: 172800,
+      }),
+      JWT_ALGO: str({
+        default: 'HS256',
+      }),
       POSTGRES_HOST: str({
         default: '0.0.0.0',
       }),
@@ -92,21 +120,7 @@ export default class Config {
       POSTGRES_PW: str({
         default: 'admin',
       }),
-      AUTH_ENABLED: bool({
-        default: false,
-      }),
-      AUTH_PATH_WHITELIST: str({
-        default: '/auth/register,/auth/login',
-      }),
-      JWT_SECRET: str({
-        default: 'secret',
-      }),
-      JWT_EXP_SECS: num({
-        default: 172800,
-      }),
-      JWT_ALGO: str({
-        default: 'HS256',
-      }),
+
     };
     return cleanEnv(process.env, schema);
   }
