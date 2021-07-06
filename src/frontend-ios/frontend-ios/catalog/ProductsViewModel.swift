@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol ProductsViewModelInput {
     var viewWillAppear: Observable<Void> { get }
-    var addButtonTap: Observable<Void> { get }
+    var addButtonTap: Observable<Product> { get }
     var cellSelection: Observable<IndexPath> { get }
 }
 
@@ -35,7 +35,7 @@ internal struct ProductsViewModel {
 extension ProductsViewModel: ReactiveTransforming {
     struct Input: ProductsViewModelInput {
         var viewWillAppear: Observable<Void>
-        let addButtonTap: Observable<Void>
+        let addButtonTap: Observable<Product>
         var cellSelection: Observable<IndexPath>
     }
     struct Output: ProductsViewModelOutput {
@@ -52,7 +52,9 @@ extension ProductsViewModel: ReactiveTransforming {
                     .asDriver(onErrorJustReturn: [])
             }
             .asDriver(onErrorJustReturn: [])
+
         let cartUpdate = input.addButtonTap
+            .map { CartItem.fromProduct($0) }
             .do(onNext:  { dependencies.cartService.upsert($0) })
             .map { _ in }
             .asDriver(onErrorJustReturn:())

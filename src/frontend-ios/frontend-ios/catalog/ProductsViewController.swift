@@ -30,7 +30,7 @@ final class ProductsViewController: UIViewController {
     private func bind(to: ProductsViewModel) {
         let vwa = rx.sentMessage(#selector(viewWillAppear(_:)))
             .map { _ in }
-        let addButtonTap = PublishSubject<Void>()
+        let addButtonTap = PublishSubject<Product>()
         let selection = tableView.rx.itemSelected.asObservable()
         let output = viewModel.transform(ProductsViewModel.Input(
                                             viewWillAppear: vwa,
@@ -40,11 +40,11 @@ final class ProductsViewController: UIViewController {
         output.products
             .drive(tableView.rx.items(cellIdentifier: String(describing: ProductTableViewCell.self),
                                          cellType: ProductTableViewCell.self)) { (_, product, cell) in
-                var cartItem = CartItem.empty()
-                cartItem.product = product
-
-                cell.bind(item: cartItem, buttonTapped: quantityStep.asObserver())
+                cell.bind(product: product, buttonTapped: addButtonTap.asObserver())
             }
+            .disposed(by: bag)
+        output.cartUpdate
+            .drive()
             .disposed(by: bag)
         output.productTransition
             .drive()

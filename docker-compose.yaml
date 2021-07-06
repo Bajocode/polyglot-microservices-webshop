@@ -94,6 +94,8 @@ services:
     - POSTGRES_USER=postgres
     - POSTGRES_PW=admin
     - POSTGRES_DB=catalog-service
+    depends_on:
+    - postgresql-master
 
   identity-service:
     build:
