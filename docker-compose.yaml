@@ -1,25 +1,83 @@
 ---
 version: "3.7"
 services:
-
-  # Edge
   gateway:
     image: devopsfaith/krakend:1.2
     container_name: gateway
     ports:
     - 8080:8080
     volumes:
-    - ./src/gateway/krakend.json:/etc/krakend/krakend.json
+    - ./src/gateway/krakend.yaml:/etc/krakend/krakend.yaml
+    entrypoint: [ "/usr/bin/krakend" ]
+    command: [ "run", "--debug", "--config", "/etc/krakend/krakend.yaml" ]
   
-  # loadgenerator:
-  #   image: locustio/locust
-  #   ports:
-  #   - 8089:8089
-  #   volumes:
-  #   - ./:/mnt/locust
-  #   command: -f /mnt/locust/locustfile.py --master -H http://127.0.0.1:8080
+  postgresql-master:
+    image: postgres:12-alpine
+    container_name: postgresql-master
+    ports:
+    - 5432:5432
+    volumes:
+    - .data/postgres:/var/lib/postgresql/data
+    - ./scripts/create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/dbs.sh
+    - ./src/identity-service/init.sql:/docker-entrypoint-initdb.d/identity-service.sql
+    - ./src/order-service/init.sql:/docker-entrypoint-initdb.d/order-service.sql
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=admin
+    - POSTGRES_MULTIPLE_DATABASES="catalog-service","identity-service","order-service"
+    - POSTGRES_INITS=identity-service,order-service
+  
+  redis-master:
+    image: bitnami/redis:latest
+    container_name: redis-master
+    ports:
+    - 6379:6379
+    environment:
+    - REDIS_REPLICATION_MODE=master
+    - REDIS_PASSWORD=admin
+    volumes:
+    - .data/redis:/bitnami
 
-  # Service
+  # Creates a bucket named "catalog" on launch
+  objectstore:
+    image: minio/minio:RELEASE.2021-03-12T00-00-47Z
+    container_name: objectstore
+    ports:
+    - 9000:9000
+    environment:
+    - MINIO_ACCESS_KEY=minioadmin
+    - MINIO_SECRET_KEY=minioadmin
+    - MINIO_BROWSER=on
+    entrypoint: sh
+    command: -c 'mkdir -p /data/catalog && /usr/bin/minio server /data'
+
+  # Seeds the "catalog" bucket with default images
+  objectstore-seed:
+    image: alpine/openssl:latest
+    container_name: objectstore-seed
+    volumes:
+    - ./src/catalog-service/seed/:/seed
+    entrypoint: >
+      /bin/sh -c '
+      apk add curl;
+      sh /seed/s3_putdir.sh objectstore:9000 catalog /seed/images;
+      exit 0;'
+    depends_on:
+    - objectstore
+
+  # Makes the "catalog" bucket public for the clients
+  set-bucketpolicy:
+    image: minio/mc:RELEASE.2021-03-12T03-36-59Z
+    container_name: set-bucketpolicy
+    entrypoint: >
+      /bin/sh -c '
+      mc config host rm local &&
+      mc config host add local "http://objectstore:9000" minioadmin minioadmin &&
+      mc policy set public local/catalog
+      '
+    depends_on:
+    - objectstore-seed
+
   catalog-service:
     build:
       context: ./src/catalog-service
@@ -27,53 +85,29 @@ services:
     ports:
     - 9001
     environment:
-    - SPRING_PROFILES_ACTIVE=docker
     - SERVER_HOST=0.0.0.0
     - SERVER_PORT=9001
     - LOGGER_LEVEL=INFO
+    - SPRING_PROFILES_ACTIVE=docker
     - POSTGRES_HOST=postgresql-master
     - POSTGRES_PORT=5432
     - POSTGRES_USER=postgres
     - POSTGRES_PW=admin
     - POSTGRES_DB=catalog-service
 
-  # cart-service:
-  #   image: gcr.io/fabijanbajo/webshop-cart-service
-  #   build:
-  #     context: ./src/cart-service
-  #   ports:
-  #   - 9002
-  #   environment:
-  #   - REDIS_HOST=0.0.0.0
-  #   - REDIS_PORT=6379
-  #   depends_on:
-  #   - redis-master
-  # order-service:
-  #   image: gcr.io/fabijanbajo/webshop-order-service
-  #   build:
-  #     context: ./src/order-service
-  #   ports:
-  #   - 9003
-  #   environment:
-  #   - POSTGRES_HOST=postgresql-master
-  #   - POSTGRES_PORT=5432
-  #   - POSTGRES_USER=postgres
-  #   - POSTGRES_PW=admin
-  #   # - POSTGRES_DB=
-  #   depends_on:
-  #   - postgresql-master
-  # payment-service:
-  #   image: gcr.io/fabijanbajo/webshop-payment-service
-  #   build:
-  #     context: ./src/payment-service
-  #   ports:
-  #   - 9004
   identity-service:
     build:
       context: ./src/identity-service
+    container_name: identity-service
     ports:
     - 9005
     environment:
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9005
+    - LOGGER_LEVEL=debug 
+    - SERVER_READ_TIMEOUT=5000
+    - SERVER_IDLE_TIMEOUT=15000
+    - JWT_VALIDATION_ENABLED=false
     - POSTGRES_HOST=postgresql-master
     - POSTGRES_PORT=5432
     - POSTGRES_USER=postgres
@@ -82,27 +116,66 @@ services:
     depends_on:
     - postgresql-master
 
-  # Store
-  postgresql-master:
-    image: postgres:12-alpine
-    container_name: postgresql-master
+  order-service:
+    build:
+      context: ./src/order-service
+    container_name: order-service
     ports:
-    - 5432:5432
-    volumes:
-    - .data/postgresql_master:/var/lib/postgresql/data
-    - ./scripts:/docker-entrypoint-initdb.d
+    - 9003
     environment:
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9003
+    - LOGGER_LEVEL=debug 
+    - SERVER_READ_TIMEOUT=5000
+    - SERVER_IDLE_TIMEOUT=15000
+    - PAYMENTSERVICE_URL=http://payment-service:9004
+    - POSTGRES_HOST=postgresql-master
+    - POSTGRES_PORT=5432
     - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=admin
-    - POSTGRES_MULTIPLE_DATABASES=catalog-service,identity-service
+    - POSTGRES_PW=admin
+    - POSTGRES_DB=order-service
+    depends_on:
+    - postgresql-master
 
-  # redis-master:
-  #   image: bitnami/redis:latest
-  #   container_name: redis-master
+  cart-service:
+    build:
+      context: ./src/cart-service
+    container_name: cart-service
+    ports:
+    - 9002
+    environment:
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9002
+    - LOCAL_STORE_ENABLED=false
+    - LOGGER_LEVEL=debug
+    - SERVER_READ_TIMEOUT=5s
+    - SERVER_WRTIE_TIMEOUT=10s
+    - SERVER_IDLE_TIMEOUT=15s
+    - REDIS_HOST=redis-master
+    - REDIS_PORT=6379
+    - REDIS_PW=admin
+    depends_on:
+    - redis-master
+
+  payment-service:
+    build:
+      context: ./src/payment-service
+    container_name: payment-service
+    ports:
+    - 9004
+    environment:
+    - SERVER_HOST=0.0.0.0
+    - SERVER_PORT=9004
+    - LOCAL_STORE_ENABLED=false
+    - LOGGER_LEVEL=debug
+    - SERVER_READ_TIMEOUT=5s
+    - SERVER_WRTIE_TIMEOUT=10s
+    - SERVER_IDLE_TIMEOUT=15s
+
+  # loadgenerator:
+  #   image: locustio/locust
   #   ports:
-  #   - 6379:6379
-  #   environment:
-  #   - REDIS_REPLICATION_MODE=master
-  #   - REDIS_PASSWORD=admin
+  #   - 8089:8089
   #   volumes:
-  #   - .data/redis:/bitnami
+  #   - ./:/mnt/locust
+  #   command: -f /mnt/locust/locustfile.py --master -H http://127.0.0.1:8080
