@@ -68,7 +68,7 @@ cd polyglot-microservices-webshop
 ```
 3. Deploy
 ```sh
-skaffold run
+skaffold run --port-forward=user
 ```
 wait and verify all helmcharts have been deployed
 ```
@@ -87,7 +87,7 @@ order-service-5df4f68cb9-vtkvv      1/1     Running   0          7m38s
 order-service-postgresql-0          1/1     Running   0          7m38s
 payment-service-5bdf497d8b-6nxt2    1/1     Running   0          7m36s
 ```
-4. Expose the gateway port
+4. The gateway is exposed by skaffold. To do it manually:
 ```sh
 kubectl port-forward deployment/gateway 8080
 ```

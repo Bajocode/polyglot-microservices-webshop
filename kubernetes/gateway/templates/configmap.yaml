@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ template "gateway.fullname" . }}-configmap
 data:
-  krakend.json: |-
-{{ .Files.Get "krakend.json" | indent 4 }}
+  krakend.yaml: |-
+{{ .Files.Get "krakend.yaml" | indent 4 }}
