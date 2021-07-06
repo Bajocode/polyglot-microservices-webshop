@@ -21,14 +21,18 @@ export default class Postgres {
     types.setTypeParser(20, parseInt);
   }
 
-  public async query(text, values=[]) {
+  public async query(text: string, values=[]) {
     const q: QueryConfig = {
       text,
       values,
     };
     const start = process.hrtime();
     const res = await this.pool.query(q);
-    this.logger.info(this.queryLog(text, start, res));
+
+    // Don't log version calls (is for readyness checks)
+    if (!text.endsWith('version();')) {
+      this.logger.info(this.queryLog(text, start, res));
+    }
 
     return res;
   }

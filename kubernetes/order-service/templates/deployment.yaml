@@ -57,6 +57,10 @@ spec:
             value: {{ .Values.server.host }}
           - name: SERVER_PORT
             value: "{{ .Values.server.port }}"
+          - name: SERVER_READ_TIMEOUT
+            value: "{{ .Values.server.readTimeout }}"
+          - name: SERVER_IDLE_TIMEOUT
+            value: "{{ .Values.server.idleTimeout }}"
           - name: LOGGER_LEVEL
             value: {{ .Values.server.loggerLevel }}
           - name: POSTGRES_HOST
@@ -69,6 +73,12 @@ spec:
             value: {{ .Values.server.postgresql.pw }}
           - name: POSTGRES_DB
             value: {{ .Values.server.postgresql.db }}
+          - name: JWT_EXP_SECS
+            value: "{{ .Values.server.jwt.expirySecs }}"
+          - name: JWT_VALIDATION_ENABLED
+            value: "{{ .Values.server.jwt.validationEnabled }}"
+          - name: JWT_PATHS_WHITELIST
+            value: {{ .Values.server.jwt.pathsWhitelist }}
           - name: PAYMENTSERVICE_URL
             value: {{ .Values.server.paymentServiceUrl }}
       {{- with .Values.nodeSelector }}

@@ -7,6 +7,12 @@ export default function logMiddleware(logger: Logger) {
       req: Request,
       res: Response,
       next: NextFunction) {
+    // Skip health checks
+    if (req.path.startsWith('/status')) {
+      next();
+      return;
+    }
+
     const start = process.hrtime();
 
     res.on('finish', () => {
@@ -18,11 +24,12 @@ export default function logMiddleware(logger: Logger) {
 }
 
 function toLog(req: Request, res: Response, start: [number, number]): string {
+  const requestId = req['requestId'] || 'unknown';
   const method = req.method;
   const url = req.url;
   const status = res.statusCode;
   const dur = LogFactory.toMilliString(start);
-  const msg = `${method} ${url} ${status} - ${dur}`;
+  const msg = `${method} ${url} ${status} - ${dur} (id: ${requestId})`;
 
   return msg;
 }

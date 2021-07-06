@@ -7,6 +7,12 @@ export default function logMiddleware(logger: Logger) {
       req: Request,
       res: Response,
       next: NextFunction) {
+    // Skip health checks
+    if (req.path.startsWith('/status')) {
+      next();
+      return;
+    }
+
     const start = process.hrtime();
 
     res.on('finish', () => {

@@ -56,7 +56,6 @@ export default class Config {
     return String(this.env.POSTGRES_PW);
   }
 
-
   private env: NodeJS.ProcessEnv & CleanEnv;
 
   public constructor() {
@@ -120,7 +119,6 @@ export default class Config {
       POSTGRES_PW: str({
         default: 'admin',
       }),
-
     };
     return cleanEnv(process.env, schema);
   }

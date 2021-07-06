@@ -80,7 +80,7 @@ server:
   readinessPath: /status/readyz
   jwt:
     expirySecs: 3600
-    validationEnabled: true
+    validationEnabled: false
     pathsWhitelist: /auth/register,/auth/login,/status/healthz,/status/readyz,/jwks.json
   postgresql:
     port: 5432

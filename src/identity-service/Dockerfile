@@ -19,4 +19,5 @@ FROM       node:12.19.0-alpine AS target
 USER       node
 WORKDIR    /home/node
 COPY       --chown=node:node --from=builder /home/node .
+EXPOSE     9005
 ENTRYPOINT ["npm", "run", "serve"]
