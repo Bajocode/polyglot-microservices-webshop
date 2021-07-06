@@ -1,6 +1,7 @@
 replicaCount: 1
 
 image:
+  # Overridden by Skaffold  
   repository: ""
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.

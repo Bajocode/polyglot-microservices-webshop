@@ -1,4 +1,4 @@
-package main
+package payment
 
 import (
 	"io/ioutil"

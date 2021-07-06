@@ -1,25 +1,28 @@
-package main
+package payment
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"payment-service/util"
+
 	"github.com/sirupsen/logrus"
 	"github.com/stripe/stripe-go/v71"
 	"github.com/stripe/stripe-go/v71/charge"
 )
 
-const hardcodedUserID = "85a3a5d5-e50f-463b-a757-9acf5515644a"
-
+// Handling defines request handling capabilities
 type Handling interface {
 	HandleCharge(http.ResponseWriter, *http.Request) error
 }
 
+// Handler is a request handler
 type Handler struct{}
 
 type handlerFunc func(http.ResponseWriter, *http.Request) error
 
+// ErrorHandler handles client and server errors
 func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		err := h(res, req)
@@ -30,7 +33,7 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 
 		logger.Errorf("Error: %v", err)
 
-		clientErr, ok := err.(ClientError)
+		clientErr, ok := err.(util.ClientError)
 		if !ok {
 			res.WriteHeader(500)
 			return
@@ -53,14 +56,14 @@ func ErrorHandler(h handlerFunc, logger *logrus.Logger) http.Handler {
 }
 
 func (h *Handler) HandleCharge(res http.ResponseWriter, req *http.Request) error {
-	var payment Payment
-	if err := json.NewDecoder(req.Body).Decode(&payment); err != nil {
-		return NewHTTPError(err, http.StatusBadRequest, "Bad request: invalid JSON")
+	var p payment
+	if err := json.NewDecoder(req.Body).Decode(&p); err != nil {
+		return util.NewHTTPError(err, http.StatusBadRequest, "Bad request: invalid JSON")
 	}
 
 	token := req.FormValue("stripeToken")
 	params := &stripe.ChargeParams{
-		Amount:      stripe.Int64(int64(payment.Price)),
+		Amount:      stripe.Int64(int64(p.Price)),
 		Currency:    stripe.String(string(stripe.CurrencyUSD)),
 		Description: stripe.String("Example charge from GO"),
 	}
