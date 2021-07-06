@@ -62,3 +62,11 @@ deploy:
       valuesFiles:
       - ./kubernetes/loadgenerator/values.yaml
       version: 0.1.0
+
+portForward:
+- resourceType: deployment
+  resourceName: gateway
+  port: 8080
+  localPort: 8080
+  # namespace: default
+
