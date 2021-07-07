@@ -6,7 +6,6 @@ target 'frontend-ios' do
   pod 'RxCocoa', '5.1.1'
   pod 'Moya/RxSwift', '~> 14.0'
   pod 'JWTDecode', '~> 2.4'
-  pod 'Kingfisher', '~> 6.0'
 
   target 'frontend-iosTests' do
     inherit! :search_paths

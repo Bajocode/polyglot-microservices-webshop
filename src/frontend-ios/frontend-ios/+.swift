@@ -46,3 +46,30 @@ extension UIViewController {
         }
     }
 }
+
+extension UIImageView {
+    func setImage(for url: URL?, qos: DispatchQoS.QoSClass = .background) {
+        guard let url = url else {
+            image = nil
+            return
+        }
+
+        let req = try! URLRequest(url: "", method: .get, headers: ["Authorization": "Bearer "])
+
+        DispatchQueue.global(qos: qos).async { [weak self] in
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                var imageResult: UIImage?
+
+                if let data = data, let image = UIImage(data: data) {
+                    imageResult = image
+                } else {
+                    print("Fetch image error: \(error?.localizedDescription ?? "n/a")")
+                }
+
+                DispatchQueue.main.async {
+                    self?.image = imageResult
+                }
+            }
+        }
+    }
+}
