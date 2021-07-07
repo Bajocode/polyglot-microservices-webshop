@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Coordinator.construct(Coordinator.Config(window: window!, container: container))
 
-        if identityService.isLoggedIn() {
+        if IdentityService.shared.isLoggedIn() {
             Coordinator.shared.transition(to: .root, style: .entry, animated: false)
         } else {
             Coordinator.shared.transition(to: .auth, style: .entry, animated: false)

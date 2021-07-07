@@ -52,8 +52,8 @@ extension OrderConfirmViewModel: ReactiveTransforming {
                                          message: "Order: \(order.orderid)")}}
         let orderPost = input.confirmButtonTap.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.Post(dependencies.identityService.sharedToken, order: order))
-                .do(onSuccess: { _ in dependencies.cartService.empty(dependencies.identityService.sharedToken) },
+                .execute(OrderRequest.Post(IdentityService.shared.token, order: order))
+                .do(onSuccess: { _ in dependencies.cartService.empty(IdentityService.shared.token) },
                     afterSuccess: { order in successCompletion(order)
                 })
                 .debug()

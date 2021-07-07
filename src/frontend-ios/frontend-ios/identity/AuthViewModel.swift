@@ -72,7 +72,7 @@ extension AuthViewModel: ReactiveTransforming {
             .flatMapLatest { (user) -> Driver<Void> in
                 return MicroserviceClient.execute(AuthRequest.Register(user: user))
                     .do(onSuccess: { token in
-                        dependencies.identityService.storeToken(token)
+                        IdentityService.shared.storeToken(token)
                         Coordinator.shared.transition(to: .root, style: .entry)
                     }, onError: { error in
                         Coordinator.shared.alert(title: "Oops", message: message(for: error))
@@ -85,7 +85,7 @@ extension AuthViewModel: ReactiveTransforming {
             .flatMapLatest { (user) -> Driver<Void> in
                 return MicroserviceClient.execute(AuthRequest.Login(user: user))
                     .do(onSuccess: { token in
-                        dependencies.identityService.storeToken(token)
+                        IdentityService.shared.storeToken(token)
                         Coordinator.shared.transition(to: .root, style: .entry)
                     }, onError: { error in
                         Coordinator.shared.alert(title: "Oops", message: message(for: error))

@@ -54,10 +54,10 @@ extension UIImageView {
             return
         }
 
-        let req = try! URLRequest(url: "", method: .get, headers: ["Authorization": "Bearer "])
+        let req = try! URLRequest(url: url, method: .get, headers: ["Authorization": "Bearer "])
 
         DispatchQueue.global(qos: qos).async { [weak self] in
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            URLSession.shared.dataTask(with: req) { data, response, error in
                 var imageResult: UIImage?
 
                 if let data = data, let image = UIImage(data: data) {

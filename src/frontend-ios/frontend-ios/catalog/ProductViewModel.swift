@@ -44,7 +44,7 @@ extension ProductViewModel: ReactiveTransforming {
         let image = input.viewWillAppear.flatMapLatest {
             MicroserviceClient
                 .execute(MediaRequest.GetImageData(
-                            dependencies.identityService.sharedToken,
+                            IdentityService.shared.token,
                             imagePath: self.product.imagepath))
                 .map { UIImage(data: $0) ?? UIImage() }
                 .asDriver(onErrorJustReturn: UIImage())

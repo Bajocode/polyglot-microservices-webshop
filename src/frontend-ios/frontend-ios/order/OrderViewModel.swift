@@ -50,7 +50,7 @@ extension OrderViewModel: ReactiveTransforming {
     func transform(_ input: Input) -> Output {
         let order = input.viewWillAppear.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.GetOne(dependencies.identityService.sharedToken, order: self.order))
+                .execute(OrderRequest.GetOne(IdentityService.shared.token, order: self.order))
                 .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())

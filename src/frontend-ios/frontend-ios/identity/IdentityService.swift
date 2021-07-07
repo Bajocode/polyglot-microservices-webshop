@@ -10,13 +10,12 @@ import RxCocoa
 import JWTDecode
 
 internal class IdentityService {
-    internal var sharedToken: Token { return token.value }
-    private var token = BehaviorRelay<Token>(value: Token.empty())
-    internal var sharedUser: Observable<User> { return user.asObservable() }
-    private var user = BehaviorRelay<User>(value: User.empty())
+    internal static let shared = IdentityService()
+    internal var token: Token = Token.empty()
+    internal var user: User = User.empty()
 
     internal func isLoggedIn() -> Bool {
-        let token = self.token.value.token.isEmpty ? tokenFromStore() : self.token.value
+        let token = self.token.token.isEmpty ? tokenFromStore() : self.token
         guard
             !token.token.isEmpty,
             token.expiry > Double(Date().timeIntervalSince1970) else {
@@ -30,7 +29,7 @@ internal class IdentityService {
         UserDefaults.standard.setValue(token.token, forKey: Constants.UserDefaults.tokenKey)
         UserDefaults.standard.setValue(token.expiry, forKey: Constants.UserDefaults.tokenExpiryKey)
 
-        self.token.accept(token)
+        self.token = token
     }
 
     internal func logOut() {
@@ -45,7 +44,7 @@ internal class IdentityService {
         }
 
         let tokenFromStore = Token(token: tokenString, expiry: expiry)
-        self.token.accept(tokenFromStore)
+        self.token = tokenFromStore
 
         return tokenFromStore
     }
@@ -58,6 +57,6 @@ internal class IdentityService {
             let userFromToken = try? JSONDecoder().decode(User.self, from: json) else {
             return
         }
-        user.accept(userFromToken)
+        user = userFromToken
     }
 }

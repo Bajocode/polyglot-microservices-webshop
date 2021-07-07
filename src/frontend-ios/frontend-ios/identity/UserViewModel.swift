@@ -45,7 +45,7 @@ extension UserViewModel: ReactiveTransforming {
     func transform(_ input: Input) -> Output {
         let orders = input.viewWillAppear.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.Get(dependencies.identityService.sharedToken))
+                .execute(OrderRequest.Get(IdentityService.shared.token))
                 .asDriver(onErrorJustReturn: [])
             }
             .asDriver(onErrorJustReturn: [])

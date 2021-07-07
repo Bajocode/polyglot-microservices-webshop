@@ -48,7 +48,7 @@ extension CartViewModel: ReactiveTransforming {
 
     func transform(_ input: Input) -> Output {
         let cartVwa = input.viewWillAppear.flatMapLatest {
-                return dependencies.cartService.get(dependencies.identityService.sharedToken)
+                return dependencies.cartService.get(IdentityService.shared.token)
                 .catchErrorJustReturn(Cart.empty())
             }
             .share(replay: 1)
