@@ -45,7 +45,7 @@
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BEq-Fn-WYn">
                     <rect key="frame" x="0.0" y="832" width="414" height="30"/>
-                    <state key="normal" title="Button"/>
+                    <state key="normal" title="Add to cart"/>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

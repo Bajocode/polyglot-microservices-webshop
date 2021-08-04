@@ -1,20 +1,12 @@
 ---
 version: "3.8"
 services: 
-  gateway:
-    image: devopsfaith/krakend:1.2
-    container_name: gateway
-    ports:
-    - 8080:8080
-    volumes:
-    - ../gateway/krakend.json:/etc/krakend/krakend.json
-  
   catalog-service:
     build:
       context: .
     container_name: catalog-service
     ports:
-    - 9001
+    - 9001:9001
     environment:
     - SPRING_PROFILES_ACTIVE=docker
     - SERVER_HOST=0.0.0.0
@@ -41,7 +33,7 @@ services:
     image: minio/minio
     container_name: objectstore
     ports:
-    - 9000
+    - 9000:9000
     environment:
     - MINIO_ACCESS_KEY=minioadmin
     - MINIO_SECRET_KEY=minioadmin

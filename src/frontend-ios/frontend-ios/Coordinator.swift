@@ -29,7 +29,7 @@ internal final class Coordinator {
     private let container: DependencyContainer
     private var currentVc: UIViewController!
 
-    struct Config {
+    internal struct Config {
         let window: UIWindow
         let container: DependencyContainer
     }

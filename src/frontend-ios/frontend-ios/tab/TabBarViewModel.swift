@@ -31,11 +31,11 @@ struct TabBarViewModel {
 }
 
 extension TabBarViewModel: ReactiveTransforming {
-    struct Input: TabBarViewModelInput {
+    internal struct Input: TabBarViewModelInput {
         let viewWillAppear: Observable<Void>
         let tabSelect: Observable<UIViewController>
     }
-    struct Output: TabBarViewModelOutput {
+    internal struct Output: TabBarViewModelOutput {
         let cartSync: Driver<Void>
         let sharedCart: Driver<Cart>
         let coordinatorSync: Driver<Void>
@@ -44,7 +44,7 @@ extension TabBarViewModel: ReactiveTransforming {
     func transform(_ input: Input) -> Output {
         let cartSync = input.viewWillAppear.flatMapLatest {
             return dependencies.cartService
-                .get(IdentityService.shared.token)
+                .get()
                 .map { _ in }
                 .asDriver(onErrorJustReturn: ())
             }

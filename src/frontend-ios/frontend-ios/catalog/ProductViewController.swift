@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class ProductViewController: UIViewController {
+internal final class ProductViewController: UIViewController {
     @IBOutlet private weak var productNameLabel: UILabel!
     @IBOutlet private weak var productPriceLabel: UILabel!
     @IBOutlet private weak var upsertCartButton: UIButton!
@@ -38,11 +38,6 @@ class ProductViewController: UIViewController {
         let output = viewModel.transform(ProductViewModel.Input(
                                             viewWillAppear: vwa,
                                             upsertCartButtonTap: upsertCartButtonTap))
-
-
-        output.image
-            .drive(imageView.rx.image)
-            .disposed(by: bag)
         output.cartUpdate
             .drive()
             .disposed(by: bag)
@@ -50,7 +45,8 @@ class ProductViewController: UIViewController {
 
     private func setup() {
         bind(to: viewModel)
+        imageView.setImageFromS3(path: viewModel.product.imagepath)
         productNameLabel.text = viewModel.product.name
-        productPriceLabel.text = "\(viewModel.product.price)"
+        productPriceLabel.text = Constants.Format.price(cents: viewModel.product.price)
     }
 }

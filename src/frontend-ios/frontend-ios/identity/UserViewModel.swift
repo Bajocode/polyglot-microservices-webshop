@@ -45,9 +45,12 @@ extension UserViewModel: ReactiveTransforming {
     func transform(_ input: Input) -> Output {
         let orders = input.viewWillAppear.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.Get(IdentityService.shared.token))
+                .execute(OrderRequest.Get())
                 .asDriver(onErrorJustReturn: [])
             }
+            .map { $0.sorted { (a, b) -> Bool in
+                return a.created > b.created
+            }}
             .asDriver(onErrorJustReturn: [])
         let orderTransition = input.cellSelection
             .withLatestFrom(orders) { (indexPath, orders) -> Order in

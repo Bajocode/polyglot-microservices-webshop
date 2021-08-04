@@ -28,21 +28,14 @@ internal struct OrderViewModel {
         self.dependencies = dependencies
         self.order = order
     }
-
-    func dateString(for order: Order) -> String {
-        let date = Date(timeIntervalSince1970: order.created)
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
-    }
 }
 
 extension OrderViewModel: ReactiveTransforming {
-    struct Input: OrderViewModelInput {
+    internal struct Input: OrderViewModelInput {
         var viewWillAppear: Observable<Void>
         var cellSelection: Observable<IndexPath>
     }
-    struct Output: OrderViewModelOutput {
+    internal struct Output: OrderViewModelOutput {
         var order: Driver<Order>
         var productTransition: Driver<Void>
     }
@@ -50,7 +43,7 @@ extension OrderViewModel: ReactiveTransforming {
     func transform(_ input: Input) -> Output {
         let order = input.viewWillAppear.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.GetOne(IdentityService.shared.token, order: self.order))
+                .execute(OrderRequest.GetOne(order: self.order))
                 .asDriver(onErrorJustReturn: Order.empty())
             }
             .asDriver(onErrorJustReturn: Order.empty())

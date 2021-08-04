@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-final class UserViewController: UIViewController {
+internal final class UserViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: UserViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
@@ -37,8 +37,11 @@ final class UserViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String.init(describing: UITableViewCell.self))
+        let id = String.init(describing: OrderTableViewCell.self)
+        let nib = UINib(nibName: id, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: id)
         tableView.constrainEdgesToSuper()
+        title = "Order History"
         navigationItem.setRightBarButton(logoutButton, animated: true)
     }
 
@@ -55,9 +58,10 @@ final class UserViewController: UIViewController {
 
         output.orders
             .drive(tableView.rx.items(
-                        cellIdentifier: String(describing: UITableViewCell.self),
-                        cellType: UITableViewCell.self)) { (_, item, cell) in
-                cell.textLabel?.text = item.orderid
+                        cellIdentifier: String(describing: OrderTableViewCell.self),
+                        cellType: OrderTableViewCell.self)) { (_, item, cell) in
+                cell.textLabel?.text = "\(Constants.Format.dateString(timestamp: item.created))\n\(Constants.Format.price(cents: item.price))"
+                cell.detailTextLabel?.text = "ID: \(item.orderid)"
             }
             .disposed(by: bag)
         output.orderTransition

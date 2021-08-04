@@ -8,31 +8,28 @@
 import RxCocoa
 import RxSwift
 
-class CartService {
+internal final class CartService {
     internal var sharedCart: Observable<Cart> { return cart.asObservable() }
     private var cart = BehaviorRelay<Cart>(value: Cart.empty())
-    private var token: Token = Token.empty()
     private var items: [CartItem] {
         get{ return cart.value.items }
         set {
             var current = cart.value
             current.items = newValue
             cart.accept(current)
-            put(token)
+            put()
         }
     }
     private let bag = DisposeBag()
 
-    @discardableResult internal func get(_ token: Token) -> Observable<Cart> {
-        setToken(token: token)
-        return MicroserviceClient.execute(CartRequest.Get(token))
+    @discardableResult internal func get() -> Observable<Cart> {
+        return MicroserviceClient.execute(CartRequest.Get())
             .asObservable()
             .do { self.cart.accept($0) }
     }
 
-    internal func put(_ token: Token) {
-        setToken(token: token)
-        _ = MicroserviceClient.execute(CartRequest.Put(token, cart: cart.value))
+    internal func put() {
+        _ = MicroserviceClient.execute(CartRequest.Put(cart: cart.value))
             .asObservable()
             .subscribe()
             .disposed(by: bag)
@@ -46,9 +43,8 @@ class CartService {
         }
     }
 
-    internal func empty(_ token: Token) {
-        setToken(token: token)
-        _ = MicroserviceClient.execute(CartRequest.Put(token, cart: Cart.empty()))
+    internal func empty() {
+        _ = MicroserviceClient.execute(CartRequest.Put(cart: Cart.empty()))
             .asObservable()
             .bind(to: cart)
             .disposed(by: bag)
@@ -83,9 +79,5 @@ class CartService {
         updating.quantity = item.quantity
         updating.price = item.product.price * updating.quantity
         items[index] = updating
-    }
-
-    private func setToken(token: Token) {
-        self.token = token
     }
 }

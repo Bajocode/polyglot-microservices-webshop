@@ -22,7 +22,7 @@ protocol AuthViewModelOutput {
     var authorization: Driver<Void> { get }
 }
 
-enum AuthError: Int {
+internal enum AuthError: Int {
     case unauthorized = 401
     case badRequest = 400
     case emailExists = 409

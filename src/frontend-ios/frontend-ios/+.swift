@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    func constrainEdgesToSuper(insets: UIEdgeInsets = .zero) {
+    internal func constrainEdgesToSuper(insets: UIEdgeInsets = .zero) {
         guard let superView = superview else {
             return
         }
@@ -22,7 +22,7 @@ extension UIView {
 }
 
 extension UIViewController {
-    func extractFromNav() -> UIViewController {
+    internal func extractFromNav() -> UIViewController {
         if let nav = self as? UINavigationController {
             return nav.viewControllers.first!
         } else {
@@ -30,7 +30,7 @@ extension UIViewController {
         }
     }
 
-    func embedInNav() -> UINavigationController {
+    internal func embedInNav() -> UINavigationController {
         if let nav = self as? UINavigationController {
             return nav
         } else {
@@ -38,7 +38,7 @@ extension UIViewController {
         }
     }
 
-    func extractFromTab() -> UIViewController {
+    internal func extractFromTab() -> UIViewController {
         if let tab = self as? UITabBarController {
             return tab.selectedViewController!
         } else {
@@ -48,13 +48,14 @@ extension UIViewController {
 }
 
 extension UIImageView {
-    func setImage(for url: URL?, qos: DispatchQoS.QoSClass = .background) {
-        guard let url = url else {
+    func setImageFromS3(path: String, qos: DispatchQoS.QoSClass = .background) {
+        guard let req = try? URLRequest(
+                url: MediaRequest.GetImageData(imagePath: path).url,
+                method: .get,
+                headers: ["Authorization": "Bearer \(IdentityService.shared.token.token)"]) else {
             image = nil
             return
         }
-
-        let req = try! URLRequest(url: url, method: .get, headers: ["Authorization": "Bearer "])
 
         DispatchQueue.global(qos: qos).async { [weak self] in
             URLSession.shared.dataTask(with: req) { data, response, error in
@@ -70,6 +71,7 @@ extension UIImageView {
                     self?.image = imageResult
                 }
             }
+            .resume()
         }
     }
 }

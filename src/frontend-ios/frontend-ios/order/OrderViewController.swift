@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class OrderViewController: UIViewController {
+internal final class OrderViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: OrderViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
@@ -36,15 +36,24 @@ class OrderViewController: UIViewController {
         let output = viewModel.transform(input)
 
         output.order
-            .map { [weak self] in self?.viewModel.dateString(for: $0) }
+            .do { [weak self] in
+                self?.navigationItem.prompt = Constants.Format.dateString(timestamp: $0.created) }
+            .map { "Total: \(Constants.Format.price(cents: $0.price))" }
             .drive(navigationItem.rx.title)
+            .disposed(by: bag)
+        output.order
+
+            .drive()
             .disposed(by: bag)
         output.order
             .map { $0.items }
             .drive(tableView.rx.items(
-                    cellIdentifier: String(describing: UITableViewCell.self),
-                    cellType: UITableViewCell.self)) { (_, item, cell) in
-                cell.textLabel?.text = item.product.name + "  -  " + item.price.description
+                    cellIdentifier: String(describing: OrderTableViewCell.self),
+                    cellType: OrderTableViewCell.self)) { (_, item, cell) in
+                cell.textLabel?.text = item.product.name
+                let productPrice = Constants.Format.price(cents: item.product.price)
+                let itemPrice = Constants.Format.price(cents: item.price)
+                cell.detailTextLabel?.text = "\(item.quantity) x \(productPrice)) (\(itemPrice))"
             }
             .disposed(by: bag)
         output.productTransition
@@ -55,7 +64,9 @@ class OrderViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String.init(describing: UITableViewCell.self))
+        let id = String.init(describing: OrderTableViewCell.self)
+        let nib = UINib(nibName: id, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: id)
         tableView.constrainEdgesToSuper()
     }
 }

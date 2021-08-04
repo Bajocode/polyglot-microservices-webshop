@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-final class CartViewController: UIViewController {
+internal final class CartViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: CartViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
@@ -33,7 +33,10 @@ final class CartViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: String.init(describing: TableViewCell.self))
+        let id = String.init(describing: CartTableViewCell.self)
+        let nib = UINib(nibName: id, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: id)
+        tableView.rowHeight = 300
         tableView.constrainEdgesToSuper()
         navigationItem.setRightBarButton(orderButton, animated: true)
     }
@@ -51,14 +54,19 @@ final class CartViewController: UIViewController {
         let output = viewModel.transform(input)
 
         output.cart
+            .map { $0.items.map { $0.price }.reduce(0, +) } // O(N) move elsewhere for pre-calc
+            .map { "Total: \(Constants.Format.price(cents: $0 ))" }
+            .drive(navigationItem.rx.title)
+            .disposed(by: bag)
+        output.cart
             .map { !$0.items.isEmpty }
             .drive(orderButton.rx.isEnabled)
             .disposed(by: bag)
         output.cart
             .map { $0.items }
             .drive(tableView.rx.items(
-                        cellIdentifier: String(describing: TableViewCell.self),
-                        cellType: TableViewCell.self)) { (_, item, cell) in
+                        cellIdentifier: String(describing: CartTableViewCell.self),
+                        cellType: CartTableViewCell.self)) { (_, item, cell) in
                 cell.bind(item: item, quantityStepped: quantityStep.asObserver())}
             .disposed(by: bag)
         output.cartUpdate
@@ -70,41 +78,5 @@ final class CartViewController: UIViewController {
         output.productTransition
             .drive()
             .disposed(by: bag)
-    }
-}
-
-class TableViewCell: UITableViewCell {
-    private let stepper: UIStepper = {
-        let stepper = UIStepper()
-//        stepper.backgroundColor = .red
-        return stepper
-    }()
-    private var disposeBag = DisposeBag()
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
-    }
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        stepper.center = center
-        contentView.addSubview(stepper)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func bind<O>(item: CartItem, quantityStepped: O) where O: ObserverType, O.Element == CartItem {
-        textLabel?.text = "\(item.product.name) - \(item.price)"
-        stepper.value = Double(item.quantity)
-        stepper.rx.value
-            .skip(1)
-            .map { stepValue -> CartItem in
-                var updated = item
-                updated.quantity = Int(stepValue)
-                return updated
-            }
-            .bind(to: quantityStepped)
-            .disposed(by: disposeBag)
     }
 }

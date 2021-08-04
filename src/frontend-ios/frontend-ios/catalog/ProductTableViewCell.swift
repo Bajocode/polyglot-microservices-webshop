@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class ProductTableViewCell: UITableViewCell {
+internal final class ProductTableViewCell: UITableViewCell {
     @IBOutlet private weak var thumbnailImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -20,6 +20,7 @@ final class ProductTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
+        thumbnailImageView.image = nil
     }
 
     override func awakeFromNib() {
@@ -27,9 +28,10 @@ final class ProductTableViewCell: UITableViewCell {
         thumbnailImageView.clipsToBounds = true
     }
 
-    func bind<T>(product: Product, buttonTapped: T) where T: ObserverType, T.Element == Product {
+    internal func bind<T>(product: Product, buttonTapped: T) where T: ObserverType, T.Element == Product {
+        thumbnailImageView?.setImageFromS3(path: product.imagepath, qos: .userInitiated)
         titleLabel.text = product.name
-        priceLabel.text = "$ \(product.price)"
+        priceLabel.text = Constants.Format.price(cents: product.price)
 
         addButton.rx.tap
             .map { product }

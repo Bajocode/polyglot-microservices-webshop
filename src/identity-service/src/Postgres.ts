@@ -25,7 +25,6 @@ export default class Postgres {
     };
     const start = process.hrtime();
     const res = await this.pool.query(q);
-    this.logger.info(this.queryLog(text, start, res));
 
     // Don't log version calls (is for readyness checks)
     if (!text.endsWith('version();')) {

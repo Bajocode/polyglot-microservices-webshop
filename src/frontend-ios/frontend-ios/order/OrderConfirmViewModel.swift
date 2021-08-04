@@ -33,13 +33,13 @@ internal struct OrderConfirmViewModel {
 }
 
 extension OrderConfirmViewModel: ReactiveTransforming {
-    struct Input: OrderConfirmViewModelInput {
+    internal struct Input: OrderConfirmViewModelInput {
         var viewWillAppear: Observable<Void>
         var confirmButtonTap: Observable<Void>
         var cancelButtonTap: Observable<Void>
     }
 
-    struct Output: OrderConfirmViewModelOutput {
+    internal struct Output: OrderConfirmViewModelOutput {
         var order: Driver<Order>
         var orderPost: Driver<Void>
         var orderCancel: Driver<Void>
@@ -52,8 +52,8 @@ extension OrderConfirmViewModel: ReactiveTransforming {
                                          message: "Order: \(order.orderid)")}}
         let orderPost = input.confirmButtonTap.flatMapLatest {
             MicroserviceClient
-                .execute(OrderRequest.Post(IdentityService.shared.token, order: order))
-                .do(onSuccess: { _ in dependencies.cartService.empty(IdentityService.shared.token) },
+                .execute(OrderRequest.Post(order: order))
+                .do(onSuccess: { _ in dependencies.cartService.empty() },
                     afterSuccess: { order in successCompletion(order)
                 })
                 .debug()

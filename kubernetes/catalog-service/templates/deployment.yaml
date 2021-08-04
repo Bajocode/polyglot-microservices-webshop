@@ -50,7 +50,7 @@ spec:
               scheme: HTTP
               path: {{ .Values.server.livenessPath }}
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 60
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:

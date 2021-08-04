@@ -24,13 +24,8 @@ extension OrderRequesting {
 }
 
 enum OrderRequest {
-    struct Get: OrderRequesting {
+    internal struct Get: OrderRequesting {
         typealias ResponseType = [Order]
-        private let token: Token
-
-        init(_ token: Token) {
-            self.token = token
-        }
 
         var method: Method {
             return .get
@@ -41,7 +36,7 @@ enum OrderRequest {
         var headers: [String : String]? {
             return [
                 "content-type": "application/json",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {
@@ -49,13 +44,11 @@ enum OrderRequest {
         }
     }
 
-    struct GetOne: OrderRequesting {
+    internal struct GetOne: OrderRequesting {
         typealias ResponseType = Order
         private let order: Order
-        private let token: Token
 
-        init(_ token: Token, order: Order) {
-            self.token = token
+        init(order: Order) {
             self.order = order
         }
 
@@ -68,7 +61,7 @@ enum OrderRequest {
         var headers: [String : String]? {
             return [
                 "content-type": "application/json",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {
@@ -76,13 +69,11 @@ enum OrderRequest {
         }
     }
 
-    struct Post: OrderRequesting {
+    internal struct Post: OrderRequesting {
         typealias ResponseType = Order
-        private let token: Token
         private let order: Order
 
-        init(_ token: Token, order: Order) {
-            self.token = token
+        init(order: Order) {
             self.order = order
         }
 
@@ -95,7 +86,7 @@ enum OrderRequest {
         var headers: [String : String]? {
             return [
                 "content-type": "application/json",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {

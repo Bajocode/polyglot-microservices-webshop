@@ -10,16 +10,20 @@ import RxSwift
 import RxBlocking
 @testable import frontend_ios
 
-class CatalogViewModelTests: XCTestCase {
+class CategoriesViewModelTests: XCTestCase {
 
-    var sut: CatalogViewModel!
+    var sut: CategoriesViewModel!
     var bag: DisposeBag!
     var scheduler: ConcurrentDispatchQueueScheduler!
 
     override func setUpWithError() throws {
         try! super.setUpWithError()
 
-        sut = CatalogViewModel()
+        let identityService = IdentityService()
+        let catalogService = CatalogService()
+        let cartService = CartService()
+        let container = DependencyContainer(identityService, catalogService, cartService)
+        sut = CategoriesViewModel(container)
         bag = DisposeBag()
         scheduler = ConcurrentDispatchQueueScheduler(qos: .default)
     }
@@ -30,18 +34,13 @@ class CatalogViewModelTests: XCTestCase {
     }
 
     func testExample() throws {
-        let output = sut.transform(CatalogViewModel.Input(viewWillAppear: Observable.of()))
-            .products.subscribeOn(scheduler)
-        let result = try output.toBlocking().materialize()
+        let input = CategoriesViewModel.Input(
+            viewWillAppear: PublishSubject<Void>().asDriver(onErrorJustReturn: ()),
+            cellSelection: PublishSubject<IndexPath>().asDriver(onErrorJustReturn: IndexPath.init()))
+        let output = sut.transform(input)
 
-        print(result)
+        let categories = try! output.categories.toBlocking().first()!
+
+        XCTAssertTrue(categories.count == 6)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

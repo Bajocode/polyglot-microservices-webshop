@@ -1,4 +1,10 @@
 # Polyglot Sample Microservices Application
+
+
+| Products | Cart | Orders |
+| ------------ | ------------|  ------------|
+ ![](./media/ios-products.png) | ![](./media/ios-cart.png) | ![](./media/ios-orders.png)
+
 Simplified cloud-native ecommerce application hosted on Kubernetes, allowing users to browse products and submit orders through an iOS frontend. The goal of the project is to experiment with languages, frameworks and architectures
 
 <!-- TABLE OF CONTENTS -->
@@ -14,7 +20,7 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 
 ## Architecture
 ###### System
-![design-system](./media/design-system.svg)
+![design-system](./media/design-system.png)
 
 | Service                                    | Language    | Description                                                  |
 | ------------------------------------------ | ----------- | ------------------------------------------------------------ |
@@ -28,10 +34,10 @@ Simplified cloud-native ecommerce application hosted on Kubernetes, allowing use
 | [load-generator](./src/load-generator)     | Python      | Generates artificial load using Python config files |
 
 ###### Authentication
-![design-system](./media/design-auth.svg)
+![design-system](./media/design-auth.png)
 
 ###### Frontend iOS
-![design-system](./media/design-ios.svg)
+![design-system](./media/design-ios.png)
 
 ###### Technologies
 Ops
@@ -44,12 +50,13 @@ Ops
 * Locust
 
 Dev
-* iOS
+* iOS (with RxSwift)
 * Nodejs Express
-* Go vanilla net/http
-* Java Springboot
-* Postgresql
-* Redis
+* Go net/http (vanilla Go)
+* Java Springboot 
+* Postgresql (relational database)
+* Redis (cache)
+* Minio (S3)
 
 ## Getting Started
 ### Prerequisites
@@ -68,7 +75,8 @@ cd polyglot-microservices-webshop
 ```
 3. Deploy
 ```sh
-skaffold run --port-forward=user
+# The user value forwards skaffold.yaml defined services (the gateway :8080)
+skaffold run --port-forward=user --tail
 ```
 wait and verify all helmcharts have been deployed
 ```
@@ -106,11 +114,11 @@ cd polyglot-microservices-webshop
 ```
 3. Deploy
 ```sh
-docker-compose up
+docker compose up
 ```
 5. Destroy (optional)
 ```sh
-docker-compose down --rmi all
+docker compose down --rmi all
 ```
 
 ### Test

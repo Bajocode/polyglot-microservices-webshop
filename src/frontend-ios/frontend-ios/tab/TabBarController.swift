@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class TabBarController: UITabBarController {
+internal final class TabBarController: UITabBarController {
     private let bag = DisposeBag()
     private let viewModel: TabBarViewModel
 

@@ -25,13 +25,8 @@ extension CartRequesting {
 }
 
 enum CartRequest {
-    struct Get: CartRequesting {
+    internal struct Get: CartRequesting {
         typealias ResponseType = Cart
-        private let token: Token
-
-        init(_ token: Token) {
-            self.token = token
-        }
 
         var method: Method {
             return .get
@@ -42,7 +37,7 @@ enum CartRequest {
         var headers: [String : String]? {
             return [
                 "content-type": "application/json",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {
@@ -50,13 +45,11 @@ enum CartRequest {
         }
     }
 
-    struct Put: CartRequesting {
+    internal struct Put: CartRequesting {
         typealias ResponseType = Cart
-        private let token: Token
         private let cart: Cart
 
-        init(_ token: Token, cart: Cart) {
-            self.token = token
+        init(cart: Cart) {
             self.cart = cart
         }
 
@@ -69,7 +62,7 @@ enum CartRequest {
         var headers: [String : String]? {
             return [
                 "content-type": "application/json",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {

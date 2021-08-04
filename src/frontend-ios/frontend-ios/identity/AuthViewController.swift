@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-internal class AuthViewController: UIViewController {
+internal final class AuthViewController: UIViewController {
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var loginButton: UIButton!

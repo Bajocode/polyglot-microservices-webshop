@@ -24,13 +24,11 @@ extension MediaRequesting {
 }
 
 enum MediaRequest {
-    struct GetImageData: MediaRequesting {
+    internal struct GetImageData: MediaRequesting {
         typealias ResponseType = Data
         private let imagePath: String
-        private let token: Token
 
-        init(_ token: Token, imagePath: String) {
-            self.token = token
+        init(imagePath: String) {
             self.imagePath = imagePath
         }
 
@@ -43,11 +41,14 @@ enum MediaRequest {
         var headers: [String : String]? {
             return [
                 "accept": "application/octet-stream",
-                "authorization": "Bearer \(token.token)"
+                "authorization": "Bearer \(IdentityService.shared.token.token)"
             ]
         }
         var task: Task {
             return .requestPlain
+        }
+        var url: URL {
+            return URL(string: baseURL.absoluteString + path)!
         }
     }
 }

@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-final class ProductsViewController: UIViewController {
+internal final class ProductsViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: ProductsViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
@@ -32,15 +32,19 @@ final class ProductsViewController: UIViewController {
             .map { _ in }
         let addButtonTap = PublishSubject<Product>()
         let selection = tableView.rx.itemSelected.asObservable()
-        let output = viewModel.transform(ProductsViewModel.Input(
-                                            viewWillAppear: vwa,
-                                            addButtonTap: addButtonTap,
-                                            cellSelection: selection))
+        let output = viewModel.transform(
+            ProductsViewModel.Input(
+                viewWillAppear: vwa,
+                addButtonTap: addButtonTap,
+                cellSelection: selection))
 
         output.products
-            .drive(tableView.rx.items(cellIdentifier: String(describing: ProductTableViewCell.self),
-                                         cellType: ProductTableViewCell.self)) { (_, product, cell) in
-                cell.bind(product: product, buttonTapped: addButtonTap.asObserver())
+            .drive(tableView.rx.items(
+                    cellIdentifier: String(describing: ProductTableViewCell.self),
+                    cellType: ProductTableViewCell.self)) { (_, product, cell) in
+                cell.bind(
+                    product: product,
+                    buttonTapped: addButtonTap.asObserver())
             }
             .disposed(by: bag)
         output.cartUpdate
@@ -54,11 +58,13 @@ final class ProductsViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
+        title = viewModel.category?.name.capitalized
         tableView.register(UINib(
                             nibName: String(describing: ProductTableViewCell.self),
                             bundle: Bundle.main),
                            forCellReuseIdentifier: String(describing: ProductTableViewCell.self))
         tableView.constrainEdgesToSuper()
+        tableView.rowHeight = 250
         tableView.reloadData()
     }
 }

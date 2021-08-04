@@ -14,7 +14,6 @@ protocol ProductViewModelInput {
 }
 
 protocol ProductViewModelOutput {
-    var image: Driver<UIImage> { get }
     var cartUpdate: Driver<Void> { get }
 }
 
@@ -31,30 +30,19 @@ internal struct ProductViewModel {
 }
 
 extension ProductViewModel: ReactiveTransforming {
-    struct Input: ProductViewModelInput {
+    internal struct Input: ProductViewModelInput {
         let viewWillAppear: Observable<Void>
         let upsertCartButtonTap: Driver<Void>
     }
-    struct Output: ProductViewModelOutput {
-        var image: Driver<UIImage>
+    internal struct Output: ProductViewModelOutput {
         var cartUpdate: Driver<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let image = input.viewWillAppear.flatMapLatest {
-            MicroserviceClient
-                .execute(MediaRequest.GetImageData(
-                            IdentityService.shared.token,
-                            imagePath: self.product.imagepath))
-                .map { UIImage(data: $0) ?? UIImage() }
-                .asDriver(onErrorJustReturn: UIImage())
-            }
-            .asDriver(onErrorJustReturn: UIImage())
         let cartUpdate = input.upsertCartButtonTap
             .do(onNext:  { dependencies.cartService.upsert(CartItem.fromProduct(product)) })
 
         return Output(
-            image: image,
             cartUpdate: cartUpdate
         )
     }

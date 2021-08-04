@@ -40,12 +40,16 @@
 		C75495F0256D2462000AE761 /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75495EF256D2462000AE761 /* OrderRequest.swift */; };
 		C75495F6256D248F000AE761 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75495F5256D248F000AE761 /* Order.swift */; };
 		C75495FA256D2608000AE761 /* OrderConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75495F9256D2608000AE761 /* OrderConfirmViewModel.swift */; };
+		C77DD9C026970DC100BC0AD6 /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77DD9BE26970DC100BC0AD6 /* CartTableViewCell.swift */; };
+		C77DD9C126970DC100BC0AD6 /* CartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77DD9BF26970DC100BC0AD6 /* CartTableViewCell.xib */; };
 		C785D6ED2557F77A0077CC98 /* CatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C785D6EC2557F77A0077CC98 /* CatalogService.swift */; };
 		C78828D125658D5600379138 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828CF25658D5600379138 /* AuthViewController.swift */; };
 		C78828D225658D5600379138 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78828D025658D5600379138 /* AuthViewController.xib */; };
 		C78828DE2565904400379138 /* IdentityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828DD2565904400379138 /* IdentityService.swift */; };
 		C78828EE2565AB3800379138 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828D725658F9800379138 /* AuthViewModel.swift */; };
 		C78828F22565C69C00379138 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78828F12565C69C00379138 /* Constants.swift */; };
+		C78B35292696164200103F18 /* OrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78B35272696164200103F18 /* OrderTableViewCell.swift */; };
+		C78B352A2696164200103F18 /* OrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78B35282696164200103F18 /* OrderTableViewCell.xib */; };
 		C791938B260770FD00B0D29A /* MediaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7919388260768A000B0D29A /* MediaRequest.swift */; };
 		C79403062564870C00D5E927 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79403052564870C00D5E927 /* AuthRequest.swift */; };
 		C794030A2564879800D5E927 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79403092564879800D5E927 /* User.swift */; };
@@ -115,12 +119,16 @@
 		C75495EF256D2462000AE761 /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
 		C75495F5256D248F000AE761 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		C75495F9256D2608000AE761 /* OrderConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirmViewModel.swift; sourceTree = "<group>"; };
+		C77DD9BE26970DC100BC0AD6 /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
+		C77DD9BF26970DC100BC0AD6 /* CartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartTableViewCell.xib; sourceTree = "<group>"; };
 		C785D6EC2557F77A0077CC98 /* CatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogService.swift; sourceTree = "<group>"; };
 		C78828CF25658D5600379138 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C78828D025658D5600379138 /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
 		C78828D725658F9800379138 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		C78828DD2565904400379138 /* IdentityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityService.swift; sourceTree = "<group>"; };
 		C78828F12565C69C00379138 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C78B35272696164200103F18 /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
+		C78B35282696164200103F18 /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
 		C7919388260768A000B0D29A /* MediaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRequest.swift; sourceTree = "<group>"; };
 		C79403052564870C00D5E927 /* AuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
 		C79403092564879800D5E927 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -249,6 +257,8 @@
 				C711404A2548A4F1004F17F8 /* CartService.swift */,
 				C711404625489B18004F17F8 /* CartViewController.swift */,
 				C711404025488D6A004F17F8 /* CartViewModel.swift */,
+				C77DD9BE26970DC100BC0AD6 /* CartTableViewCell.swift */,
+				C77DD9BF26970DC100BC0AD6 /* CartTableViewCell.xib */,
 				C711403125486630004F17F8 /* Cart.swift */,
 			);
 			path = cart;
@@ -268,6 +278,8 @@
 				C75495EB256D2440000AE761 /* OrderConfirmViewController.swift */,
 				C75495F9256D2608000AE761 /* OrderConfirmViewModel.swift */,
 				C75495EF256D2462000AE761 /* OrderRequest.swift */,
+				C78B35272696164200103F18 /* OrderTableViewCell.swift */,
+				C78B35282696164200103F18 /* OrderTableViewCell.xib */,
 				C79E8D8025855A9A0035B91C /* OrderViewModel.swift */,
 				C79E8D8125855A9B0035B91C /* OrderViewController.swift */,
 				C75495F5256D248F000AE761 /* Order.swift */,
@@ -402,7 +414,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78B352A2696164200103F18 /* OrderTableViewCell.xib in Resources */,
 				C7113F9225477C48004F17F8 /* LaunchScreen.storyboard in Resources */,
+				C77DD9C126970DC100BC0AD6 /* CartTableViewCell.xib in Resources */,
 				C78828D225658D5600379138 /* AuthViewController.xib in Resources */,
 				C7D399FF262376AF0044CF8D /* ProductTableViewCell.xib in Resources */,
 				C74EEA722568CC470095D617 /* ProductViewController.xib in Resources */,
@@ -517,6 +531,7 @@
 				C711401E2547A6A7004F17F8 /* MicroserviceClient.swift in Sources */,
 				C75495FA256D2608000AE761 /* OrderConfirmViewModel.swift in Sources */,
 				C74EEA80256BEAC00095D617 /* TabBarViewModel.swift in Sources */,
+				C77DD9C026970DC100BC0AD6 /* CartTableViewCell.swift in Sources */,
 				C711402E25485C2E004F17F8 /* +.swift in Sources */,
 				C711404125488D6A004F17F8 /* CartViewModel.swift in Sources */,
 				C70377C9255C5A170093FDC1 /* CategoriesViewModel.swift in Sources */,
@@ -543,6 +558,7 @@
 				C711402A2548572B004F17F8 /* ReactiveTransforming.swift in Sources */,
 				C711400E25479D94004F17F8 /* CatalogRequest.swift in Sources */,
 				C79E8D7D2585256C0035B91C /* UserViewModel.swift in Sources */,
+				C78B35292696164200103F18 /* OrderTableViewCell.swift in Sources */,
 				C75495F6256D248F000AE761 /* Order.swift in Sources */,
 				C7CCDA8B256C857600BE1F0A /* DependencyContainer.swift in Sources */,
 				C75495EC256D2440000AE761 /* OrderConfirmViewController.swift in Sources */,

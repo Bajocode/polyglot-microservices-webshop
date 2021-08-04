@@ -7,8 +7,8 @@
 
 import Moya
 
-enum AuthRequest {
-    struct Register: AuthRequesting {
+internal enum AuthRequest {
+    internal struct Register: AuthRequesting {
         typealias ResponseType = Token
         private let user: User
 
@@ -27,7 +27,7 @@ enum AuthRequest {
         }
     }
 
-    struct Login: AuthRequesting {
+    internal struct Login: AuthRequesting {
         typealias ResponseType = Token
         private let user: User
 

@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-final internal class CategoriesViewController: UIViewController {
+internal final class CategoriesViewController: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: CategoriesViewModel
     private lazy var tableView = UITableView(frame: view.bounds, style: .plain)
@@ -40,7 +40,7 @@ final internal class CategoriesViewController: UIViewController {
         output.categories
             .drive(tableView.rx.items(cellIdentifier: String(describing: UITableViewCell.self),
                                          cellType: UITableViewCell.self)) { (_, item, cell) in
-                cell.textLabel?.text = item.name
+                cell.textLabel?.text = item.name.capitalized
             }
             .disposed(by: bag)
         output.categoriesOrProductsTransition
@@ -51,7 +51,9 @@ final internal class CategoriesViewController: UIViewController {
     private func setup() {
         bind(to: viewModel)
         view.addSubview(tableView)
+        title = viewModel.parentCategory?.name.capitalized
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
         tableView.constrainEdgesToSuper()
+
     }
 }

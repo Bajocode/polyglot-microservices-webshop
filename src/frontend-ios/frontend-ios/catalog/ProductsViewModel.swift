@@ -33,12 +33,12 @@ internal struct ProductsViewModel {
 }
 
 extension ProductsViewModel: ReactiveTransforming {
-    struct Input: ProductsViewModelInput {
+    internal struct Input: ProductsViewModelInput {
         var viewWillAppear: Observable<Void>
         let addButtonTap: Observable<Product>
         var cellSelection: Observable<IndexPath>
     }
-    struct Output: ProductsViewModelOutput {
+    internal struct Output: ProductsViewModelOutput {
         var products: Driver<[Product]>
         let cartUpdate: Driver<Void>
         var productTransition: Driver<Void>

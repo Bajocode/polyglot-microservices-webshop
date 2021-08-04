@@ -31,11 +31,11 @@ internal struct CategoriesViewModel {
 }
 
 extension CategoriesViewModel: ReactiveTransforming {
-    struct Input: CategoriesViewModelInput {
+    internal struct Input: CategoriesViewModelInput {
         var viewWillAppear: Driver<Void>
         var cellSelection: Driver<IndexPath>
     }
-    struct Output: CategoriesViewModelOutput {
+    internal struct Output: CategoriesViewModelOutput {
         var categories: Driver<[Category]>
         var categoriesOrProductsTransition: Driver<Void>
     }

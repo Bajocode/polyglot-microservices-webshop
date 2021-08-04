@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 import JWTDecode
 
-internal class IdentityService {
+internal final class IdentityService {
     internal static let shared = IdentityService()
     internal var token: Token = Token.empty()
     internal var user: User = User.empty()
