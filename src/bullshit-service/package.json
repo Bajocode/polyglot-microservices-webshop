@@ -1,0 +1,12 @@
+{
+  "name": "bulllshit-service",
+  "version": "0.1.0",
+  "main": "app.js",
+  "scripts": {
+    "serve": "node $npm_package_main",
+    "test": "SERVER_PORT=3000 SERVER_HOST=0.0.0.0 node app.test.js"
+  },
+  "dependencies": {
+    "envalid": "^7.2.1"
+  }
+}

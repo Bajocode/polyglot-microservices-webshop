@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bullshit-service.fullname" . }}
+  labels: 
+    {{- include "bullshit-service.labels" . | nindent 4 }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bullshit-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bullshit-service
+    spec:
+      containers:
+      - image: gcr.io/fabijanbajo/webshop-bullshit-service:a72767c
+        name: webshop-bullshit-service
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+        env:
+          - name: SERVER_HOST
+            value: 0.0.0.0
+          - name: SERVER_PORT
+            value: "3000"
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
