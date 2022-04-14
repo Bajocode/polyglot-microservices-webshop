@@ -126,7 +126,7 @@ function test_catalog() {
     "all products 200" \
     200
   test_case \
-    "/catalog/products/9aad6cf4-6efb-4ec6-a4e0-64343bfe0134" \
+    "/catalog/products/1641ffa1-cb5d-4757-8965-bc063d66e11a" \
     "GET" \
     '' \
     "one products 200" \
