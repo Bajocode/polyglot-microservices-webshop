@@ -1,3 +1,5 @@
+
+
 # Polyglot Sample Microservices Application
 
 
@@ -139,6 +141,6 @@ Verify the backend and infrastructure
 * react front-end
 
 ## Contact
-Fabijan Bajo - [linkedIN](https://www.linkedin.com/in/fabijanbajo/) - [email](mailto:bajo09gmail.com)
+Fabijan Bajo - [linkedIN](https://www.linkedin.com/in/fabijanbajo/) - [email](mailto:bajo09@gmail.com)
 
 Project link: [https://github.com/Bajocode/polyglot-microservices-webshop](https://github.com/Bajocode/polyglot-microservices-webshop)
